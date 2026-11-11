@@ -83,10 +83,21 @@
         'ram': (60.0, 90.0),
         'swap': (20.0, 80.0),
         'disk': (80.0, 95.0),
+        'disk_io': (50.0, 90.0),
         'net_rx': (1.0, 50.0),
         'net_tx': (1.0, 50.0)
       }</default>
       <summary>Limites (atividade, crítico) por grupo de métrica</summary>
+    </key>
+
+    <key name="disk-card-mode" type="s">
+      <choices>
+        <choice value="space"/>
+        <choice value="activity"/>
+      </choices>
+      <default>'space'</default>
+      <summary>Cartão Discos: ocupação ou utilização</summary>
+      <description>space: espaço usado; activity: tempo em leitura/gravação (como o %util do iostat) e velocidades. Trocado pelo seletor no próprio cartão.</description>
     </key>
 
     <key name="update-interval" type="d">

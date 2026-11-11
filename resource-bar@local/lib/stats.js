@@ -24,6 +24,7 @@ export const THRESHOLDS = {
     ram: {name: 'Memória', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [60, 90]},
     swap: {name: 'Swap', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [20, 80]},
     disk: {name: 'Disco (uso)', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [80, 95]},
+    disk_io: {name: 'Disco (utilização)', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [50, 90]},
     net_rx: {name: 'Download', unit: 'MB/s', min: 0, max: 1000, step: 0.1, digits: 1, defaults: [1, 50]},
     net_tx: {name: 'Upload', unit: 'MB/s', min: 0, max: 1000, step: 0.1, digits: 1, defaults: [1, 50]},
 };

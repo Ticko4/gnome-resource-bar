@@ -184,6 +184,7 @@ export default class ResourceBarExtension extends Extension {
             showCpuCores: s.get_boolean('show-cpu-cores'),
             labelMinWidth: s.get_int('label-min-width'),
             graphColors: s.get_string('graph-colors'),
+            diskCardMode: s.get_string('disk-card-mode'),
             smooth: s.get_boolean('smooth-animation'),
             spacing: s.get_int('spacing'),
         };
@@ -219,7 +220,7 @@ export default class ResourceBarExtension extends Extension {
     _syncSources() {
         const sources = sourcesFor(this._config.stats);
         // Cheap sources are always sampled so the dropdown has history.
-        for (const src of ['cpu', 'mem', 'net', 'cpuTemp', 'disk'])
+        for (const src of ['cpu', 'mem', 'net', 'cpuTemp', 'disk', 'diskio'])
             sources.add(src);
         if (this._menuOpen) {
             for (const src of ['cpuFreq', 'gpu', 'system'])
@@ -301,6 +302,7 @@ export default class ResourceBarExtension extends Extension {
             highlight: this._highlight,
             hasGpu: this._sampler.hasGpu,
             graphColors: this._config.graphColors,
+            diskCardMode: this._config.diskCardMode,
             // Glide slightly longer than the interval: the next sample
             // normally arrives just before the motion ends and continues it
             // from where it is, so gauges and graphs never stop and restart.
@@ -310,6 +312,11 @@ export default class ResourceBarExtension extends Extension {
         this._indicator.refresh(ctx);
         if (this._menuOpen)
             this._indicator.popup?.refresh(ctx);
+    }
+
+    // Called by the Discos card switch; the settings change refreshes the menu.
+    setDiskCardMode(mode) {
+        this._settings.set_string('disk-card-mode', mode);
     }
 
     onMenuOpenChanged(open) {

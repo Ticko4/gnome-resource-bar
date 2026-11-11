@@ -34,6 +34,11 @@ Nas preferências, ao adicionar uma métrica de disco você escolhe qual disco e
 adiciona um “Disco usado (%)” para cada disco que ainda não está no painel. Cada item de disco mostra o nome
 do disco (ex.: `KIOXIA-SSD`) ao lado do ícone; se o disco for desmontado, o item mostra `--`.
 
+No cartão **Discos** do menu, o seletor **Ocupação | Utilização** alterna entre o espaço usado e a atividade
+de cada disco: a barra e a % mostram o tempo em leitura/gravação (como o `%util` do `iostat`, lido de
+`/proc/diskstats`, sem acordar discos em repouso) e ao lado ficam as velocidades de leitura (↓) e gravação (↑).
+A escolha fica salva.
+
 ## Instalação
 
 ```bash

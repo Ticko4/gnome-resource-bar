@@ -22,6 +22,7 @@ class Card {
         });
 
         const header = new St.BoxLayout({style_class: 'resource-bar-card-header'});
+        this.header = header;
         this.icon = new St.Icon({
             gicon: iconFor(extensionPath, icon),
             style_class: 'resource-bar-card-icon',
@@ -62,6 +63,16 @@ class Card {
         this.actor.add_child(this.graph);
     }
 
+    // Puts a control right after the title; the control takes the free space
+    // but stays left-aligned, so the value keeps its place on the right.
+    addHeaderControl(widget) {
+        this.title.x_expand = false;
+        widget.x_expand = true;
+        widget.x_align = Clutter.ActorAlign.START;
+        widget.y_align = Clutter.ActorAlign.CENTER;
+        this.header.insert_child_above(widget, this.title);
+    }
+
     addList() {
         this.list = new St.BoxLayout({orientation: VERTICAL, style_class: 'resource-bar-disk-list'});
         this.actor.add_child(this.list);
@@ -95,30 +106,90 @@ class Card {
     }
 }
 
-// One line per disk: name, usage bar, percentage and used/total.
+// Two-option pill switch ("Ocupação | Utilização").
+class Segmented {
+    constructor(options, onPick) {
+        this.actor = new St.BoxLayout({style_class: 'resource-bar-seg'});
+        this._buttons = options.map(([value, label]) => {
+            const button = new St.Button({
+                label,
+                style_class: 'resource-bar-seg-btn',
+                can_focus: true,
+                y_align: Clutter.ActorAlign.CENTER,
+            });
+            button.connect('clicked', () => onPick(value));
+            this.actor.add_child(button);
+            return [value, button];
+        });
+    }
+
+    setActive(value) {
+        for (const [v, button] of this._buttons) {
+            if (v === value)
+                button.add_style_class_name('active');
+            else
+                button.remove_style_class_name('active');
+        }
+    }
+}
+
+// One line per disk: name, bar, percentage and details. In "space" mode the
+// bar is the used space; in "activity" mode it is the time the disk spent
+// reading or writing (like iostat %util), with read/write speeds.
 class DiskRow {
+    // Every column but the bar has a fixed width (see stylesheet), so the bar
+    // is the same length in every row and both modes, whatever the numbers.
     constructor() {
+        const label = (style, params = {}) => new St.Label({
+            style_class: style,
+            y_align: Clutter.ActorAlign.CENTER,
+            ...params,
+        });
         this.actor = new St.BoxLayout({style_class: 'resource-bar-disk-row', x_expand: true});
-        this.name = new St.Label({style_class: 'resource-bar-disk-name', y_align: Clutter.ActorAlign.CENTER});
+        this.name = label('resource-bar-disk-name');
         this.bar = new Gauge({styleClass: 'resource-bar-disk-bar', horizontal: true});
         this.bar.x_expand = true;
-        this.pct = new St.Label({style_class: 'resource-bar-disk-pct', y_align: Clutter.ActorAlign.CENTER});
-        this.usage = new St.Label({
-            style_class: 'resource-bar-disk-usage',
-            y_align: Clutter.ActorAlign.CENTER,
-            opacity: 190,
-        });
-        for (const child of [this.name, this.bar, this.pct, this.usage])
+        this.pct = label('resource-bar-disk-pct');
+
+        // Details column: "used / total" in Ocupação, or read and write
+        // speeds in two right-aligned sub-columns in Utilização.
+        this.details = new St.BoxLayout({style_class: 'resource-bar-disk-details', opacity: 190});
+        this.usage = label('resource-bar-disk-usage', {x_expand: true});
+        this.read = label('resource-bar-disk-rate');
+        this.write = label('resource-bar-disk-rate');
+        for (const child of [this.usage, this.read, this.write])
+            this.details.add_child(child);
+
+        for (const child of [this.name, this.bar, this.pct, this.details])
             this.actor.add_child(child);
     }
 
     update(disk, color, animMs = 0) {
-        this.name.text = mountName(disk.path);
-        this.pct.text = `${Math.round(disk.pct)}%`;
-        this.pct.set_style(`color: ${toCss(color)};`);
+        this._showRates(false);
         this.usage.text = formatUsage(disk.used, disk.used + disk.avail);
+        this._set(disk.path, disk.pct, color, animMs);
+    }
+
+    updateActivity(path, io, color, animMs = 0) {
+        this._showRates(true);
+        const rate = v => formatRate(v, {unit: 'auto'});
+        this.read.text = io ? `↓ ${rate(io.read)}` : '↓ --';
+        this.write.text = io ? `↑ ${rate(io.write)}` : '↑ --';
+        this._set(path, io ? io.util : null, color, animMs);
+    }
+
+    _showRates(rates) {
+        this.usage.visible = !rates;
+        this.read.visible = rates;
+        this.write.visible = rates;
+    }
+
+    _set(path, pct, color, animMs) {
+        this.name.text = mountName(path);
+        this.pct.text = pct === null ? '--' : `${Math.round(pct)}%`;
+        this.pct.set_style(`color: ${toCss(color)};`);
         this.bar.setColor(color);
-        this.bar.setProgress(disk.pct / 100, animMs);
+        this.bar.setProgress((pct ?? 0) / 100, animMs);
     }
 }
 
@@ -151,6 +222,9 @@ export class ResourcePopup {
         this._cards.mem.addGraph();
         this._cards.net.addGraph();
         this._cards.disk.addList();
+        this._diskMode = new Segmented([['space', 'Ocupação'], ['activity', 'Utilização']],
+            mode => extension.setDiskCardMode(mode));
+        this._cards.disk.addHeaderControl(this._diskMode.actor);
         this._cards.gpu.addGraph();
         this._diskRows = [];
         this._diskSig = null;
@@ -166,7 +240,8 @@ export class ResourcePopup {
         grid.attach(this._cards.disk.actor, 0, 2, 2, 1);
     }
 
-    // ctx: {snapshot, model, opts, thresholds, highlight, hasGpu, graphColors, accent, animMs}
+    // ctx: {snapshot, model, opts, thresholds, highlight, hasGpu, graphColors, accent, animMs,
+    //       diskCardMode}
     refresh(ctx) {
         const {snapshot: s, model, opts, thresholds, highlight} = ctx;
         let base;
@@ -262,13 +337,22 @@ export class ResourcePopup {
                     return row;
                 });
             }
-            const [a, c] = thresholds.disk;
+            const activity = ctx.diskCardMode === 'activity';
+            this._diskMode.setActive(activity ? 'activity' : 'space');
+            const [a, c] = activity ? thresholds.disk_io : thresholds.disk;
             let worst = 0;
             list.forEach((m, i) => {
-                const d = s.disks[m.path];
-                const factor = gradientFactor(d.pct, a, c);
-                worst = Math.max(worst, factor);
-                this._diskRows[i].update(d, mixColors(base, highlight, factor), animMs);
+                if (activity) {
+                    const io = s.diskIo?.[m.ioName];
+                    const factor = io ? gradientFactor(io.util, a, c) : 0;
+                    worst = Math.max(worst, factor);
+                    this._diskRows[i].updateActivity(m.path, io, mixColors(base, highlight, factor), animMs);
+                } else {
+                    const d = s.disks[m.path];
+                    const factor = gradientFactor(d.pct, a, c);
+                    worst = Math.max(worst, factor);
+                    this._diskRows[i].update(d, mixColors(base, highlight, factor), animMs);
+                }
             });
             card.value.text = list.length === 1 ? '1 disco' : `${list.length} discos`;
             card.setAccent(mixColors(base, highlight, worst), cardBg);

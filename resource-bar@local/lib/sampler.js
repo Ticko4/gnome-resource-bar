@@ -203,6 +203,8 @@ export function emptySnapshot() {
         // the mount used by disk stats that do not name one.
         disks: {},
         diskList: [],
+        // Per block device (diskstats name): {util %, read, write bytes/s}.
+        diskIo: {},
         defaultDisk: '/',
         net: null,
         gpu: null,
@@ -219,6 +221,8 @@ export class Sampler {
         this._prevNet = null;
         this._physical = new Map();
         this._extraDisks = new Set();
+        this._prevIo = null;
+        this._ioNames = new Map();
         this._iface = '';
         this._diskStamp = 0;
         this._sources = new Set(['cpu', 'mem', 'net']);
@@ -281,6 +285,8 @@ export class Sampler {
             jobs.push(this._sampleCpuFreq(c));
         if (want.has('disk'))
             jobs.push(this._sampleDisk(c));
+        if (want.has('diskio'))
+            jobs.push(this._sampleDiskIo(c));
         if (want.has('gpu'))
             jobs.push(this._sampleGpu(c));
         else
@@ -438,6 +444,8 @@ export class Sampler {
         // unplugged drive shows "--" instead of the parent filesystem.
         const extra = [...this._extraDisks].filter(p => mounted.has(p));
         const paths = new Set([defaultDisk, ...extra, ...discovered.map(m => m.path)]);
+        for (const m of discovered)
+            m.ioName = this._ioName(m.device);
         const devices = new Map(discovered.map(m => [m.path, m]));
 
         const results = await Promise.all([...paths].map(path =>
@@ -450,6 +458,58 @@ export class Sampler {
         }
         this.snapshot.disks = disks;
         this.snapshot.diskList = discovered.filter(m => disks[m.path]);
+    }
+
+    // /proc/diskstats name of a mount's device; /dev/mapper/* are symlinks
+    // to ../dm-N, so one level of resolution is enough.
+    _ioName(device) {
+        let name = this._ioNames.get(device);
+        if (name === undefined) {
+            let target = device;
+            try {
+                if (GLib.file_test(device, GLib.FileTest.IS_SYMLINK))
+                    target = GLib.file_read_link(device);
+            } catch {
+                target = device;
+            }
+            name = GLib.path_get_basename(target);
+            this._ioNames.set(device, name);
+        }
+        return name;
+    }
+
+    // Disk activity like iostat: share of wall time the device spent doing
+    // I/O, plus read/write throughput. Cheap, and never wakes sleeping disks.
+    async _sampleDiskIo(c) {
+        const text = await readText('/proc/diskstats', c);
+        const t = GLib.get_monotonic_time();
+        const counters = {};
+        for (const line of text.split('\n')) {
+            const f = line.trim().split(/\s+/);
+            if (f.length < 14)
+                continue;
+            // sectors read (6th), sectors written (10th), ms doing I/O (13th)
+            counters[f[2]] = {read: Number(f[5]), write: Number(f[9]), busy: Number(f[12])};
+        }
+        const prev = this._prevIo;
+        this._prevIo = {t, counters};
+        if (!prev)
+            return;
+        const dt = (t - prev.t) / 1e6;
+        if (dt <= 0)
+            return;
+        const io = {};
+        for (const [name, cur] of Object.entries(counters)) {
+            const old = prev.counters[name];
+            if (!old)
+                continue;
+            io[name] = {
+                util: Math.min(100, Math.max(0, (cur.busy - old.busy) / (dt * 10))),
+                read: Math.max(0, (cur.read - old.read) * 512 / dt),
+                write: Math.max(0, (cur.write - old.write) * 512 / dt),
+            };
+        }
+        this.snapshot.diskIo = io;
     }
 
     async _statfs(path, c) {

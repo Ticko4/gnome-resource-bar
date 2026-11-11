@@ -57,7 +57,7 @@
 
 .resource-bar-popup {
   spacing: 8px;
-  min-width: 470px;
+  min-width: 500px;
 }
 
 .resource-bar-popup-header {
@@ -109,6 +109,33 @@
   margin-top: 2px;
 }
 
+/* Ocupação | Utilização switch in the Discos card header */
+.resource-bar-seg {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  padding: 2px;
+  spacing: 2px;
+  margin-left: 6px;
+}
+
+.resource-bar-seg-btn {
+  border-radius: 999px;
+  padding: 1px 10px;
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.resource-bar-seg-btn:hover,
+.resource-bar-seg-btn:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.resource-bar-seg-btn.active {
+  background-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 1);
+  font-weight: bold;
+}
+
 .resource-bar-disk-list {
   spacing: 6px;
   margin-top: 2px;
@@ -118,8 +145,9 @@
   spacing: 10px;
 }
 
+/* Fixed-width columns keep every bar the same length in all rows and modes. */
 .resource-bar-disk-name {
-  min-width: 110px;
+  width: 112px;
   font-feature-settings: "tnum";
 }
 
@@ -128,16 +156,25 @@
 }
 
 .resource-bar-disk-pct {
-  min-width: 36px;
+  width: 44px;
   text-align: right;
   font-weight: bold;
   font-feature-settings: "tnum";
 }
 
-.resource-bar-disk-usage {
-  min-width: 120px;
+.resource-bar-disk-details {
+  width: 164px;
+  spacing: 6px;
+}
+
+.resource-bar-disk-usage,
+.resource-bar-disk-rate {
   text-align: right;
   font-size: 0.85em;
   font-feature-settings: "tnum";
+}
+
+.resource-bar-disk-rate {
+  width: 79px;
 }
 
