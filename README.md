@@ -52,8 +52,9 @@ Para gerar um `.zip` instalável: `./install.sh --pack`.
 `gnome-extensions prefs resource-bar@local` (ou **Configurações** no menu da extensão):
 
 - **Painel**: quais métricas e em que ordem; visualização (medidor, gráfico ou nenhuma); ícone, valor,
-  unidades, medidor por núcleo, cápsula, largura mínima do valor, espaçamento, animação suave, cor de destaque do
-  sistema só nos gráficos, sem mudar as barras (desligado por padrão), cor de alerta (padrão `#FD4663`, o “error” do Noctalia);
+  unidades, medidor por núcleo, largura mínima do valor, espaçamento, animação suave, cores dos gráficos
+  (padrão, cor de destaque do sistema ou uma cor por recurso como no Resources: CPU azul, memória roxo,
+  GPU vermelho, discos laranja, rede azul-esverdeado; só os gráficos mudam, não as barras), cor de alerta (padrão `#FD4663`, o “error” do Noctalia);
   área e posição no painel.
 - **Monitoramento**: intervalo (padrão 1 s), disco padrão, interface de rede,
   unidade e formato compacto da velocidade.

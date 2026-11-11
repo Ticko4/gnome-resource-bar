@@ -8,12 +8,6 @@
   spacing: 4px;
 }
 
-.resource-bar-item.capsule {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  padding: 2px 8px;
-}
-
 .resource-bar-icon {
   icon-size: 16px;
 }

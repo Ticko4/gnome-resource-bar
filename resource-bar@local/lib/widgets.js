@@ -361,7 +361,7 @@ class ResourceBarStatItem extends St.BoxLayout {
         const {id, param} = parseKey(statKey);
         const def = STATS[id];
         super._init({
-            style_class: config.capsule ? 'resource-bar-item capsule' : 'resource-bar-item',
+            style_class: 'resource-bar-item',
             y_align: Clutter.ActorAlign.CENTER,
             accessible_name: param ? `${def.name} ${param}` : def.name,
         });
@@ -425,7 +425,7 @@ class ResourceBarStatItem extends St.BoxLayout {
     }
 
     // ctx: {result, color, graphColor, colorFor(value), history(): number[],
-    //       historyCount, cores, capsuleBg, animMs}
+    //       historyCount, cores, animMs}
     // color tints icon/name/value and gauges; graphColor tints the graph;
     // animMs is how long gauges and graphs glide to the new sample.
     update(ctx) {
@@ -441,8 +441,6 @@ class ResourceBarStatItem extends St.BoxLayout {
                 this._label.text = result.text;
             setStyleCached(this._label, '_rbStyle', `min-width: ${this._stableWidth()}px; color: ${css};`);
         }
-        if (this._config.capsule && ctx.capsuleBg)
-            setStyleCached(this, '_rbStyle', `background-color: ${toCss(ctx.capsuleBg)};`);
 
         if (this._vis instanceof CoreGauges) {
             this._vis.update(ctx.cores, ctx.colorFor, ctx.animMs);

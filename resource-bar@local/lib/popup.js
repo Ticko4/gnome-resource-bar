@@ -6,9 +6,9 @@ import St from 'gi://St';
 
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
-import {formatDuration, formatRate, formatUsage, gradientFactor} from './stats.js';
+import {categoryOf, formatDuration, formatRate, formatUsage, gradientFactor} from './stats.js';
 import {mountName} from './mounts.js';
-import {mixColors, toCss, withAlpha} from './color.js';
+import {graphBaseColor, mixColors, toCss, withAlpha} from './color.js';
 import {CoreGauges, Gauge, Graph, iconFor} from './widgets.js';
 
 const VERTICAL = Clutter.Orientation.VERTICAL;
@@ -166,7 +166,7 @@ export class ResourcePopup {
         grid.attach(this._cards.disk.actor, 0, 2, 2, 1);
     }
 
-    // ctx: {snapshot, model, opts, thresholds, highlight, hasGpu, useAccent, accent, animMs}
+    // ctx: {snapshot, model, opts, thresholds, highlight, hasGpu, graphColors, accent, animMs}
     refresh(ctx) {
         const {snapshot: s, model, opts, thresholds, highlight} = ctx;
         let base;
@@ -179,11 +179,11 @@ export class ResourcePopup {
         const cardBg = withAlpha(base, 0.06);
         // The dropdown always shows full units, whatever the panel uses.
         const popupOpts = {...opts, showUnits: true, net: {...opts.net, compact: false}};
-        // Only the history graphs start from the system accent color when
-        // enabled; bars, titles, icons and values keep the menu text color.
-        const graphBase = ctx.useAccent && ctx.accent ? ctx.accent : base;
+        // Only the history graphs follow the "graph-colors" setting; bars,
+        // titles, icons and values keep the menu text color.
         const colorOf = id => {
             const r = model.evaluate(id, s, popupOpts, thresholds);
+            const graphBase = graphBaseColor(ctx.graphColors, categoryOf(id), base, ctx.accent);
             return {
                 r,
                 color: mixColors(base, highlight, r.factor),

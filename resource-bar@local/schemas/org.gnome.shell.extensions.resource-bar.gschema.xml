@@ -50,21 +50,21 @@
       <summary>Espaço entre métricas (px)</summary>
     </key>
 
-    <key name="use-capsule" type="b">
-      <default>false</default>
-      <summary>Fundo em cápsula para cada métrica</summary>
-    </key>
-
     <key name="smooth-animation" type="b">
       <default>true</default>
       <summary>Animação suave</summary>
       <description>Medidores e gráficos deslizam entre leituras durante o intervalo de atualização em vez de saltar. Também segue a opção do GNOME de reduzir animações.</description>
     </key>
 
-    <key name="use-accent-color" type="b">
-      <default>false</default>
-      <summary>Usar a cor de destaque do sistema nos gráficos</summary>
-      <description>Os gráficos (visualização em gráfico no painel e históricos no menu) partem da cor de destaque (accent) do GNOME em vez da cor do texto. Barras, ícones e valores não mudam. Acima dos limites continuam indo para a cor de alerta.</description>
+    <key name="graph-colors" type="s">
+      <choices>
+        <choice value="default"/>
+        <choice value="accent"/>
+        <choice value="resources"/>
+      </choices>
+      <default>'default'</default>
+      <summary>Cores dos gráficos</summary>
+      <description>default: cor do texto do painel; accent: cor de destaque do GNOME; resources: uma cor por recurso, como no app Resources (CPU azul, memória roxo, GPU vermelho, discos laranja, rede azul-esverdeado). Só os gráficos mudam; barras, ícones e valores não. Acima dos limites continuam indo para a cor de alerta.</description>
     </key>
 
     <key name="highlight-color" type="s">

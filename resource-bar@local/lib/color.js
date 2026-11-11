@@ -121,3 +121,23 @@ export function mixColors(base, highlight, t) {
     const rgb = hsvToRgb(h, s, v);
     return {...rgb, a: base.a + (highlight.a - base.a) * t};
 }
+
+// One color per resource, in the spirit of the Resources app; light shades
+// of the GNOME palette so they read well on the dark panel.
+export const RESOURCE_COLORS = Object.freeze({
+    cpu: parseColor('#62a0ea'),      // blue
+    memory: parseColor('#c061cb'),   // purple
+    gpu: parseColor('#ed333b'),      // red
+    disk: parseColor('#ffa348'),     // orange
+    network: parseColor('#36b5b0'),  // teal
+});
+
+// Starting color of a graph for the "graph-colors" setting: the text color
+// (default), the system accent, or the resource's own color.
+export function graphBaseColor(mode, category, text, accent) {
+    if (mode === 'accent' && accent)
+        return accent;
+    if (mode === 'resources')
+        return RESOURCE_COLORS[category] ?? text;
+    return text;
+}

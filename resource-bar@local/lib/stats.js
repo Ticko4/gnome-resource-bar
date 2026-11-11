@@ -224,6 +224,16 @@ export function parseKey(key) {
     return i < 0 ? {id: key, param: ''} : {id: key.slice(0, i), param: key.slice(i + 1)};
 }
 
+// Resource a stat belongs to, for per-resource graph colors.
+const CATEGORY_BY_SOURCE = {
+    cpu: 'cpu', cpuTemp: 'cpu', cpuFreq: 'cpu',
+    mem: 'memory', gpu: 'gpu', disk: 'disk', net: 'network',
+};
+
+export function categoryOf(key) {
+    return CATEGORY_BY_SOURCE[STATS[parseKey(key).id]?.source] ?? null;
+}
+
 export function makeKey(id, param = '') {
     return param ? `${id}:${param}` : id;
 }

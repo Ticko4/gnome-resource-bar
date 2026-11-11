@@ -14,8 +14,8 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import {Sampler} from './lib/sampler.js';
-import {STATS, StatModel, THRESHOLDS, gradientFactor, isValidKey, parseKey, sourcesFor} from './lib/stats.js';
-import {WHITE, fromCogl, mixColors, parseColor, withAlpha} from './lib/color.js';
+import {STATS, StatModel, THRESHOLDS, categoryOf, gradientFactor, isValidKey, parseKey, sourcesFor} from './lib/stats.js';
+import {WHITE, fromCogl, graphBaseColor, mixColors, parseColor} from './lib/color.js';
 import {StatItem, iconFor} from './lib/widgets.js';
 import {ResourcePopup} from './lib/popup.js';
 
@@ -30,7 +30,7 @@ const MONITOR_APPS = [
 
 const REBUILD_KEYS = new Set([
     'stats', 'visualization', 'show-icon', 'show-value', 'show-units',
-    'show-cpu-cores', 'label-min-width', 'use-capsule', 'spacing',
+    'show-cpu-cores', 'label-min-width', 'spacing',
 ]);
 
 function findMonitorApp() {
@@ -117,11 +117,11 @@ class ResourceIndicator extends PanelMenu.Button {
     refresh(ctx) {
         const {snapshot, model, opts, thresholds, highlight} = ctx;
         const base = this._base;
-        // Graphs start from the accent color when enabled; gauges, icons and
-        // values keep the panel text color.
-        const graphBase = ctx.useAccent ? ctx.accent : base;
         for (const item of this._items) {
             const key = item.statKey;
+            // Graphs may start from the accent or the resource's color;
+            // gauges, icons and values keep the panel text color.
+            const graphBase = graphBaseColor(ctx.graphColors, categoryOf(key), base, ctx.accent);
             const result = model.evaluate(key, snapshot, opts, thresholds);
             const [activity, critical] = thresholds[STATS[parseKey(key).id].threshold];
             item.update({
@@ -133,7 +133,6 @@ class ResourceIndicator extends PanelMenu.Button {
                 historyCount: model.count(key),
                 animMs: ctx.animMs,
                 cores: snapshot.cpu.cores,
-                capsuleBg: withAlpha(base, 0.1),
             });
         }
     }
@@ -184,8 +183,7 @@ export default class ResourceBarExtension extends Extension {
             showValue: s.get_boolean('show-value'),
             showCpuCores: s.get_boolean('show-cpu-cores'),
             labelMinWidth: s.get_int('label-min-width'),
-            capsule: s.get_boolean('use-capsule'),
-            useAccent: s.get_boolean('use-accent-color'),
+            graphColors: s.get_string('graph-colors'),
             smooth: s.get_boolean('smooth-animation'),
             spacing: s.get_int('spacing'),
         };
@@ -302,12 +300,12 @@ export default class ResourceBarExtension extends Extension {
             thresholds: this._thresholds,
             highlight: this._highlight,
             hasGpu: this._sampler.hasGpu,
-            useAccent: this._config.useAccent,
+            graphColors: this._config.graphColors,
             // Glide slightly longer than the interval: the next sample
             // normally arrives just before the motion ends and continues it
             // from where it is, so gauges and graphs never stop and restart.
             animMs: this._config.smooth ? Math.round(this._intervalMs() * 1.05) : 0,
-            accent: this._config.useAccent ? this._indicator.readAccent() : null,
+            accent: this._config.graphColors === 'accent' ? this._indicator.readAccent() : null,
         };
         this._indicator.refresh(ctx);
         if (this._menuOpen)

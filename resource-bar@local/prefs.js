@@ -15,6 +15,12 @@ const VISUALIZATIONS = [
     ['none', 'Nenhuma'],
 ];
 
+const GRAPH_COLORS = [
+    ['default', 'Padrão (cor do texto)'],
+    ['accent', 'Cor de destaque do sistema'],
+    ['resources', 'Por recurso (como o Resources)'],
+];
+
 const POSITIONS = [
     ['left', 'Esquerda'],
     ['center', 'Centro'],
@@ -229,15 +235,14 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         look.add(switchRow(settings, 'show-units', 'Mostrar unidades', 'Desligado: “45” em vez de “45°C”'));
         look.add(switchRow(settings, 'show-cpu-cores', 'Medidor por núcleo',
             'No uso da CPU com visualização em medidor, uma barra por núcleo'));
-        look.add(switchRow(settings, 'use-capsule', 'Cápsula', 'Fundo arredondado atrás de cada métrica'));
         look.add(spinRow(settings, 'label-min-width', 'Largura mínima do valor',
             {min: 0, max: 200, step: 1, subtitle: 'Em pixels; evita que o painel “pule” quando o número muda'}));
         look.add(spinRow(settings, 'spacing', 'Espaço entre métricas', {min: 0, max: 40, step: 1}));
 
         look.add(switchRow(settings, 'smooth-animation', 'Animação suave',
             'Medidores e gráficos deslizam entre leituras em vez de saltar a cada atualização'));
-        look.add(switchRow(settings, 'use-accent-color', 'Usar a cor de destaque do sistema nos gráficos',
-            'Só os gráficos usam a cor de destaque do GNOME; barras, ícones e valores continuam como estão'));
+        look.add(choiceRow(settings, 'graph-colors', 'Cores dos gráficos', GRAPH_COLORS,
+            'Só os gráficos mudam; barras, ícones e valores continuam como estão'));
 
         const colorRow = new Adw.ActionRow({
             title: 'Cor de alerta',
