@@ -100,6 +100,12 @@ const vramPct = s => s.gpu && s.gpu.vramTotal > 0 && s.gpu.vramUsed !== null
 // without one they use the default disk from the settings.
 export const diskFor = (s, param) => s.disks?.[param || s.defaultDisk] ?? null;
 const diskUsedPct = (s, p) => diskFor(s, p)?.pct ?? null;
+// Share of time the disk behind a mount spent reading/writing (iostat %util).
+const diskUtil = (s, p) => {
+    const path = p || s.defaultDisk;
+    const mount = s.diskList?.find(m => m.path === path);
+    return mount ? s.diskIo?.[mount.ioName]?.util ?? null : null;
+};
 const diskFreePct = (s, p) => {
     const d = diskFor(s, p);
     return d ? 100 - d.pct : null;
@@ -198,6 +204,12 @@ export const STATS = {
         text: (s, o, v, p) => diskSize(diskFor(s, p).avail),
         norm: percentNorm,
     },
+    disk_util: {
+        name: 'Utilização do disco', icon: 'disk', threshold: 'disk_io', source: 'diskio',
+        raw: diskUtil,
+        text: (s, o, v) => pct(v),
+        norm: percentNorm,
+    },
     net_rx: {
         name: 'Download', icon: 'download', threshold: 'net_rx', source: 'net',
         raw: s => s.net ? s.net.rx : null,
@@ -216,7 +228,11 @@ export const STATS = {
 
 export const STAT_IDS = Object.keys(STATS);
 
-export const DISK_IDS = STAT_IDS.filter(id => STATS[id].source === 'disk');
+// Stats that can name a disk ("id:/mount"): space and activity.
+export const DISK_IDS = STAT_IDS.filter(id => ['disk', 'diskio'].includes(STATS[id].source));
+
+// History key of a disk's activity, used by the Discos card graphs.
+export const diskUtilKey = path => `disk_util:${path}`;
 
 // Panel entries are "id" or "id:param" (only disk stats use a param: the
 // mount point). Splits at the first ":" so mount paths may contain colons.
@@ -228,7 +244,7 @@ export function parseKey(key) {
 // Resource a stat belongs to, for per-resource graph colors.
 const CATEGORY_BY_SOURCE = {
     cpu: 'cpu', cpuTemp: 'cpu', cpuFreq: 'cpu',
-    mem: 'memory', gpu: 'gpu', disk: 'disk', net: 'network',
+    mem: 'memory', gpu: 'gpu', disk: 'disk', diskio: 'disk', net: 'network',
 };
 
 export function categoryOf(key) {
@@ -241,7 +257,7 @@ export function makeKey(id, param = '') {
 
 export function isValidKey(key) {
     const {id, param} = parseKey(key);
-    return Boolean(STATS[id]) && (!param || STATS[id].source === 'disk');
+    return Boolean(STATS[id]) && (!param || DISK_IDS.includes(id));
 }
 
 // Data sources the sampler must read for a set of stat keys.

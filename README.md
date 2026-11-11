@@ -17,7 +17,7 @@ Compatível com GNOME Shell 48–51 (testado no 51.1, Wayland).
 | `gpu_usage`, `gpu_temp`, `gpu_vram`, `gpu_vram_used` | GPU | NVIDIA via `nvidia-smi`, AMD via sysfs |
 | `ram_pct`, `ram_used` | Memória | `/proc/meminfo` (`MemTotal − MemAvailable`) |
 | `swap_pct` | Swap | `/proc/meminfo` |
-| `disk_used_pct`, `disk_used`, `disk_free_pct`, `disk_free` | Disco: o padrão ou um disco específico (`disk_used_pct:/mnt/dados`) | `/proc/self/mounts` + `statfs` via GIO |
+| `disk_used_pct`, `disk_used`, `disk_free_pct`, `disk_free`, `disk_util` (utilização) | Disco: o padrão ou um disco específico (`disk_used_pct:/mnt/dados`) | `/proc/self/mounts` + `statfs` via GIO |
 | `net_rx`, `net_tx` | Download / upload | `/proc/net/dev` (por padrão, só interfaces físicas) |
 
 Ao clicar no painel abre um menu com cartões de CPU (com barras por núcleo), memória/swap, rede
@@ -35,7 +35,7 @@ adiciona um “Disco usado (%)” para cada disco que ainda não está no painel
 do disco (ex.: `KIOXIA-SSD`) ao lado do ícone; se o disco for desmontado, o item mostra `--`.
 
 No cartão **Discos** do menu, o seletor **Ocupação | Utilização** alterna entre o espaço usado e a atividade
-de cada disco: a barra e a % mostram o tempo em leitura/gravação (como o `%util` do `iostat`, lido de
+de cada disco: um gráfico dos últimos 30 s (no lugar da barra) e a % mostram o tempo em leitura/gravação (como o `%util` do `iostat`, lido de
 `/proc/diskstats`, sem acordar discos em repouso) e ao lado ficam as velocidades de leitura (↓) e gravação (↑).
 A escolha fica salva.
 

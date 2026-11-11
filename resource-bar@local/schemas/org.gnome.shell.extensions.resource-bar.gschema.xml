@@ -5,7 +5,7 @@
     <key name="stats" type="as">
       <default>['cpu_usage', 'cpu_temp', 'ram_pct', 'net_rx', 'net_tx']</default>
       <summary>Métricas exibidas no painel, na ordem</summary>
-      <description>Cada item é um ID ou ID:ponto-de-montagem para métricas de disco (ex.: disk_used_pct:/mnt/dados). IDs: cpu_usage, cpu_temp, cpu_freq, gpu_usage, gpu_temp, gpu_vram, gpu_vram_used, ram_pct, ram_used, swap_pct, disk_used_pct, disk_used, disk_free_pct, disk_free, net_rx, net_tx.</description>
+      <description>Cada item é um ID ou ID:ponto-de-montagem para métricas de disco (ex.: disk_used_pct:/mnt/dados). IDs: cpu_usage, cpu_temp, cpu_freq, gpu_usage, gpu_temp, gpu_vram, gpu_vram_used, ram_pct, ram_used, swap_pct, disk_used_pct, disk_used, disk_free_pct, disk_free, disk_util, net_rx, net_tx.</description>
     </key>
 
     <key name="visualization" type="s">

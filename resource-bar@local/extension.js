@@ -3,6 +3,7 @@
 // tints toward a highlight color as the value crosses its thresholds.
 
 import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Shell from 'gi://Shell';
@@ -14,7 +15,9 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import {Sampler} from './lib/sampler.js';
-import {STATS, StatModel, THRESHOLDS, categoryOf, gradientFactor, isValidKey, parseKey, sourcesFor} from './lib/stats.js';
+import {
+    STATS, StatModel, THRESHOLDS, categoryOf, diskUtilKey, gradientFactor, isValidKey, parseKey, sourcesFor,
+} from './lib/stats.js';
 import {WHITE, fromCogl, graphBaseColor, mixColors, parseColor} from './lib/color.js';
 import {StatItem, iconFor} from './lib/widgets.js';
 import {ResourcePopup} from './lib/popup.js';
@@ -41,6 +44,20 @@ function findMonitorApp() {
             return app;
     }
     return null;
+}
+
+// The opened app's own symbolic icon (Resources ships a speedometer), looked
+// up in the hicolor theme of every data dir (flatpak exports included);
+// falls back to a speedometer drawn for this extension.
+function monitorIcon(app, extensionPath) {
+    const name = `${app.get_id().replace(/\.desktop$/, '')}-symbolic.svg`;
+    const dirs = [GLib.get_user_data_dir(), ...GLib.get_system_data_dirs()];
+    for (const dir of dirs) {
+        const path = GLib.build_filenamev([dir, 'icons', 'hicolor', 'symbolic', 'apps', name]);
+        if (GLib.file_test(path, GLib.FileTest.EXISTS))
+            return new Gio.FileIcon({file: Gio.File.new_for_path(path)});
+    }
+    return iconFor(extensionPath, 'gauge');
 }
 
 function loadThresholds(settings) {
@@ -71,7 +88,7 @@ class ResourceIndicator extends PanelMenu.Button {
         const monitor = findMonitorApp();
         if (monitor) {
             this.menu.addAction(`Abrir ${monitor.get_name()}`, () => monitor.activate(),
-                iconFor(ext.path, 'cpu'));
+                monitorIcon(monitor, ext.path));
         }
         this.menu.addAction('Configurações', () => ext.openPreferences(), 'preferences-system-symbolic');
         this.menu.connect('open-state-changed', (_menu, open) => ext.onMenuOpenChanged(open));
@@ -287,7 +304,9 @@ export default class ResourceBarExtension extends Extension {
         // The extension may have been disabled while sampling.
         if (!fresh || sampler !== this._sampler)
             return;
-        this._model.push(sampler.snapshot, this._config.stats);
+        // Also record every disk's activity so the Discos card can graph it.
+        const diskKeys = (sampler.snapshot.diskList ?? []).map(m => diskUtilKey(m.path));
+        this._model.push(sampler.snapshot, [...this._config.stats, ...diskKeys]);
         this._refreshUi();
     }
 

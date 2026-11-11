@@ -6,7 +6,7 @@ import St from 'gi://St';
 
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
-import {categoryOf, formatDuration, formatRate, formatUsage, gradientFactor} from './stats.js';
+import {categoryOf, diskUtilKey, formatDuration, formatRate, formatUsage, gradientFactor} from './stats.js';
 import {mountName} from './mounts.js';
 import {graphBaseColor, mixColors, toCss, withAlpha} from './color.js';
 import {CoreGauges, Gauge, Graph, iconFor} from './widgets.js';
@@ -147,8 +147,11 @@ class DiskRow {
         });
         this.actor = new St.BoxLayout({style_class: 'resource-bar-disk-row', x_expand: true});
         this.name = label('resource-bar-disk-name');
+        // Same column, one at a time: the usage bar (Ocupação) or the
+        // activity history graph (Utilização).
         this.bar = new Gauge({styleClass: 'resource-bar-disk-bar', horizontal: true});
         this.bar.x_expand = true;
+        this.graph = new Graph({style_class: 'resource-bar-disk-graph', x_expand: true, visible: false});
         this.pct = label('resource-bar-disk-pct');
 
         // Details column: "used / total" in Ocupação, or read and write
@@ -160,21 +163,28 @@ class DiskRow {
         for (const child of [this.usage, this.read, this.write])
             this.details.add_child(child);
 
-        for (const child of [this.name, this.bar, this.pct, this.details])
+        for (const child of [this.name, this.bar, this.graph, this.pct, this.details])
             this.actor.add_child(child);
     }
 
     update(disk, color, animMs = 0) {
         this._showRates(false);
+        this.bar.show();
+        this.graph.hide();
         this.usage.text = formatUsage(disk.used, disk.used + disk.avail);
         this._set(disk.path, disk.pct, color, animMs);
     }
 
-    updateActivity(path, io, color, animMs = 0) {
+    // history: {values (0..1), count}; graphColor/background tint the graph.
+    updateActivity(path, io, color, {history, graphColor, background}, animMs = 0) {
         this._showRates(true);
+        this.bar.hide();
+        this.graph.show();
         const rate = v => formatRate(v, {unit: 'auto'});
         this.read.text = io ? `↓ ${rate(io.read)}` : '↓ --';
         this.write.text = io ? `↑ ${rate(io.write)}` : '↑ --';
+        this.graph.setSeries([{values: history.values, color: graphColor, count: history.count}],
+            background, animMs);
         this._set(path, io ? io.util : null, color, animMs);
     }
 
@@ -346,7 +356,13 @@ export class ResourcePopup {
                     const io = s.diskIo?.[m.ioName];
                     const factor = io ? gradientFactor(io.util, a, c) : 0;
                     worst = Math.max(worst, factor);
-                    this._diskRows[i].updateActivity(m.path, io, mixColors(base, highlight, factor), animMs);
+                    const key = diskUtilKey(m.path);
+                    const graphBase = graphBaseColor(ctx.graphColors, 'disk', base, ctx.accent);
+                    this._diskRows[i].updateActivity(m.path, io, mixColors(base, highlight, factor), {
+                        history: {values: model.normalizedHistory(key, s), count: model.count(key)},
+                        graphColor: mixColors(graphBase, highlight, factor),
+                        background: withAlpha(base, 0.05),
+                    }, animMs);
                 } else {
                     const d = s.disks[m.path];
                     const factor = gradientFactor(d.pct, a, c);

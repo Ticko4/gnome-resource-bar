@@ -155,6 +155,11 @@
   height: 8px;
 }
 
+/* Activity history in Utilização: same column as the bar. */
+.resource-bar-disk-graph {
+  height: 16px;
+}
+
 .resource-bar-disk-pct {
   width: 44px;
   text-align: right;
