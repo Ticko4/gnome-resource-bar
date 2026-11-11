@@ -1,0 +1,3 @@
+# Build artifacts (install.sh regenerates them)
+*.shell-extension.zip
+resource-bar@local/schemas/gschemas.compiled

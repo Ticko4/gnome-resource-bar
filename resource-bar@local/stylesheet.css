@@ -1,0 +1,134 @@
+/* ---------- Top bar ---------- */
+
+.resource-bar-box {
+  spacing: 10px;
+}
+
+.resource-bar-item {
+  spacing: 4px;
+}
+
+.resource-bar-item.capsule {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.resource-bar-icon {
+  icon-size: 16px;
+}
+
+.resource-bar-value {
+  font-feature-settings: "tnum";
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Vertical pill gauge (Noctalia: ~30% thick, ~85% tall of the glyph). */
+.resource-bar-gauge {
+  width: 5px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+.resource-bar-gauge-fill {
+  border-radius: 3px;
+}
+
+.resource-bar-cores {
+  spacing: 1px;
+}
+
+.resource-bar-core-gauge {
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.resource-bar-core-gauge-fill {
+  border-radius: 2px;
+}
+
+.resource-bar-graph {
+  width: 50px;
+  height: 16px;
+}
+
+/* ---------- Dropdown ---------- */
+
+.resource-bar-popup-item {
+  padding: 4px 6px;
+}
+
+.resource-bar-popup-item:hover,
+.resource-bar-popup-item:focus,
+.resource-bar-popup-item:active {
+  background-color: transparent;
+}
+
+.resource-bar-popup {
+  spacing: 8px;
+  min-width: 470px;
+}
+
+.resource-bar-popup-header {
+  font-size: 0.85em;
+  padding: 0 6px;
+  font-feature-settings: "tnum";
+}
+
+.resource-bar-card {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin: 4px;
+  spacing: 4px;
+}
+
+.resource-bar-card-header {
+  spacing: 8px;
+}
+
+.resource-bar-card-icon {
+  icon-size: 16px;
+}
+
+.resource-bar-card-title {
+  font-weight: bold;
+}
+
+.resource-bar-card-value {
+  font-weight: bold;
+  font-size: 1.15em;
+  font-feature-settings: "tnum";
+}
+
+.resource-bar-card-sub {
+  font-size: 0.85em;
+  font-feature-settings: "tnum";
+}
+
+.resource-bar-card-graph {
+  height: 40px;
+  margin-top: 4px;
+}
+
+.resource-bar-card-cores {
+  spacing: 2px;
+  margin-top: 2px;
+}
+
+.resource-bar-card-cores .resource-bar-core-gauge {
+  width: 6px;
+  height: 18px;
+}
+
+.resource-bar-card-bar {
+  height: 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+.resource-bar-card-bar-fill {
+  border-radius: 4px;
+}
