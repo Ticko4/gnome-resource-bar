@@ -24,16 +24,13 @@
   text-align: center;
 }
 
-/* Vertical pill gauge (Noctalia: ~30% thick, ~85% tall of the glyph). */
+/* Vertical pill gauge (Noctalia: ~30% thick, ~85% tall of the glyph).
+   Drawn with cairo; CSS only sets the size. */
 .resource-bar-gauge {
   width: 5px;
   height: 14px;
-  border-radius: 3px;
 }
 
-.resource-bar-gauge-fill {
-  border-radius: 3px;
-}
 
 .resource-bar-cores {
   spacing: 1px;
@@ -42,12 +39,8 @@
 .resource-bar-core-gauge {
   width: 3px;
   height: 14px;
-  border-radius: 2px;
 }
 
-.resource-bar-core-gauge-fill {
-  border-radius: 2px;
-}
 
 .resource-bar-graph {
   width: 50px;
@@ -125,10 +118,6 @@
 
 .resource-bar-card-bar {
   height: 8px;
-  border-radius: 4px;
   margin-top: 6px;
 }
 
-.resource-bar-card-bar-fill {
-  border-radius: 4px;
-}

@@ -22,21 +22,32 @@ function setStyleCached(actor, key, style) {
     actor.set_style(style);
 }
 
+// Rounded-rectangle path with corner radius r (clamped to fit).
+function roundedRect(cr, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    cr.newSubPath();
+    cr.arc(w - r, r, r, -Math.PI / 2, 0);
+    cr.arc(w - r, h - r, r, 0, Math.PI / 2);
+    cr.arc(r, h - r, r, Math.PI / 2, Math.PI);
+    cr.arc(r, r, r, Math.PI, 1.5 * Math.PI);
+    cr.closePath();
+}
+
 // Vertical (or horizontal) pill: dimmed track + fill growing from the bottom
-// (or the left). Size comes from CSS; the fill is placed in vfunc_allocate and
-// the eased "progress" property animates it.
+// (or the left). Drawn with cairo and clipped to the pill, so even a fill of
+// one or two pixels keeps the track's rounded end. Size comes from CSS; the
+// eased "progress" property animates it.
 export const Gauge = GObject.registerClass({
     Properties: {
         'progress': GObject.ParamSpec.double('progress', null, null,
             GObject.ParamFlags.READWRITE, 0, 1, 0),
     },
-}, class ResourceBarGauge extends St.Widget {
+}, class ResourceBarGauge extends St.DrawingArea {
     _init({styleClass = 'resource-bar-gauge', horizontal = false} = {}) {
         super._init({style_class: styleClass, y_align: Clutter.ActorAlign.CENTER});
         this._horizontal = horizontal;
         this._progress = 0;
-        this._fill = new St.Widget({style_class: `${styleClass}-fill`});
-        this.add_child(this._fill);
+        this._color = {r: 1, g: 1, b: 1, a: 1};
     }
 
     get progress() {
@@ -49,7 +60,7 @@ export const Gauge = GObject.registerClass({
             return;
         this._progress = p;
         this.notify('progress');
-        this.queue_relayout();
+        this.queue_repaint();
     }
 
     setProgress(progress, animate = true) {
@@ -66,25 +77,38 @@ export const Gauge = GObject.registerClass({
     }
 
     setColor(color) {
-        setStyleCached(this, '_rbStyle', `background-color: ${toCss(withAlpha(color, 0.3))};`);
-        setStyleCached(this._fill, '_rbStyle', `background-color: ${toCss(color)};`);
+        const css = toCss(color);
+        if (this._colorCss === css)
+            return;
+        this._colorCss = css;
+        this._color = color;
+        this.queue_repaint();
     }
 
-    vfunc_allocate(box) {
-        this.set_allocation(box);
-        const content = this.get_theme_node().get_content_box(box);
-        const w = content.get_width();
-        const h = content.get_height();
-        const child = new Clutter.ActorBox();
-        if (this._horizontal) {
-            child.set_origin(content.x1, content.y1);
-            child.set_size(Math.round(w * this._progress), h);
-        } else {
-            const fillH = Math.round(h * this._progress);
-            child.set_origin(content.x1, content.y2 - fillH);
-            child.set_size(w, fillH);
+    vfunc_repaint() {
+        const cr = this.get_context();
+        try {
+            const [w, h] = this.get_surface_size();
+            if (w <= 0 || h <= 0)
+                return;
+            const c = this._color;
+
+            // Track: the fill color dimmed, like Noctalia's gauge.
+            roundedRect(cr, w, h, Math.min(w, h) / 2);
+            cr.setSourceRGBA(c.r, c.g, c.b, c.a * 0.3);
+            cr.fillPreserve();
+
+            // Fill: a plain rectangle clipped to the pill shape.
+            cr.clip();
+            if (this._horizontal)
+                cr.rectangle(0, 0, w * this._progress, h);
+            else
+                cr.rectangle(0, h - h * this._progress, w, h * this._progress);
+            cr.setSourceRGBA(c.r, c.g, c.b, c.a);
+            cr.fill();
+        } finally {
+            cr.$dispose();
         }
-        this._fill.allocate(child);
     }
 });
 
@@ -142,18 +166,8 @@ class ResourceBarGraph extends St.DrawingArea {
         if (w <= 0 || h <= 0)
             return;
         const scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        const radius = Math.min(h / 2, 4 * scale);
 
-        const roundRect = () => {
-            cr.newSubPath();
-            cr.arc(w - radius, radius, radius, -Math.PI / 2, 0);
-            cr.arc(w - radius, h - radius, radius, 0, Math.PI / 2);
-            cr.arc(radius, h - radius, radius, Math.PI / 2, Math.PI);
-            cr.arc(radius, radius, radius, Math.PI, 1.5 * Math.PI);
-            cr.closePath();
-        };
-
-        roundRect();
+        roundedRect(cr, w, h, 4 * scale);
         cr.clip();
         if (this._background) {
             const b = this._background;
