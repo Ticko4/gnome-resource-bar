@@ -4,6 +4,8 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
+import {mountPoints, parseMounts} from './mounts.js';
+
 Gio._promisify(Gio.File.prototype, 'load_contents_async');
 Gio._promisify(Gio.File.prototype, 'query_filesystem_info_async');
 Gio._promisify(Gio.DataInputStream.prototype, 'read_line_async');
@@ -197,7 +199,11 @@ export function emptySnapshot() {
         cpuTemp: null,
         cpuFreq: null,
         mem: null,
-        disk: null,
+        // Every discovered disk keyed by mount path, the discovery order, and
+        // the mount used by disk stats that do not name one.
+        disks: {},
+        diskList: [],
+        defaultDisk: '/',
         net: null,
         gpu: null,
         system: null,
@@ -212,7 +218,7 @@ export class Sampler {
         this._prevCpu = null;
         this._prevNet = null;
         this._physical = new Map();
-        this._diskPath = '/';
+        this._extraDisks = new Set();
         this._iface = '';
         this._diskStamp = 0;
         this._sources = new Set(['cpu', 'mem', 'net']);
@@ -234,10 +240,9 @@ export class Sampler {
     }
 
     setOptions({diskPath, networkInterface, interval}) {
-        if (diskPath !== undefined && diskPath !== this._diskPath) {
-            this._diskPath = diskPath || '/';
+        if (diskPath !== undefined && (diskPath || '/') !== this.snapshot.defaultDisk) {
+            this.snapshot.defaultDisk = diskPath || '/';
             this._diskStamp = 0;
-            this.snapshot.disk = null;
         }
         if (networkInterface !== undefined && networkInterface !== this._iface) {
             this._iface = networkInterface;
@@ -246,6 +251,14 @@ export class Sampler {
         }
         if (interval !== undefined)
             this._interval = interval;
+    }
+
+    // Mount points named by panel items ("disk_used_pct:/mnt/data").
+    setDiskPaths(paths) {
+        const next = new Set(paths);
+        if ([...next].some(p => !this._extraDisks.has(p)))
+            this._diskStamp = 0;
+        this._extraDisks = next;
     }
 
     setSources(sources) {
@@ -413,25 +426,40 @@ export class Sampler {
     async _sampleDisk(c) {
         // Filesystem usage changes slowly: refresh every 5 seconds.
         const now = GLib.get_monotonic_time();
-        if (this.snapshot.disk && now - this._diskStamp < 5e6)
+        if (this._diskStamp && now - this._diskStamp < 5e6)
             return;
         this._diskStamp = now;
-        const path = this._diskPath;
+
+        const text = await readText('/proc/self/mounts', c);
+        const discovered = parseMounts(text);
+        const mounted = mountPoints(text);
+        const defaultDisk = this.snapshot.defaultDisk;
+        // Items pinned to a disk only report while it is mounted, so an
+        // unplugged drive shows "--" instead of the parent filesystem.
+        const extra = [...this._extraDisks].filter(p => mounted.has(p));
+        const paths = new Set([defaultDisk, ...extra, ...discovered.map(m => m.path)]);
+        const devices = new Map(discovered.map(m => [m.path, m]));
+
+        const results = await Promise.all([...paths].map(path =>
+            this._statfs(path, c).then(d => ({...d, device: devices.get(path)?.device ?? null}))
+                .catch(() => null)));
+        const disks = {};
+        for (const d of results) {
+            if (d)
+                disks[d.path] = d;
+        }
+        this.snapshot.disks = disks;
+        this.snapshot.diskList = discovered.filter(m => disks[m.path]);
+    }
+
+    async _statfs(path, c) {
         const info = await Gio.File.new_for_path(path).query_filesystem_info_async(
             'filesystem::size,filesystem::free,filesystem::used', GLib.PRIORITY_LOW, c);
-        const size = info.get_attribute_uint64('filesystem::size');
+        const total = info.get_attribute_uint64('filesystem::size');
         const avail = info.get_attribute_uint64('filesystem::free');
         const used = info.get_attribute_uint64('filesystem::used');
         const denom = used + avail;
-        if (path !== this._diskPath)
-            return;
-        this.snapshot.disk = {
-            path,
-            total: size,
-            used,
-            avail,
-            pct: denom > 0 ? 100 * used / denom : 0,
-        };
+        return {path, total, used, avail, pct: denom > 0 ? 100 * used / denom : 0};
     }
 
     async _gpuSuspended(c) {

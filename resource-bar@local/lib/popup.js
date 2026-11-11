@@ -1,12 +1,13 @@
 // Dropdown content: header with load/uptime and a grid of cards (CPU,
-// memory, network, disk, GPU), each with value, details and a history graph.
+// memory, network, GPU with history graphs) plus a card listing every disk.
 
 import Clutter from 'gi://Clutter';
 import St from 'gi://St';
 
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
-import {formatBytes, formatDuration, formatRate, formatUsage, gradientFactor} from './stats.js';
+import {formatDuration, formatRate, formatUsage, gradientFactor} from './stats.js';
+import {mountName} from './mounts.js';
 import {mixColors, toCss, withAlpha} from './color.js';
 import {CoreGauges, Gauge, Graph, iconFor} from './widgets.js';
 
@@ -50,19 +51,25 @@ class Card {
     }
 
     addGraph() {
-        this.graph = new Graph({style_class: 'resource-bar-card-graph', x_expand: true});
+        // Cards in a grid row share its height; anchoring the graph to the
+        // bottom lines up graphs whose cards have different amounts of text.
+        this.graph = new Graph({
+            style_class: 'resource-bar-card-graph',
+            x_expand: true,
+            y_expand: true,
+            y_align: Clutter.ActorAlign.END,
+        });
         this.actor.add_child(this.graph);
     }
 
-    addBar() {
-        this.bar = new Gauge({styleClass: 'resource-bar-card-bar', horizontal: true});
-        this.bar.x_expand = true;
-        this.actor.add_child(this.bar);
+    addList() {
+        this.list = new St.BoxLayout({orientation: VERTICAL, style_class: 'resource-bar-disk-list'});
+        this.actor.add_child(this.list);
     }
 
     addCores() {
         this.cores = new CoreGauges('resource-bar-card-cores');
-        this.cores.x_align = Clutter.ActorAlign.FILL;
+        this.cores.x_align = Clutter.ActorAlign.START;
         this.actor.add_child(this.cores);
     }
 
@@ -88,6 +95,33 @@ class Card {
     }
 }
 
+// One line per disk: name, usage bar, percentage and used/total.
+class DiskRow {
+    constructor() {
+        this.actor = new St.BoxLayout({style_class: 'resource-bar-disk-row', x_expand: true});
+        this.name = new St.Label({style_class: 'resource-bar-disk-name', y_align: Clutter.ActorAlign.CENTER});
+        this.bar = new Gauge({styleClass: 'resource-bar-disk-bar', horizontal: true});
+        this.bar.x_expand = true;
+        this.pct = new St.Label({style_class: 'resource-bar-disk-pct', y_align: Clutter.ActorAlign.CENTER});
+        this.usage = new St.Label({
+            style_class: 'resource-bar-disk-usage',
+            y_align: Clutter.ActorAlign.CENTER,
+            opacity: 190,
+        });
+        for (const child of [this.name, this.bar, this.pct, this.usage])
+            this.actor.add_child(child);
+    }
+
+    update(disk, color, animMs = 0) {
+        this.name.text = mountName(disk.path);
+        this.pct.text = `${Math.round(disk.pct)}%`;
+        this.pct.set_style(`color: ${toCss(color)};`);
+        this.usage.text = formatUsage(disk.used, disk.used + disk.avail);
+        this.bar.setColor(color);
+        this.bar.setProgress(disk.pct / 100, animMs);
+    }
+}
+
 export class ResourcePopup {
     constructor(extension) {
         this._ext = extension;
@@ -109,24 +143,30 @@ export class ResourcePopup {
             cpu: new Card('CPU', 'cpu', path),
             mem: new Card('Memória', 'memory', path),
             net: new Card('Rede', 'download', path),
-            disk: new Card('Disco', 'disk', path),
+            disk: new Card('Discos', 'disk', path),
             gpu: new Card('GPU', 'gpu', path),
         };
         this._cards.cpu.addCores();
         this._cards.cpu.addGraph();
         this._cards.mem.addGraph();
         this._cards.net.addGraph();
-        this._cards.disk.addBar();
+        this._cards.disk.addList();
         this._cards.gpu.addGraph();
+        this._diskRows = [];
+        this._diskSig = null;
 
+        // CPU | Memória, Rede | GPU (Rede takes the row without a GPU),
+        // then Discos across the full width.
+        const hasGpu = extension._sampler?.hasGpu ?? false;
         grid.attach(this._cards.cpu.actor, 0, 0, 1, 1);
         grid.attach(this._cards.mem.actor, 1, 0, 1, 1);
-        grid.attach(this._cards.net.actor, 0, 1, 1, 1);
-        grid.attach(this._cards.disk.actor, 1, 1, 1, 1);
-        grid.attach(this._cards.gpu.actor, 0, 2, 2, 1);
+        grid.attach(this._cards.net.actor, 0, 1, hasGpu ? 1 : 2, 1);
+        if (hasGpu)
+            grid.attach(this._cards.gpu.actor, 1, 1, 1, 1);
+        grid.attach(this._cards.disk.actor, 0, 2, 2, 1);
     }
 
-    // ctx: {snapshot, model, opts, thresholds, highlight}
+    // ctx: {snapshot, model, opts, thresholds, highlight, hasGpu, useAccent, accent, animMs}
     refresh(ctx) {
         const {snapshot: s, model, opts, thresholds, highlight} = ctx;
         let base;
@@ -139,11 +179,20 @@ export class ResourcePopup {
         const cardBg = withAlpha(base, 0.06);
         // The dropdown always shows full units, whatever the panel uses.
         const popupOpts = {...opts, showUnits: true, net: {...opts.net, compact: false}};
+        // Only the history graphs start from the system accent color when
+        // enabled; bars, titles, icons and values keep the menu text color.
+        const graphBase = ctx.useAccent && ctx.accent ? ctx.accent : base;
         const colorOf = id => {
             const r = model.evaluate(id, s, popupOpts, thresholds);
-            return {r, color: mixColors(base, highlight, r.factor)};
+            return {
+                r,
+                color: mixColors(base, highlight, r.factor),
+                graphColor: mixColors(graphBase, highlight, r.factor),
+            };
         };
-        const series = (id, color, fill = true) => ({values: model.normalizedHistory(id, s), color, fill});
+        const animMs = ctx.animMs ?? 0;
+        const series = (id, color, fill = true) =>
+            ({values: model.normalizedHistory(id, s), color, fill, count: model.count(id)});
 
         // Header
         if (s.system) {
@@ -154,7 +203,7 @@ export class ResourcePopup {
         // CPU
         {
             const card = this._cards.cpu;
-            const {r, color} = colorOf('cpu_usage');
+            const {r, color, graphColor} = colorOf('cpu_usage');
             card.value.text = r.text;
             card.setAccent(color, cardBg);
             const parts = [];
@@ -165,14 +214,14 @@ export class ResourcePopup {
             parts.push(`${s.cpu.cores.length} núcleos`);
             card.setLines(parts.join('  ·  '));
             const [a, c] = thresholds.cpu_usage;
-            card.cores.update(s.cpu.cores, v => mixColors(base, highlight, gradientFactor(v, a, c)));
-            card.graph.setSeries([series('cpu_usage', color)], withAlpha(base, 0.05));
+            card.cores.update(s.cpu.cores, v => mixColors(base, highlight, gradientFactor(v, a, c)), animMs);
+            card.graph.setSeries([series('cpu_usage', graphColor)], withAlpha(base, 0.05), animMs);
         }
 
         // Memory
         {
             const card = this._cards.mem;
-            const {r, color} = colorOf('ram_pct');
+            const {r, color, graphColor} = colorOf('ram_pct');
             card.value.text = r.text;
             card.setAccent(color, cardBg);
             if (s.mem) {
@@ -181,7 +230,7 @@ export class ResourcePopup {
                     : 'Sem swap';
                 card.setLines(`${formatUsage(s.mem.used, s.mem.total)}`, swap);
             }
-            card.graph.setSeries([series('ram_pct', color)], withAlpha(base, 0.05));
+            card.graph.setSeries([series('ram_pct', graphColor)], withAlpha(base, 0.05), animMs);
         }
 
         // Network
@@ -194,25 +243,36 @@ export class ResourcePopup {
             card.setAccent(rx.color, cardBg);
             card.setLines(s.net ? `↑ ${rate(s.net.tx)}` : '', opts.iface ? `Interface ${opts.iface}` : 'Interfaces físicas');
             card.graph.setSeries([
-                series('net_rx', rx.color),
-                series('net_tx', withAlpha(tx.color, 0.55), false),
-            ], withAlpha(base, 0.05));
+                series('net_rx', rx.graphColor),
+                series('net_tx', withAlpha(tx.graphColor, 0.55), false),
+            ], withAlpha(base, 0.05), animMs);
         }
 
-        // Disk
+        // Disks
         {
             const card = this._cards.disk;
-            const {r, color} = colorOf('disk_used_pct');
-            card.value.text = r.text;
-            card.setAccent(color, cardBg);
-            if (s.disk) {
-                card.setLines(formatUsage(s.disk.used, s.disk.used + s.disk.avail),
-                    `${formatBytes(s.disk.avail)} livres em ${s.disk.path}`);
-            } else {
-                card.setLines('Calculando…');
+            const list = s.diskList ?? [];
+            const sig = list.map(d => d.path).join('\n');
+            if (sig !== this._diskSig) {
+                this._diskSig = sig;
+                card.list.destroy_all_children();
+                this._diskRows = list.map(() => {
+                    const row = new DiskRow();
+                    card.list.add_child(row.actor);
+                    return row;
+                });
             }
-            card.bar.setColor(color);
-            card.bar.setProgress(r.norm);
+            const [a, c] = thresholds.disk;
+            let worst = 0;
+            list.forEach((m, i) => {
+                const d = s.disks[m.path];
+                const factor = gradientFactor(d.pct, a, c);
+                worst = Math.max(worst, factor);
+                this._diskRows[i].update(d, mixColors(base, highlight, factor), animMs);
+            });
+            card.value.text = list.length === 1 ? '1 disco' : `${list.length} discos`;
+            card.setAccent(mixColors(base, highlight, worst), cardBg);
+            card.setLines(list.length === 0 ? 'Calculando…' : '');
         }
 
         // GPU
@@ -220,7 +280,7 @@ export class ResourcePopup {
             const card = this._cards.gpu;
             card.actor.visible = ctx.hasGpu;
             if (ctx.hasGpu) {
-                const {r, color} = colorOf('gpu_usage');
+                const {r, color, graphColor} = colorOf('gpu_usage');
                 card.value.text = r.text;
                 card.setAccent(color, cardBg);
                 const g = s.gpu;
@@ -232,12 +292,12 @@ export class ResourcePopup {
                         parts.push(`${Math.round(g.temp)}°C`);
                     if (g.vramUsed !== null && g.vramTotal)
                         parts.push(`VRAM ${formatUsage(g.vramUsed, g.vramTotal)}`);
-                    card.title.text = g.name && g.name !== 'GPU' ? g.name : 'GPU';
+                    card.title.text = shortGpuName(g.name);
                     card.setLines(parts.join('  ·  '));
                 } else {
                     card.setLines('Aguardando dados…');
                 }
-                card.graph.setSeries([series('gpu_usage', color)], withAlpha(base, 0.05));
+                card.graph.setSeries([series('gpu_usage', graphColor)], withAlpha(base, 0.05), animMs);
             }
         }
     }
@@ -245,4 +305,11 @@ export class ResourcePopup {
     destroy() {
         this.item.destroy();
     }
+}
+
+// "NVIDIA GeForce RTX 4080 SUPER" -> "RTX 4080 SUPER" so it fits half a row.
+function shortGpuName(name) {
+    if (!name || name === 'GPU')
+        return 'GPU';
+    return name.replace(/^(NVIDIA|AMD|Intel(\(R\))?)\s+/i, '').replace(/^(GeForce|Radeon)\s+/i, '');
 }

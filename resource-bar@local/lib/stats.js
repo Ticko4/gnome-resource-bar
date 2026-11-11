@@ -1,7 +1,11 @@
 // Stat catalogue, formatting and threshold logic. Pure JS: shared by the
 // shell extension and the preferences window, so no Shell/St imports here.
 
+// Points visible across a graph's width.
 export const HISTORY_SIZE = 30;
+// Samples kept: two more than visible, so while a graph scrolls (shifted up to
+// two steps right) its left edge is still covered by older points.
+export const HISTORY_KEEP = HISTORY_SIZE + 2;
 
 const MIB = 1024 * 1024;
 const GIB = 1024 * MIB;
@@ -26,7 +30,10 @@ export const THRESHOLDS = {
 
 const pct = v => `${Math.round(v)}%`;
 const celsius = v => `${Math.round(v)}°C`;
-const gib = bytes => `${(bytes / GIB).toFixed(1)} GiB`;
+// Disk sizes: GiB, or TiB from 1 TiB up so big drives stay short in the panel.
+const diskSize = bytes => bytes >= 1024 * GIB
+    ? `${(bytes / (1024 * GIB)).toFixed(1)} TiB`
+    : `${(bytes / GIB).toFixed(1)} GiB`;
 
 export function formatBytes(bytes) {
     const mib = bytes / MIB;
@@ -88,13 +95,20 @@ function rateNorm(v, history) {
 const vramPct = s => s.gpu && s.gpu.vramTotal > 0 && s.gpu.vramUsed !== null
     ? 100 * s.gpu.vramUsed / s.gpu.vramTotal : null;
 
-const diskUsedPct = s => s.disk ? s.disk.pct : null;
+// Disk stats take an optional mount point ("disk_used_pct:/mnt/data");
+// without one they use the default disk from the settings.
+export const diskFor = (s, param) => s.disks?.[param || s.defaultDisk] ?? null;
+const diskUsedPct = (s, p) => diskFor(s, p)?.pct ?? null;
+const diskFreePct = (s, p) => {
+    const d = diskFor(s, p);
+    return d ? 100 - d.pct : null;
+};
 
-// Each stat:
-//   raw(snapshot)            number|null  value kept in history, drives gauge/graph
-//   level(snapshot, raw)     number       value compared against thresholds (default raw)
-//   text(snapshot, opts, raw) string      label shown in the panel
-//   norm(raw, history, snap) 0..1         gauge / graph position
+// Each stat (param is the optional part after ":" in the key, e.g. a mount):
+//   raw(snapshot, param)              number|null  history value, drives gauge/graph
+//   level(snapshot, raw, param)       number       compared against thresholds (default raw)
+//   text(snapshot, opts, raw, param)  string       label shown in the panel
+//   norm(raw, history, snapshot)      0..1         gauge / graph position
 export const STATS = {
     cpu_usage: {
         name: 'Uso da CPU', icon: 'cpu', threshold: 'cpu_usage', source: 'cpu',
@@ -166,21 +180,21 @@ export const STATS = {
     disk_used: {
         name: 'Disco usado', icon: 'disk', threshold: 'disk', source: 'disk',
         raw: diskUsedPct,
-        text: s => gib(s.disk.used),
+        text: (s, o, v, p) => diskSize(diskFor(s, p).used),
         norm: percentNorm,
     },
     disk_free_pct: {
         name: 'Disco livre (%)', icon: 'disk', threshold: 'disk', source: 'disk',
-        raw: s => s.disk ? 100 - s.disk.pct : null,
-        level: s => s.disk.pct,
+        raw: diskFreePct,
+        level: (s, v, p) => diskFor(s, p).pct,
         text: (s, o, v) => pct(v),
         norm: percentNorm,
     },
     disk_free: {
         name: 'Disco livre', icon: 'disk', threshold: 'disk', source: 'disk',
-        raw: s => s.disk ? 100 - s.disk.pct : null,
-        level: s => s.disk.pct,
-        text: s => gib(s.disk.avail),
+        raw: diskFreePct,
+        level: (s, v, p) => diskFor(s, p).pct,
+        text: (s, o, v, p) => diskSize(diskFor(s, p).avail),
         norm: percentNorm,
     },
     net_rx: {
@@ -201,12 +215,31 @@ export const STATS = {
 
 export const STAT_IDS = Object.keys(STATS);
 
-// Data sources the sampler must read for a set of stat ids.
-export function sourcesFor(ids) {
+export const DISK_IDS = STAT_IDS.filter(id => STATS[id].source === 'disk');
+
+// Panel entries are "id" or "id:param" (only disk stats use a param: the
+// mount point). Splits at the first ":" so mount paths may contain colons.
+export function parseKey(key) {
+    const i = key.indexOf(':');
+    return i < 0 ? {id: key, param: ''} : {id: key.slice(0, i), param: key.slice(i + 1)};
+}
+
+export function makeKey(id, param = '') {
+    return param ? `${id}:${param}` : id;
+}
+
+export function isValidKey(key) {
+    const {id, param} = parseKey(key);
+    return Boolean(STATS[id]) && (!param || STATS[id].source === 'disk');
+}
+
+// Data sources the sampler must read for a set of stat keys.
+export function sourcesFor(keys) {
     const out = new Set();
-    for (const id of ids) {
-        if (STATS[id])
-            out.add(STATS[id].source);
+    for (const key of keys) {
+        const def = STATS[parseKey(key).id];
+        if (def)
+            out.add(def.source);
     }
     return out;
 }
@@ -238,65 +271,82 @@ const isNum = v => typeof v === 'number' && Number.isFinite(v);
 export class StatModel {
     constructor() {
         this._history = new Map();
+        this._counts = new Map();
     }
 
-    push(snapshot) {
-        for (const id of STAT_IDS) {
+    // Records every parameterless stat plus the given keys (panel items that
+    // name a disk), so graphs have history for whatever is on screen.
+    push(snapshot, keys = []) {
+        const all = new Set([...STAT_IDS, ...keys]);
+        for (const key of all) {
+            const {id, param} = parseKey(key);
+            const def = STATS[id];
+            if (!def)
+                continue;
             let raw = null;
             try {
-                raw = STATS[id].raw(snapshot);
+                raw = def.raw(snapshot, param);
             } catch {
                 raw = null;
             }
             if (!isNum(raw))
                 continue;
-            let h = this._history.get(id);
+            let h = this._history.get(key);
             if (!h) {
                 h = [];
-                this._history.set(id, h);
+                this._history.set(key, h);
             }
             h.push(raw);
-            if (h.length > HISTORY_SIZE)
+            if (h.length > HISTORY_KEEP)
                 h.shift();
+            this._counts.set(key, (this._counts.get(key) ?? 0) + 1);
         }
     }
 
-    clear(ids) {
-        for (const id of ids)
-            this._history.delete(id);
+    clear(keys) {
+        for (const key of keys) {
+            this._history.delete(key);
+            this._counts.delete(key);
+        }
     }
 
-    history(id) {
-        return this._history.get(id) ?? [];
+    // Samples pushed so far for a key; graphs use it to spot a new sample.
+    count(key) {
+        return this._counts.get(key) ?? 0;
     }
 
-    normalizedHistory(id, snapshot) {
-        const def = STATS[id];
-        const h = this.history(id);
+    history(key) {
+        return this._history.get(key) ?? [];
+    }
+
+    normalizedHistory(key, snapshot) {
+        const def = STATS[parseKey(key).id];
+        const h = this.history(key);
         return h.map(v => clamp01(def.norm(v, h, snapshot)));
     }
 
     // Returns {available, text, norm, factor}.
-    evaluate(id, snapshot, opts, thresholds) {
+    evaluate(key, snapshot, opts, thresholds) {
+        const {id, param} = parseKey(key);
         const def = STATS[id];
         let raw = null;
         try {
-            raw = def.raw(snapshot);
+            raw = def.raw(snapshot, param);
         } catch {
             raw = null;
         }
         if (!isNum(raw))
             return {available: false, text: '--', norm: 0, factor: 0};
 
-        const level = def.level ? def.level(snapshot, raw) : raw;
+        const level = def.level ? def.level(snapshot, raw, param) : raw;
         const [activity, critical] = thresholds[def.threshold] ?? THRESHOLDS[def.threshold].defaults;
-        let text = def.text(snapshot, opts, raw);
+        let text = def.text(snapshot, opts, raw, param);
         if (opts.showUnits === false)
             text = stripUnits(text);
         return {
             available: true,
             text,
-            norm: clamp01(def.norm(raw, this.history(id), snapshot)),
+            norm: clamp01(def.norm(raw, this.history(key), snapshot)),
             factor: gradientFactor(level, activity, critical),
         };
     }

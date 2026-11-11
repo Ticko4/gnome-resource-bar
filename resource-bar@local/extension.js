@@ -14,7 +14,7 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import {Sampler} from './lib/sampler.js';
-import {STATS, StatModel, THRESHOLDS, gradientFactor, sourcesFor} from './lib/stats.js';
+import {STATS, StatModel, THRESHOLDS, gradientFactor, isValidKey, parseKey, sourcesFor} from './lib/stats.js';
 import {WHITE, fromCogl, mixColors, parseColor, withAlpha} from './lib/color.js';
 import {StatItem, iconFor} from './lib/widgets.js';
 import {ResourcePopup} from './lib/popup.js';
@@ -76,6 +76,11 @@ class ResourceIndicator extends PanelMenu.Button {
         this.menu.addAction('Configurações', () => ext.openPreferences(), 'preferences-system-symbolic');
         this.menu.connect('open-state-changed', (_menu, open) => ext.onMenuOpenChanged(open));
 
+        // Hidden probe that resolves the system accent color (-st-accent-color);
+        // St recomputes its theme node whenever the accent changes in Settings.
+        this._accentProbe = new St.Widget({style: 'color: -st-accent-color;', visible: false});
+        this.add_child(this._accentProbe);
+
         this.connect('style-changed', () => this._syncBaseColor());
     }
 
@@ -85,14 +90,18 @@ class ResourceIndicator extends PanelMenu.Button {
         this._base = fromCogl(this.get_theme_node().get_foreground_color());
     }
 
+    readAccent() {
+        if (!this._accentProbe.get_stage())
+            return this._base;
+        return fromCogl(this._accentProbe.get_theme_node().get_foreground_color());
+    }
+
     rebuild(config) {
         this._box.destroy_all_children();
         this._items = [];
         this._box.set_style(`spacing: ${config.spacing}px;`);
-        for (const id of config.stats) {
-            if (!STATS[id])
-                continue;
-            const item = new StatItem(id, STATS[id], config, this._ext.path);
+        for (const key of config.stats) {
+            const item = new StatItem(key, config, this._ext.path);
             this._box.add_child(item);
             this._items.push(item);
         }
@@ -108,15 +117,21 @@ class ResourceIndicator extends PanelMenu.Button {
     refresh(ctx) {
         const {snapshot, model, opts, thresholds, highlight} = ctx;
         const base = this._base;
+        // Graphs start from the accent color when enabled; gauges, icons and
+        // values keep the panel text color.
+        const graphBase = ctx.useAccent ? ctx.accent : base;
         for (const item of this._items) {
-            const id = item.statId;
-            const result = model.evaluate(id, snapshot, opts, thresholds);
-            const [activity, critical] = thresholds[STATS[id].threshold];
+            const key = item.statKey;
+            const result = model.evaluate(key, snapshot, opts, thresholds);
+            const [activity, critical] = thresholds[STATS[parseKey(key).id].threshold];
             item.update({
                 result,
                 color: mixColors(base, highlight, result.factor),
+                graphColor: mixColors(graphBase, highlight, result.factor),
                 colorFor: v => mixColors(base, highlight, gradientFactor(v, activity, critical)),
-                history: () => model.normalizedHistory(id, snapshot),
+                history: () => model.normalizedHistory(key, snapshot),
+                historyCount: model.count(key),
+                animMs: ctx.animMs,
                 cores: snapshot.cpu.cores,
                 capsuleBg: withAlpha(base, 0.1),
             });
@@ -163,13 +178,15 @@ export default class ResourceBarExtension extends Extension {
     _loadConfig() {
         const s = this._settings;
         const config = {
-            stats: s.get_strv('stats').filter(id => STATS[id]),
+            stats: s.get_strv('stats').filter(isValidKey),
             visualization: s.get_string('visualization'),
             showIcon: s.get_boolean('show-icon'),
             showValue: s.get_boolean('show-value'),
             showCpuCores: s.get_boolean('show-cpu-cores'),
             labelMinWidth: s.get_int('label-min-width'),
             capsule: s.get_boolean('use-capsule'),
+            useAccent: s.get_boolean('use-accent-color'),
+            smooth: s.get_boolean('smooth-animation'),
             spacing: s.get_int('spacing'),
         };
         // Like Noctalia: icon, value and visualization cannot all be hidden.
@@ -193,6 +210,7 @@ export default class ResourceBarExtension extends Extension {
             networkInterface: s.get_string('network-interface'),
             interval: this._intervalMs(),
         });
+        this._sampler.setDiskPaths(config.stats.map(k => parseKey(k).param).filter(Boolean));
         this._syncSources();
     }
 
@@ -270,7 +288,7 @@ export default class ResourceBarExtension extends Extension {
         // The extension may have been disabled while sampling.
         if (!fresh || sampler !== this._sampler)
             return;
-        this._model.push(sampler.snapshot);
+        this._model.push(sampler.snapshot, this._config.stats);
         this._refreshUi();
     }
 
@@ -284,6 +302,12 @@ export default class ResourceBarExtension extends Extension {
             thresholds: this._thresholds,
             highlight: this._highlight,
             hasGpu: this._sampler.hasGpu,
+            useAccent: this._config.useAccent,
+            // Glide slightly longer than the interval: the next sample
+            // normally arrives just before the motion ends and continues it
+            // from where it is, so gauges and graphs never stop and restart.
+            animMs: this._config.smooth ? Math.round(this._intervalMs() * 1.05) : 0,
+            accent: this._config.useAccent ? this._indicator.readAccent() : null,
         };
         this._indicator.refresh(ctx);
         if (this._menuOpen)

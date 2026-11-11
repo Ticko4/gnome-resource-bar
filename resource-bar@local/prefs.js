@@ -6,7 +6,8 @@ import Gtk from 'gi://Gtk';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import {STATS, STAT_IDS, THRESHOLDS} from './lib/stats.js';
+import {DISK_IDS, STATS, STAT_IDS, THRESHOLDS, isValidKey, makeKey, parseKey} from './lib/stats.js';
+import {mountName, parseMounts} from './lib/mounts.js';
 
 const VISUALIZATIONS = [
     ['gauge', 'Medidor'],
@@ -32,6 +33,15 @@ function listInterfaces() {
         return new TextDecoder().decode(bytes).split('\n').slice(2)
             .map(l => l.split(':')[0].trim())
             .filter(n => n && n !== 'lo');
+    } catch {
+        return [];
+    }
+}
+
+function listDisks() {
+    try {
+        const [, bytes] = GLib.file_get_contents('/proc/self/mounts');
+        return parseMounts(new TextDecoder().decode(bytes));
     } catch {
         return [];
     }
@@ -102,13 +112,28 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         statsGroup.add(list);
         page.add(statsGroup);
 
+        const disks = listDisks();
+
         const rebuildList = () => {
             list.remove_all();
-            const enabled = settings.get_strv('stats').filter(id => STATS[id]);
-            const save = ids => settings.set_strv('stats', ids);
+            const enabled = settings.get_strv('stats').filter(isValidKey);
+            const defaultDisk = settings.get_string('disk-path') || '/';
+            const save = keys => settings.set_strv('stats', keys);
+            // Mount a disk stat reads: its own param or the default disk.
+            const diskOf = key => {
+                const {id, param} = parseKey(key);
+                return DISK_IDS.includes(id) ? param || defaultDisk : null;
+            };
 
-            enabled.forEach((id, i) => {
-                const row = new Adw.ActionRow({title: STATS[id].name, subtitle: id});
+            enabled.forEach((key, i) => {
+                const {id, param} = parseKey(key);
+                let subtitle = id;
+                if (DISK_IDS.includes(id))
+                    subtitle = param ? `${id} · ${param}` : `${id} · padrão (${defaultDisk})`;
+                const row = new Adw.ActionRow({
+                    title: param ? `${STATS[id].name} — ${mountName(param)}` : STATS[id].name,
+                    subtitle,
+                });
                 row.add_prefix(this._icon(STATS[id].icon));
                 const mk = (icon, tooltip, sensitive, cb) => {
                     const b = new Gtk.Button({
@@ -122,39 +147,78 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
                     row.add_suffix(b);
                 };
                 mk('go-up-symbolic', 'Mover para cima', i > 0, () => {
-                    const ids = [...enabled];
-                    [ids[i - 1], ids[i]] = [ids[i], ids[i - 1]];
-                    save(ids);
+                    const keys = [...enabled];
+                    [keys[i - 1], keys[i]] = [keys[i], keys[i - 1]];
+                    save(keys);
                 });
                 mk('go-down-symbolic', 'Mover para baixo', i < enabled.length - 1, () => {
-                    const ids = [...enabled];
-                    [ids[i + 1], ids[i]] = [ids[i], ids[i + 1]];
-                    save(ids);
+                    const keys = [...enabled];
+                    [keys[i + 1], keys[i]] = [keys[i], keys[i + 1]];
+                    save(keys);
                 });
-                mk('user-trash-symbolic', 'Remover', true, () => save(enabled.filter(x => x !== id)));
+                mk('user-trash-symbolic', 'Remover', true, () => save(enabled.filter((_k, j) => j !== i)));
                 list.append(row);
             });
 
-            const available = STAT_IDS.filter(id => !enabled.includes(id));
+            // Disk stats can be added once per disk; the others only once.
+            const available = STAT_IDS.filter(id => DISK_IDS.includes(id) || !enabled.includes(id));
             if (available.length > 0) {
                 const addRow = new Adw.ActionRow({title: 'Adicionar métrica'});
                 const dropdown = Gtk.DropDown.new_from_strings(available.map(id => STATS[id].name));
                 dropdown.valign = Gtk.Align.CENTER;
+                const diskChoices = [['', `Padrão (${defaultDisk})`], ...disks.map(d => [d.path, mountName(d.path)])];
+                const diskDropdown = Gtk.DropDown.new_from_strings(diskChoices.map(c => c[1]));
+                diskDropdown.set({valign: Gtk.Align.CENTER, tooltip_text: 'Disco'});
+                const syncDisk = () => {
+                    diskDropdown.visible = DISK_IDS.includes(available[dropdown.selected]);
+                };
+                dropdown.connect('notify::selected', syncDisk);
+                syncDisk();
                 const add = new Gtk.Button({
                     icon_name: 'list-add-symbolic',
                     tooltip_text: 'Adicionar',
                     valign: Gtk.Align.CENTER,
                     css_classes: ['suggested-action', 'circular'],
                 });
-                add.connect('clicked', () => save([...enabled, available[dropdown.selected]]));
+                add.connect('clicked', () => {
+                    const id = available[dropdown.selected];
+                    const param = DISK_IDS.includes(id) ? diskChoices[diskDropdown.selected][0] : '';
+                    const key = makeKey(id, param);
+                    if (!enabled.includes(key))
+                        save([...enabled, key]);
+                });
                 addRow.add_suffix(dropdown);
+                addRow.add_suffix(diskDropdown);
                 addRow.add_suffix(add);
                 list.append(addRow);
             }
+
+            // One "Disco usado (%)" per disk that has no disk stat yet.
+            const shown = new Set(enabled.map(diskOf).filter(Boolean));
+            const missing = disks.filter(d => !shown.has(d.path));
+            const allRow = new Adw.ActionRow({
+                title: 'Todos os discos',
+                subtitle: missing.length > 0
+                    ? `Adiciona “Disco usado (%)” para: ${missing.map(d => mountName(d.path)).join(', ')}`
+                    : `Todos os ${disks.length} discos detectados já estão no painel`,
+            });
+            const addAll = new Gtk.Button({
+                label: 'Adicionar todos',
+                sensitive: missing.length > 0,
+                valign: Gtk.Align.CENTER,
+            });
+            addAll.connect('clicked', () =>
+                save([...enabled, ...missing.map(d => makeKey('disk_used_pct', d.path))]));
+            allRow.add_suffix(addAll);
+            list.append(allRow);
         };
         rebuildList();
         const statsId = settings.connect('changed::stats', rebuildList);
-        page.connect('destroy', () => settings.disconnect(statsId));
+        const diskId = settings.connect('changed::disk-path', rebuildList);
+        page.connect('destroy', () => {
+            settings.disconnect(statsId);
+            settings.disconnect(diskId);
+        });
 
         // Appearance
         const look = new Adw.PreferencesGroup({title: 'Aparência'});
@@ -170,8 +234,13 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
             {min: 0, max: 200, step: 1, subtitle: 'Em pixels; evita que o painel “pule” quando o número muda'}));
         look.add(spinRow(settings, 'spacing', 'Espaço entre métricas', {min: 0, max: 40, step: 1}));
 
+        look.add(switchRow(settings, 'smooth-animation', 'Animação suave',
+            'Medidores e gráficos deslizam entre leituras em vez de saltar a cada atualização'));
+        look.add(switchRow(settings, 'use-accent-color', 'Usar a cor de destaque do sistema nos gráficos',
+            'Só os gráficos usam a cor de destaque do GNOME; barras, ícones e valores continuam como estão'));
+
         const colorRow = new Adw.ActionRow({
-            title: 'Cor de destaque',
+            title: 'Cor de alerta',
             subtitle: 'Usada quando o valor passa dos limites de atividade e crítico',
         });
         const colorButton = new Gtk.ColorDialogButton({
@@ -225,7 +294,11 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
             {min: 0.5, max: 10, step: 0.5, digits: 1, subtitle: 'Segundos entre leituras'}));
         page.add(general);
 
-        const disk = new Adw.PreferencesGroup({title: 'Disco'});
+        const disk = new Adw.PreferencesGroup({
+            title: 'Disco padrão',
+            description: 'Usado pelas métricas de disco que não indicam um disco específico. ' +
+                'O menu do painel sempre lista todos os discos.',
+        });
         const diskRow = new Adw.EntryRow({
             title: 'Ponto de montagem',
             text: settings.get_string('disk-path'),
@@ -260,7 +333,7 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         const group = new Adw.PreferencesGroup({
             title: 'Limites de cor',
             description: 'Abaixo do limite de atividade a métrica usa a cor normal do painel. ' +
-                'Entre atividade e crítico ela vai em direção à cor de destaque; no crítico fica totalmente destacada.',
+                'Entre atividade e crítico ela vai em direção à cor de alerta; no crítico fica totalmente nessa cor.',
         });
 
         const read = () => settings.get_value('thresholds').deepUnpack();

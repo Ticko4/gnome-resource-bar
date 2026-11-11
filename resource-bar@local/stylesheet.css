@@ -18,6 +18,10 @@
   icon-size: 16px;
 }
 
+.resource-bar-tag {
+  font-size: 0.85em;
+}
+
 .resource-bar-value {
   font-feature-settings: "tnum";
   font-weight: 600;
@@ -32,12 +36,10 @@
 }
 
 
+/* Per-core gauges: one drawing; -bar-width/-bar-spacing size each pill. */
 .resource-bar-cores {
-  spacing: 1px;
-}
-
-.resource-bar-core-gauge {
-  width: 3px;
+  -bar-width: 3px;
+  -bar-spacing: 1px;
   height: 14px;
 }
 
@@ -107,17 +109,41 @@
 }
 
 .resource-bar-card-cores {
-  spacing: 2px;
+  -bar-width: 6px;
+  -bar-spacing: 2px;
+  height: 18px;
   margin-top: 2px;
 }
 
-.resource-bar-card-cores .resource-bar-core-gauge {
-  width: 6px;
-  height: 18px;
+.resource-bar-disk-list {
+  spacing: 6px;
+  margin-top: 2px;
 }
 
-.resource-bar-card-bar {
+.resource-bar-disk-row {
+  spacing: 10px;
+}
+
+.resource-bar-disk-name {
+  min-width: 110px;
+  font-feature-settings: "tnum";
+}
+
+.resource-bar-disk-bar {
   height: 8px;
-  margin-top: 6px;
+}
+
+.resource-bar-disk-pct {
+  min-width: 36px;
+  text-align: right;
+  font-weight: bold;
+  font-feature-settings: "tnum";
+}
+
+.resource-bar-disk-usage {
+  min-width: 120px;
+  text-align: right;
+  font-size: 0.85em;
+  font-feature-settings: "tnum";
 }
 
