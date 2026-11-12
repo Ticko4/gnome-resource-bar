@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-12 00:33+0000\n"
+"POT-Creation-Date: 2026-11-12 14:15+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Japanese\n"
@@ -34,6 +34,7 @@ msgid "Graph"
 msgstr "グラフ"
 
 #: resource-bar@ticko4.github.io/prefs.js:17
+#: resource-bar@ticko4.github.io/prefs.js:322
 msgid "None"
 msgstr "なし"
 
@@ -65,15 +66,15 @@ msgstr "右"
 msgid "Automatic"
 msgstr "自動"
 
-#: resource-bar@ticko4.github.io/prefs.js:113
+#: resource-bar@ticko4.github.io/prefs.js:146
 msgid "Top Bar"
 msgstr "トップバー"
 
-#: resource-bar@ticko4.github.io/prefs.js:116
+#: resource-bar@ticko4.github.io/prefs.js:149
 msgid "Metrics in the top bar"
 msgstr "トップバーのメトリクス"
 
-#: resource-bar@ticko4.github.io/prefs.js:117
+#: resource-bar@ticko4.github.io/prefs.js:150
 msgid ""
 "Each metric becomes an item with an icon, a gauge or graph and its value, "
 "like Noctalia’s sysmon widget."
@@ -81,174 +82,214 @@ msgstr ""
 "各メトリクスは、アイコン、ゲージまたはグラフ、値を持つ項目になります "
 "(Noctalia の sysmon ウィジェットと同様)。"
 
-#: resource-bar@ticko4.github.io/prefs.js:140
+#: resource-bar@ticko4.github.io/prefs.js:173
 #, javascript-format
 msgid "default (%s)"
 msgstr "デフォルト (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:157
+#: resource-bar@ticko4.github.io/prefs.js:190
 msgid "Move up"
 msgstr "上へ移動"
 
-#: resource-bar@ticko4.github.io/prefs.js:162
+#: resource-bar@ticko4.github.io/prefs.js:195
 msgid "Move down"
 msgstr "下へ移動"
 
-#: resource-bar@ticko4.github.io/prefs.js:167
+#: resource-bar@ticko4.github.io/prefs.js:200
 msgid "Remove"
 msgstr "削除"
 
-#: resource-bar@ticko4.github.io/prefs.js:174
+#: resource-bar@ticko4.github.io/prefs.js:207
 msgid "Add metric"
 msgstr "メトリクスを追加"
 
-#: resource-bar@ticko4.github.io/prefs.js:177
+#: resource-bar@ticko4.github.io/prefs.js:210
 #, javascript-format
 msgid "Default (%s)"
 msgstr "デフォルト (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:179
+#: resource-bar@ticko4.github.io/prefs.js:212
 msgid "Disk"
 msgstr "ディスク"
 
-#: resource-bar@ticko4.github.io/prefs.js:187
+#: resource-bar@ticko4.github.io/prefs.js:220
 msgid "Add"
 msgstr "追加"
 
-#: resource-bar@ticko4.github.io/prefs.js:208
+#: resource-bar@ticko4.github.io/prefs.js:241
 msgid "All disks"
 msgstr "すべてのディスク"
 
 #. TRANSLATORS: %s is a list of disk names.
-#: resource-bar@ticko4.github.io/prefs.js:211
+#: resource-bar@ticko4.github.io/prefs.js:244
 msgid "Adds “Disk used (%)” for: %s"
 msgstr "「ディスク使用率 (%)」を追加する対象: %s"
 
-#: resource-bar@ticko4.github.io/prefs.js:212
+#: resource-bar@ticko4.github.io/prefs.js:245
 #, javascript-format
 msgid "The %d detected disk is already in the top bar"
 msgid_plural "All %d detected disks are already in the top bar"
 msgstr[0] "検出された %d 台のディスクはすべてトップバーに追加済みです"
 
-#: resource-bar@ticko4.github.io/prefs.js:216
+#: resource-bar@ticko4.github.io/prefs.js:249
 msgid "Add all"
 msgstr "すべて追加"
 
-#: resource-bar@ticko4.github.io/prefs.js:234
+#: resource-bar@ticko4.github.io/prefs.js:267
 msgid "Appearance"
 msgstr "外観"
 
-#: resource-bar@ticko4.github.io/prefs.js:235
+#: resource-bar@ticko4.github.io/prefs.js:268
 msgid "Visualization"
 msgstr "表示形式"
 
-#: resource-bar@ticko4.github.io/prefs.js:236
+#: resource-bar@ticko4.github.io/prefs.js:269
 msgid "Vertical pill gauge or a graph of the last 30 readings"
 msgstr "縦長のピル型ゲージ、または直近 30 回の測定値のグラフ"
 
-#: resource-bar@ticko4.github.io/prefs.js:237
+#: resource-bar@ticko4.github.io/prefs.js:270
 msgid "Show icon"
 msgstr "アイコンを表示"
 
-#: resource-bar@ticko4.github.io/prefs.js:238
+#: resource-bar@ticko4.github.io/prefs.js:271
 msgid "Show value"
 msgstr "値を表示"
 
-#: resource-bar@ticko4.github.io/prefs.js:239
+#: resource-bar@ticko4.github.io/prefs.js:272
 msgid "Show units"
 msgstr "単位を表示"
 
-#: resource-bar@ticko4.github.io/prefs.js:239
+#: resource-bar@ticko4.github.io/prefs.js:272
 msgid "Off: “45” instead of “45°C”"
 msgstr "オフ: 「45°C」ではなく「45」"
 
-#: resource-bar@ticko4.github.io/prefs.js:240
+#: resource-bar@ticko4.github.io/prefs.js:273
 msgid "Per-core gauge"
 msgstr "コアごとのゲージ"
 
-#: resource-bar@ticko4.github.io/prefs.js:241
+#: resource-bar@ticko4.github.io/prefs.js:274
 msgid "For CPU usage in gauge mode, one bar per core"
 msgstr "ゲージ表示の CPU 使用率で、コアごとに 1 本のバーを表示します"
 
-#: resource-bar@ticko4.github.io/prefs.js:242
+#: resource-bar@ticko4.github.io/prefs.js:275
 msgid "Minimum value width"
 msgstr "値の最小幅"
 
-#: resource-bar@ticko4.github.io/prefs.js:243
+#: resource-bar@ticko4.github.io/prefs.js:276
 msgid "In pixels; reserves room so the top bar does not shift"
 msgstr "ピクセル単位。トップバーがずれないように領域を確保します"
 
-#: resource-bar@ticko4.github.io/prefs.js:244
+#: resource-bar@ticko4.github.io/prefs.js:277
 msgid "Spacing between metrics"
 msgstr "メトリクスの間隔"
 
-#: resource-bar@ticko4.github.io/prefs.js:246
+#: resource-bar@ticko4.github.io/prefs.js:279
 msgid "Smooth animation"
 msgstr "スムーズなアニメーション"
 
-#: resource-bar@ticko4.github.io/prefs.js:247
+#: resource-bar@ticko4.github.io/prefs.js:280
 msgid ""
 "Gauges and graphs glide between readings instead of jumping on every update"
 msgstr ""
 "ゲージとグラフが更新のたびに飛ぶのではなく、測定値の間をなめらかに移動します"
 
-#: resource-bar@ticko4.github.io/prefs.js:248
+#: resource-bar@ticko4.github.io/prefs.js:281
 msgid "Graph colors"
 msgstr "グラフの色"
 
-#: resource-bar@ticko4.github.io/prefs.js:249
+#: resource-bar@ticko4.github.io/prefs.js:282
 msgid "Only graphs change; gauges, icons and values stay as they are"
 msgstr "変わるのはグラフのみで、ゲージ、アイコン、値はそのままです"
 
-#: resource-bar@ticko4.github.io/prefs.js:252
+#: resource-bar@ticko4.github.io/prefs.js:285
 msgid "Alert color"
 msgstr "警告色"
 
-#: resource-bar@ticko4.github.io/prefs.js:253
+#: resource-bar@ticko4.github.io/prefs.js:286
 msgid "Used when a value goes past its activity and critical thresholds"
 msgstr "値がアクティビティとクリティカルのしきい値を超えたときに使用します"
 
-#: resource-bar@ticko4.github.io/prefs.js:274
+#: resource-bar@ticko4.github.io/prefs.js:307
 msgid "Reset to default"
 msgstr "デフォルトに戻す"
 
-#: resource-bar@ticko4.github.io/prefs.js:287
+#: resource-bar@ticko4.github.io/prefs.js:320
+msgid "Menu"
+msgstr "メニュー"
+
+#: resource-bar@ticko4.github.io/prefs.js:321
+msgid "Top processes"
+msgstr "上位のプロセス"
+
+#: resource-bar@ticko4.github.io/prefs.js:323
+msgid "Processes using the most CPU or memory, listed in the menu"
+msgstr "CPU またはメモリーの使用量が多いプロセスをメニューに表示します"
+
+#: resource-bar@ticko4.github.io/prefs.js:324
+msgid "CPU average"
+msgstr "CPU の平均"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "30 seconds"
+msgstr "30 秒"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "1 minute"
+msgstr "1 分"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "5 minutes"
+msgstr "5 分"
+
+#: resource-bar@ticko4.github.io/prefs.js:326
+msgid "Time span of the processes’ CPU usage; memory is the current value"
+msgstr "プロセスの CPU 使用率を平均する期間。メモリーは現在の値です"
+
+#: resource-bar@ticko4.github.io/prefs.js:330
 msgid "Position"
 msgstr "位置"
 
-#: resource-bar@ticko4.github.io/prefs.js:288
+#: resource-bar@ticko4.github.io/prefs.js:331
 msgid "Top bar area"
 msgstr "トップバーの領域"
 
-#: resource-bar@ticko4.github.io/prefs.js:289
+#: resource-bar@ticko4.github.io/prefs.js:332
 msgid "Position in the area"
 msgstr "領域内の位置"
 
-#: resource-bar@ticko4.github.io/prefs.js:290
+#: resource-bar@ticko4.github.io/prefs.js:333
 msgid "0 = first item; -1 = last"
 msgstr "0 = 最初の項目、-1 = 最後"
 
-#: resource-bar@ticko4.github.io/prefs.js:299
+#: resource-bar@ticko4.github.io/prefs.js:342
 msgid "Monitoring"
 msgstr "モニタリング"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
+#: resource-bar@ticko4.github.io/prefs.js:344
 msgid "General"
 msgstr "全般"
 
-#: resource-bar@ticko4.github.io/prefs.js:302
+#: resource-bar@ticko4.github.io/prefs.js:345
 msgid "Update interval"
 msgstr "更新間隔"
 
-#: resource-bar@ticko4.github.io/prefs.js:303
+#: resource-bar@ticko4.github.io/prefs.js:346
 msgid "Seconds between readings"
 msgstr "測定の間隔 (秒)"
 
-#: resource-bar@ticko4.github.io/prefs.js:307
+#: resource-bar@ticko4.github.io/prefs.js:347
+msgid "Pause in fullscreen"
+msgstr "フルスクリーン時に一時停止"
+
+#: resource-bar@ticko4.github.io/prefs.js:348
+msgid "Stop reading data while a fullscreen app or game hides the top bar"
+msgstr "フルスクリーンのアプリやゲームがトップバーを隠している間はデータを読み取りません"
+
+#: resource-bar@ticko4.github.io/prefs.js:352
 msgid "Default disk"
 msgstr "デフォルトのディスク"
 
-#: resource-bar@ticko4.github.io/prefs.js:308
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid ""
 "Used by disk metrics that do not name a specific disk. The menu always lists "
 "every disk."
@@ -256,48 +297,48 @@ msgstr ""
 "特定のディスクを指定していないディスクのメトリクスで使用します。メニューには"
 "常にすべてのディスクが表示されます。"
 
-#: resource-bar@ticko4.github.io/prefs.js:311
+#: resource-bar@ticko4.github.io/prefs.js:356
 msgid "Mount point"
 msgstr "マウントポイント"
 
-#: resource-bar@ticko4.github.io/prefs.js:322
-#: resource-bar@ticko4.github.io/lib/popup.js:227
+#: resource-bar@ticko4.github.io/prefs.js:367
+#: resource-bar@ticko4.github.io/lib/popup.js:298
 msgid "Network"
 msgstr "ネットワーク"
 
-#: resource-bar@ticko4.github.io/prefs.js:327
+#: resource-bar@ticko4.github.io/prefs.js:372
 msgid "Interface"
 msgstr "インターフェース"
 
-#: resource-bar@ticko4.github.io/prefs.js:328
+#: resource-bar@ticko4.github.io/prefs.js:373
 msgid "Automatic (physical interfaces)"
 msgstr "自動 (物理インターフェース)"
 
-#: resource-bar@ticko4.github.io/prefs.js:329
+#: resource-bar@ticko4.github.io/prefs.js:374
 msgid "Unit"
 msgstr "単位"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "Compact format"
 msgstr "コンパクト表示"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "E.g. “1.2M” instead of “1.2 MB/s”"
 msgstr "例: 「1.2 MB/s」ではなく「1.2M」"
 
-#: resource-bar@ticko4.github.io/prefs.js:331
+#: resource-bar@ticko4.github.io/prefs.js:376
 msgid "Decimal places (compact)"
 msgstr "小数点以下の桁数 (コンパクト)"
 
-#: resource-bar@ticko4.github.io/prefs.js:340
+#: resource-bar@ticko4.github.io/prefs.js:385
 msgid "Thresholds"
 msgstr "しきい値"
 
-#: resource-bar@ticko4.github.io/prefs.js:342
+#: resource-bar@ticko4.github.io/prefs.js:387
 msgid "Color thresholds"
 msgstr "色のしきい値"
 
-#: resource-bar@ticko4.github.io/prefs.js:343
+#: resource-bar@ticko4.github.io/prefs.js:388
 msgid ""
 "Below the activity threshold a metric uses the normal top bar color. Between "
 "activity and critical it moves toward the alert color, and at critical it is "
@@ -307,79 +348,97 @@ msgstr ""
 "ます。アクティビティとクリティカルの間では警告色に近づき、クリティカルでは完"
 "全に警告色になります。"
 
-#: resource-bar@ticko4.github.io/prefs.js:371
+#: resource-bar@ticko4.github.io/prefs.js:416
 msgid "Activity"
 msgstr "アクティビティ"
 
-#: resource-bar@ticko4.github.io/prefs.js:372
+#: resource-bar@ticko4.github.io/prefs.js:417
 msgid "Critical"
 msgstr "クリティカル"
 
-#: resource-bar@ticko4.github.io/prefs.js:396
+#: resource-bar@ticko4.github.io/prefs.js:441
 msgid "Reset thresholds"
 msgstr "しきい値をリセット"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:226
+#: resource-bar@ticko4.github.io/lib/popup.js:297
+#: resource-bar@ticko4.github.io/lib/popup.js:320
 #: resource-bar@ticko4.github.io/lib/stats.js:35
 msgid "Memory"
 msgstr "メモリ"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:228
+#: resource-bar@ticko4.github.io/lib/popup.js:299
 msgid "Disks"
 msgstr "ディスク"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:238
+#: resource-bar@ticko4.github.io/lib/popup.js:309
 msgctxt "disks card"
 msgid "Space"
 msgstr "使用量"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:239
+#: resource-bar@ticko4.github.io/lib/popup.js:310
 msgctxt "disks card"
 msgid "Activity"
 msgstr "稼働率"
 
+#: resource-bar@ticko4.github.io/lib/popup.js:318
+msgid "Processes"
+msgstr "プロセス"
+
 #. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
-#: resource-bar@ticko4.github.io/lib/popup.js:304
+#: resource-bar@ticko4.github.io/lib/popup.js:384
 #, javascript-format
 msgid "Load %s   ·   Up %s"
 msgstr "負荷 %s   ·   稼働時間 %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:399
 #, javascript-format
 msgid "%d core"
 msgid_plural "%d cores"
 msgstr[0] "%d コア"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:335
+#: resource-bar@ticko4.github.io/lib/popup.js:415
 msgid "No swap"
 msgstr "スワップなし"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:350
+#: resource-bar@ticko4.github.io/lib/popup.js:430
 #, javascript-format
 msgid "Interface %s"
 msgstr "インターフェース %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:350
+#: resource-bar@ticko4.github.io/lib/popup.js:430
 msgid "Physical interfaces"
 msgstr "物理インターフェース"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:394
+#: resource-bar@ticko4.github.io/lib/popup.js:474
 #, javascript-format
 msgid "%d disk"
 msgid_plural "%d disks"
 msgstr[0] "%d 台"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:396
+#: resource-bar@ticko4.github.io/lib/popup.js:476
+#: resource-bar@ticko4.github.io/lib/popup.js:535
 msgid "Calculating…"
 msgstr "計算中…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:409
+#: resource-bar@ticko4.github.io/lib/popup.js:491
 msgid "Suspended (power saving)"
 msgstr "サスペンド中 (省電力)"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:419
+#: resource-bar@ticko4.github.io/lib/popup.js:501
 msgid "Waiting for data…"
 msgstr "データを待機中…"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:526
+msgid "CPU: average over the last 30 seconds"
+msgstr "CPU: 直近 30 秒の平均"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:527
+msgid "CPU: average over the last minute"
+msgstr "CPU: 直近 1 分の平均"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:528
+msgid "CPU: average over the last 5 minutes"
+msgstr "CPU: 直近 5 分の平均"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:29
 #: resource-bar@ticko4.github.io/lib/stats.js:132

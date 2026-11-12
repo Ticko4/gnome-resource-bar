@@ -24,7 +24,19 @@ For GNOME Shell 51 (Wayland and X11 sessions alike). The interface follows the s
 | `net_rx`, `net_tx` | Download / upload | `/proc/net/dev` (physical interfaces by default) |
 
 Clicking the item opens a menu with cards for CPU (with per-core bars), memory and swap, network
-(download and upload on one graph) and GPU, plus every mounted disk, and the load average and uptime.
+(download and upload on one graph) and GPU, every mounted disk, the processes using the most CPU or memory,
+and the load average and uptime.
+
+### Top processes
+
+The **Processes** card lists up to five processes (none to five, set in the preferences; three by default),
+sorted by CPU or memory with the **CPU | Memory** switch on the card. Processes that belong to an app with a
+window show its icon and name. CPU is the share of the whole machine averaged over the last 30 seconds,
+1 minute (default) or 5 minutes, so the list stays stable instead of reshuffling every second; memory is
+the current resident set. Processes are read every 5 seconds in the background (only while the option is not
+“None”), so the average is ready the moment the menu opens, and every update while it is open. All
+`/proc/*/stat` files are read by a single short-lived `cat`, which keeps the cost at about 0.5 % of one
+CPU core in the background.
 
 ### Disks
 
@@ -57,13 +69,13 @@ log out and back in for it to appear. `./install.sh --pack` builds the zip for e
 
 `gnome-extensions prefs resource-bar@ticko4.github.io`, or **Settings** in the extension’s menu:
 
-- **Top Bar**: which metrics and in what order; visualization (gauge, graph or none); icon, value, units,
+- **Top Bar**: number of top processes in the menu; which metrics and in what order; visualization (gauge, graph or none); icon, value, units,
   per-core gauge, minimum value width, spacing, smooth animation, graph colors (default, the system accent
   color, or one color per resource like the Resources app: CPU blue, memory purple, GPU red, disks orange,
   network teal; only graphs change), alert color (default `#FD4663`, Noctalia’s “error”); area and
   position in the top bar.
-- **Monitoring**: update interval (1 s by default), default disk, network interface, speed unit and
-  compact format.
+- **Monitoring**: update interval (1 s by default), pause in fullscreen (on by default), default disk,
+  network interface, speed unit and compact format.
 - **Thresholds**: activity/critical per metric group, with Noctalia’s defaults (CPU 50/90 %,
   temperature 60/85 °C, memory 60/90 %, swap 20/80 %, disk 80/95 %, disk activity 50/90 %,
   network 1/50 MB/s…).
@@ -72,6 +84,9 @@ log out and back in for it to appear. `./install.sh --pack` builds the zip for e
 
 - Every read is asynchronous (`Gio.File.load_contents_async`, `query_filesystem_info_async`, async sensor
   discovery), so the shell never waits on the kernel.
+- Pause in fullscreen (on by default): while a fullscreen app or game on the primary monitor hides the top
+  bar, nothing is read at all (no timer, no `nvidia-smi`, no process list); when the bar comes back the
+  extension reads again at once and graphs start fresh.
 - Only what is needed is read: GPU and CPU frequency only while they are in the top bar or the menu is open.
 - NVIDIA: a single `nvidia-smi --loop-ms` process runs while the GPU is needed (much cheaper than
   starting it every second) and is stopped afterwards. Runtime-suspended GPUs are not woken up.

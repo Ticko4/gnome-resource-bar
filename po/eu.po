@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-12 00:33+0000\n"
+"POT-Creation-Date: 2026-11-12 14:15+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Basque\n"
@@ -34,6 +34,7 @@ msgid "Graph"
 msgstr "Grafikoa"
 
 #: resource-bar@ticko4.github.io/prefs.js:17
+#: resource-bar@ticko4.github.io/prefs.js:322
 msgid "None"
 msgstr "Bat ere ez"
 
@@ -65,15 +66,15 @@ msgstr "Eskuina"
 msgid "Automatic"
 msgstr "Automatikoa"
 
-#: resource-bar@ticko4.github.io/prefs.js:113
+#: resource-bar@ticko4.github.io/prefs.js:146
 msgid "Top Bar"
 msgstr "Goiko barra"
 
-#: resource-bar@ticko4.github.io/prefs.js:116
+#: resource-bar@ticko4.github.io/prefs.js:149
 msgid "Metrics in the top bar"
 msgstr "Goiko barrako metrikak"
 
-#: resource-bar@ticko4.github.io/prefs.js:117
+#: resource-bar@ticko4.github.io/prefs.js:150
 msgid ""
 "Each metric becomes an item with an icon, a gauge or graph and its value, "
 "like Noctalia’s sysmon widget."
@@ -81,180 +82,220 @@ msgstr ""
 "Metrika bakoitza elementu bihurtzen da, ikono batekin, neurgailu edo grafiko "
 "batekin eta bere balioarekin, Noctaliaren sysmon trepetak bezala."
 
-#: resource-bar@ticko4.github.io/prefs.js:140
+#: resource-bar@ticko4.github.io/prefs.js:173
 #, javascript-format
 msgid "default (%s)"
 msgstr "lehenetsia (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:157
+#: resource-bar@ticko4.github.io/prefs.js:190
 msgid "Move up"
 msgstr "Eraman gora"
 
-#: resource-bar@ticko4.github.io/prefs.js:162
+#: resource-bar@ticko4.github.io/prefs.js:195
 msgid "Move down"
 msgstr "Eraman behera"
 
-#: resource-bar@ticko4.github.io/prefs.js:167
+#: resource-bar@ticko4.github.io/prefs.js:200
 msgid "Remove"
 msgstr "Kendu"
 
-#: resource-bar@ticko4.github.io/prefs.js:174
+#: resource-bar@ticko4.github.io/prefs.js:207
 msgid "Add metric"
 msgstr "Gehitu metrika"
 
-#: resource-bar@ticko4.github.io/prefs.js:177
+#: resource-bar@ticko4.github.io/prefs.js:210
 #, javascript-format
 msgid "Default (%s)"
 msgstr "Lehenetsia (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:179
+#: resource-bar@ticko4.github.io/prefs.js:212
 msgid "Disk"
 msgstr "Diskoa"
 
-#: resource-bar@ticko4.github.io/prefs.js:187
+#: resource-bar@ticko4.github.io/prefs.js:220
 msgid "Add"
 msgstr "Gehitu"
 
-#: resource-bar@ticko4.github.io/prefs.js:208
+#: resource-bar@ticko4.github.io/prefs.js:241
 msgid "All disks"
 msgstr "Disko guztiak"
 
 #. TRANSLATORS: %s is a list of disk names.
-#: resource-bar@ticko4.github.io/prefs.js:211
+#: resource-bar@ticko4.github.io/prefs.js:244
 msgid "Adds “Disk used (%)” for: %s"
 msgstr "“Erabilitako diskoa (%)” gehitzen du hauentzat: %s"
 
-#: resource-bar@ticko4.github.io/prefs.js:212
+#: resource-bar@ticko4.github.io/prefs.js:245
 #, javascript-format
 msgid "The %d detected disk is already in the top bar"
 msgid_plural "All %d detected disks are already in the top bar"
 msgstr[0] "Detektatutako %d diskoa goiko barran dago dagoeneko"
 msgstr[1] "Detektatutako %d disko guztiak goiko barran daude dagoeneko"
 
-#: resource-bar@ticko4.github.io/prefs.js:216
+#: resource-bar@ticko4.github.io/prefs.js:249
 msgid "Add all"
 msgstr "Gehitu denak"
 
-#: resource-bar@ticko4.github.io/prefs.js:234
+#: resource-bar@ticko4.github.io/prefs.js:267
 msgid "Appearance"
 msgstr "Itxura"
 
-#: resource-bar@ticko4.github.io/prefs.js:235
+#: resource-bar@ticko4.github.io/prefs.js:268
 msgid "Visualization"
 msgstr "Bistaratzea"
 
-#: resource-bar@ticko4.github.io/prefs.js:236
+#: resource-bar@ticko4.github.io/prefs.js:269
 msgid "Vertical pill gauge or a graph of the last 30 readings"
 msgstr "Pilula itxurako neurgailu bertikala edo azken 30 irakurketen grafikoa"
 
-#: resource-bar@ticko4.github.io/prefs.js:237
+#: resource-bar@ticko4.github.io/prefs.js:270
 msgid "Show icon"
 msgstr "Erakutsi ikonoa"
 
-#: resource-bar@ticko4.github.io/prefs.js:238
+#: resource-bar@ticko4.github.io/prefs.js:271
 msgid "Show value"
 msgstr "Erakutsi balioa"
 
-#: resource-bar@ticko4.github.io/prefs.js:239
+#: resource-bar@ticko4.github.io/prefs.js:272
 msgid "Show units"
 msgstr "Erakutsi unitateak"
 
-#: resource-bar@ticko4.github.io/prefs.js:239
+#: resource-bar@ticko4.github.io/prefs.js:272
 msgid "Off: “45” instead of “45°C”"
 msgstr "Desaktibatuta: “45” erakusten du, ez “45°C”"
 
-#: resource-bar@ticko4.github.io/prefs.js:240
+#: resource-bar@ticko4.github.io/prefs.js:273
 msgid "Per-core gauge"
 msgstr "Nukleo bakoitzeko neurgailua"
 
-#: resource-bar@ticko4.github.io/prefs.js:241
+#: resource-bar@ticko4.github.io/prefs.js:274
 msgid "For CPU usage in gauge mode, one bar per core"
 msgstr "CPUaren erabilerarako neurgailu moduan, barra bat nukleo bakoitzeko"
 
-#: resource-bar@ticko4.github.io/prefs.js:242
+#: resource-bar@ticko4.github.io/prefs.js:275
 msgid "Minimum value width"
 msgstr "Balioaren gutxieneko zabalera"
 
-#: resource-bar@ticko4.github.io/prefs.js:243
+#: resource-bar@ticko4.github.io/prefs.js:276
 msgid "In pixels; reserves room so the top bar does not shift"
 msgstr "Pixeletan; lekua gordetzen du goiko barra mugi ez dadin"
 
-#: resource-bar@ticko4.github.io/prefs.js:244
+#: resource-bar@ticko4.github.io/prefs.js:277
 msgid "Spacing between metrics"
 msgstr "Metriken arteko tartea"
 
-#: resource-bar@ticko4.github.io/prefs.js:246
+#: resource-bar@ticko4.github.io/prefs.js:279
 msgid "Smooth animation"
 msgstr "Animazio leuna"
 
-#: resource-bar@ticko4.github.io/prefs.js:247
+#: resource-bar@ticko4.github.io/prefs.js:280
 msgid ""
 "Gauges and graphs glide between readings instead of jumping on every update"
 msgstr ""
 "Neurgailuak eta grafikoak leunki igarotzen dira irakurketa batetik bestera, "
 "eguneraketa bakoitzean jauzi egin beharrean"
 
-#: resource-bar@ticko4.github.io/prefs.js:248
+#: resource-bar@ticko4.github.io/prefs.js:281
 msgid "Graph colors"
 msgstr "Grafikoen koloreak"
 
-#: resource-bar@ticko4.github.io/prefs.js:249
+#: resource-bar@ticko4.github.io/prefs.js:282
 msgid "Only graphs change; gauges, icons and values stay as they are"
 msgstr ""
 "Grafikoak soilik aldatzen dira; neurgailuak, ikonoak eta balioak bere "
 "horretan geratzen dira"
 
-#: resource-bar@ticko4.github.io/prefs.js:252
+#: resource-bar@ticko4.github.io/prefs.js:285
 msgid "Alert color"
 msgstr "Alerta-kolorea"
 
-#: resource-bar@ticko4.github.io/prefs.js:253
+#: resource-bar@ticko4.github.io/prefs.js:286
 msgid "Used when a value goes past its activity and critical thresholds"
 msgstr ""
 "Balio batek jarduera-atalasea eta atalase kritikoa gainditzen dituenean "
 "erabiltzen da"
 
-#: resource-bar@ticko4.github.io/prefs.js:274
+#: resource-bar@ticko4.github.io/prefs.js:307
 msgid "Reset to default"
 msgstr "Berrezarri lehenetsia"
 
-#: resource-bar@ticko4.github.io/prefs.js:287
+#: resource-bar@ticko4.github.io/prefs.js:320
+msgid "Menu"
+msgstr "Menua"
+
+#: resource-bar@ticko4.github.io/prefs.js:321
+msgid "Top processes"
+msgstr "Prozesu nagusiak"
+
+#: resource-bar@ticko4.github.io/prefs.js:323
+msgid "Processes using the most CPU or memory, listed in the menu"
+msgstr "CPU edo memoria gehien erabiltzen duten prozesuak, menuan zerrendatuta"
+
+#: resource-bar@ticko4.github.io/prefs.js:324
+msgid "CPU average"
+msgstr "CPU batez bestekoa"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "30 seconds"
+msgstr "30 segundo"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "1 minute"
+msgstr "Minutu 1"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "5 minutes"
+msgstr "5 minutu"
+
+#: resource-bar@ticko4.github.io/prefs.js:326
+msgid "Time span of the processes’ CPU usage; memory is the current value"
+msgstr "Prozesuen CPU erabileraren tartea; memoria uneko balioa da"
+
+#: resource-bar@ticko4.github.io/prefs.js:330
 msgid "Position"
 msgstr "Posizioa"
 
-#: resource-bar@ticko4.github.io/prefs.js:288
+#: resource-bar@ticko4.github.io/prefs.js:331
 msgid "Top bar area"
 msgstr "Goiko barrako eremua"
 
-#: resource-bar@ticko4.github.io/prefs.js:289
+#: resource-bar@ticko4.github.io/prefs.js:332
 msgid "Position in the area"
 msgstr "Eremuko posizioa"
 
-#: resource-bar@ticko4.github.io/prefs.js:290
+#: resource-bar@ticko4.github.io/prefs.js:333
 msgid "0 = first item; -1 = last"
 msgstr "0 = lehen elementua; -1 = azkena"
 
-#: resource-bar@ticko4.github.io/prefs.js:299
+#: resource-bar@ticko4.github.io/prefs.js:342
 msgid "Monitoring"
 msgstr "Monitorizazioa"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
+#: resource-bar@ticko4.github.io/prefs.js:344
 msgid "General"
 msgstr "Orokorra"
 
-#: resource-bar@ticko4.github.io/prefs.js:302
+#: resource-bar@ticko4.github.io/prefs.js:345
 msgid "Update interval"
 msgstr "Eguneratze-tartea"
 
-#: resource-bar@ticko4.github.io/prefs.js:303
+#: resource-bar@ticko4.github.io/prefs.js:346
 msgid "Seconds between readings"
 msgstr "Irakurketen arteko segundoak"
 
-#: resource-bar@ticko4.github.io/prefs.js:307
+#: resource-bar@ticko4.github.io/prefs.js:347
+msgid "Pause in fullscreen"
+msgstr "Pausatu pantaila osoan"
+
+#: resource-bar@ticko4.github.io/prefs.js:348
+msgid "Stop reading data while a fullscreen app or game hides the top bar"
+msgstr "Utzi datuak irakurtzeari pantaila osoko aplikazio edo joko batek goiko barra ezkutatzen duen bitartean"
+
+#: resource-bar@ticko4.github.io/prefs.js:352
 msgid "Default disk"
 msgstr "Disko lehenetsia"
 
-#: resource-bar@ticko4.github.io/prefs.js:308
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid ""
 "Used by disk metrics that do not name a specific disk. The menu always lists "
 "every disk."
@@ -262,48 +303,48 @@ msgstr ""
 "Disko jakin bat adierazten ez duten disko-metrikek erabiltzen dute. Menuak "
 "disko guztiak erakusten ditu beti."
 
-#: resource-bar@ticko4.github.io/prefs.js:311
+#: resource-bar@ticko4.github.io/prefs.js:356
 msgid "Mount point"
 msgstr "Muntatze-puntua"
 
-#: resource-bar@ticko4.github.io/prefs.js:322
-#: resource-bar@ticko4.github.io/lib/popup.js:227
+#: resource-bar@ticko4.github.io/prefs.js:367
+#: resource-bar@ticko4.github.io/lib/popup.js:298
 msgid "Network"
 msgstr "Sarea"
 
-#: resource-bar@ticko4.github.io/prefs.js:327
+#: resource-bar@ticko4.github.io/prefs.js:372
 msgid "Interface"
 msgstr "Interfazea"
 
-#: resource-bar@ticko4.github.io/prefs.js:328
+#: resource-bar@ticko4.github.io/prefs.js:373
 msgid "Automatic (physical interfaces)"
 msgstr "Automatikoa (interfaze fisikoak)"
 
-#: resource-bar@ticko4.github.io/prefs.js:329
+#: resource-bar@ticko4.github.io/prefs.js:374
 msgid "Unit"
 msgstr "Unitatea"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "Compact format"
 msgstr "Formatu trinkoa"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "E.g. “1.2M” instead of “1.2 MB/s”"
 msgstr "Adib. “1.2M”, ez “1.2 MB/s”"
 
-#: resource-bar@ticko4.github.io/prefs.js:331
+#: resource-bar@ticko4.github.io/prefs.js:376
 msgid "Decimal places (compact)"
 msgstr "Hamartarrak (trinkoa)"
 
-#: resource-bar@ticko4.github.io/prefs.js:340
+#: resource-bar@ticko4.github.io/prefs.js:385
 msgid "Thresholds"
 msgstr "Atalaseak"
 
-#: resource-bar@ticko4.github.io/prefs.js:342
+#: resource-bar@ticko4.github.io/prefs.js:387
 msgid "Color thresholds"
 msgstr "Kolore-atalaseak"
 
-#: resource-bar@ticko4.github.io/prefs.js:343
+#: resource-bar@ticko4.github.io/prefs.js:388
 msgid ""
 "Below the activity threshold a metric uses the normal top bar color. Between "
 "activity and critical it moves toward the alert color, and at critical it is "
@@ -313,81 +354,99 @@ msgstr ""
 "du. Jardueraren eta kritikoaren artean alerta-kolorera hurbiltzen da, eta "
 "kritikoan erabat kolore hori hartzen du."
 
-#: resource-bar@ticko4.github.io/prefs.js:371
+#: resource-bar@ticko4.github.io/prefs.js:416
 msgid "Activity"
 msgstr "Jarduera"
 
-#: resource-bar@ticko4.github.io/prefs.js:372
+#: resource-bar@ticko4.github.io/prefs.js:417
 msgid "Critical"
 msgstr "Kritikoa"
 
-#: resource-bar@ticko4.github.io/prefs.js:396
+#: resource-bar@ticko4.github.io/prefs.js:441
 msgid "Reset thresholds"
 msgstr "Berrezarri atalaseak"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:226
+#: resource-bar@ticko4.github.io/lib/popup.js:297
+#: resource-bar@ticko4.github.io/lib/popup.js:320
 #: resource-bar@ticko4.github.io/lib/stats.js:35
 msgid "Memory"
 msgstr "Memoria"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:228
+#: resource-bar@ticko4.github.io/lib/popup.js:299
 msgid "Disks"
 msgstr "Diskoak"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:238
+#: resource-bar@ticko4.github.io/lib/popup.js:309
 msgctxt "disks card"
 msgid "Space"
 msgstr "Lekua"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:239
+#: resource-bar@ticko4.github.io/lib/popup.js:310
 msgctxt "disks card"
 msgid "Activity"
 msgstr "Jarduera"
 
+#: resource-bar@ticko4.github.io/lib/popup.js:318
+msgid "Processes"
+msgstr "Prozesuak"
+
 #. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
-#: resource-bar@ticko4.github.io/lib/popup.js:304
+#: resource-bar@ticko4.github.io/lib/popup.js:384
 #, javascript-format
 msgid "Load %s   ·   Up %s"
 msgstr "Karga %s   ·   Piztuta %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:399
 #, javascript-format
 msgid "%d core"
 msgid_plural "%d cores"
 msgstr[0] "%d nukleo"
 msgstr[1] "%d nukleo"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:335
+#: resource-bar@ticko4.github.io/lib/popup.js:415
 msgid "No swap"
 msgstr "Swap-ik ez"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:350
+#: resource-bar@ticko4.github.io/lib/popup.js:430
 #, javascript-format
 msgid "Interface %s"
 msgstr "%s interfazea"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:350
+#: resource-bar@ticko4.github.io/lib/popup.js:430
 msgid "Physical interfaces"
 msgstr "Interfaze fisikoak"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:394
+#: resource-bar@ticko4.github.io/lib/popup.js:474
 #, javascript-format
 msgid "%d disk"
 msgid_plural "%d disks"
 msgstr[0] "%d disko"
 msgstr[1] "%d disko"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:396
+#: resource-bar@ticko4.github.io/lib/popup.js:476
+#: resource-bar@ticko4.github.io/lib/popup.js:535
 msgid "Calculating…"
 msgstr "Kalkulatzen…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:409
+#: resource-bar@ticko4.github.io/lib/popup.js:491
 msgid "Suspended (power saving)"
 msgstr "Esekita (energia aurrezteko)"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:419
+#: resource-bar@ticko4.github.io/lib/popup.js:501
 msgid "Waiting for data…"
 msgstr "Datuen zain…"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:526
+msgid "CPU: average over the last 30 seconds"
+msgstr "CPU: azken 30 segundoetako batez bestekoa"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:527
+msgid "CPU: average over the last minute"
+msgstr "CPU: azken minutuko batez bestekoa"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:528
+msgid "CPU: average over the last 5 minutes"
+msgstr "CPU: azken 5 minutuetako batez bestekoa"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:29
 #: resource-bar@ticko4.github.io/lib/stats.js:132

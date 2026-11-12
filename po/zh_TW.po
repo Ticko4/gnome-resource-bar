@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-12 00:33+0000\n"
+"POT-Creation-Date: 2026-11-12 14:15+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Traditional Chinese (Taiwan)\n"
@@ -34,6 +34,7 @@ msgid "Graph"
 msgstr "圖表"
 
 #: resource-bar@ticko4.github.io/prefs.js:17
+#: resource-bar@ticko4.github.io/prefs.js:322
 msgid "None"
 msgstr "無"
 
@@ -65,15 +66,15 @@ msgstr "右側"
 msgid "Automatic"
 msgstr "自動"
 
-#: resource-bar@ticko4.github.io/prefs.js:113
+#: resource-bar@ticko4.github.io/prefs.js:146
 msgid "Top Bar"
 msgstr "頂端列"
 
-#: resource-bar@ticko4.github.io/prefs.js:116
+#: resource-bar@ticko4.github.io/prefs.js:149
 msgid "Metrics in the top bar"
 msgstr "頂端列中的指標"
 
-#: resource-bar@ticko4.github.io/prefs.js:117
+#: resource-bar@ticko4.github.io/prefs.js:150
 msgid ""
 "Each metric becomes an item with an icon, a gauge or graph and its value, "
 "like Noctalia’s sysmon widget."
@@ -81,220 +82,260 @@ msgstr ""
 "每個指標都會成為一個項目，包含圖示、量表或圖表以及數值，類似 Noctalia 的 "
 "sysmon 小工具。"
 
-#: resource-bar@ticko4.github.io/prefs.js:140
+#: resource-bar@ticko4.github.io/prefs.js:173
 #, javascript-format
 msgid "default (%s)"
 msgstr "預設（%s）"
 
-#: resource-bar@ticko4.github.io/prefs.js:157
+#: resource-bar@ticko4.github.io/prefs.js:190
 msgid "Move up"
 msgstr "上移"
 
-#: resource-bar@ticko4.github.io/prefs.js:162
+#: resource-bar@ticko4.github.io/prefs.js:195
 msgid "Move down"
 msgstr "下移"
 
-#: resource-bar@ticko4.github.io/prefs.js:167
+#: resource-bar@ticko4.github.io/prefs.js:200
 msgid "Remove"
 msgstr "移除"
 
-#: resource-bar@ticko4.github.io/prefs.js:174
+#: resource-bar@ticko4.github.io/prefs.js:207
 msgid "Add metric"
 msgstr "加入指標"
 
-#: resource-bar@ticko4.github.io/prefs.js:177
+#: resource-bar@ticko4.github.io/prefs.js:210
 #, javascript-format
 msgid "Default (%s)"
 msgstr "預設（%s）"
 
-#: resource-bar@ticko4.github.io/prefs.js:179
+#: resource-bar@ticko4.github.io/prefs.js:212
 msgid "Disk"
 msgstr "磁碟"
 
-#: resource-bar@ticko4.github.io/prefs.js:187
+#: resource-bar@ticko4.github.io/prefs.js:220
 msgid "Add"
 msgstr "加入"
 
-#: resource-bar@ticko4.github.io/prefs.js:208
+#: resource-bar@ticko4.github.io/prefs.js:241
 msgid "All disks"
 msgstr "所有磁碟"
 
 #. TRANSLATORS: %s is a list of disk names.
-#: resource-bar@ticko4.github.io/prefs.js:211
+#: resource-bar@ticko4.github.io/prefs.js:244
 msgid "Adds “Disk used (%)” for: %s"
 msgstr "為以下磁碟加入「磁碟已用（%）」：%s"
 
-#: resource-bar@ticko4.github.io/prefs.js:212
+#: resource-bar@ticko4.github.io/prefs.js:245
 #, javascript-format
 msgid "The %d detected disk is already in the top bar"
 msgid_plural "All %d detected disks are already in the top bar"
 msgstr[0] "偵測到的 %d 個磁碟皆已在頂端列中"
 
-#: resource-bar@ticko4.github.io/prefs.js:216
+#: resource-bar@ticko4.github.io/prefs.js:249
 msgid "Add all"
 msgstr "全部加入"
 
-#: resource-bar@ticko4.github.io/prefs.js:234
+#: resource-bar@ticko4.github.io/prefs.js:267
 msgid "Appearance"
 msgstr "外觀"
 
-#: resource-bar@ticko4.github.io/prefs.js:235
+#: resource-bar@ticko4.github.io/prefs.js:268
 msgid "Visualization"
 msgstr "呈現方式"
 
-#: resource-bar@ticko4.github.io/prefs.js:236
+#: resource-bar@ticko4.github.io/prefs.js:269
 msgid "Vertical pill gauge or a graph of the last 30 readings"
 msgstr "垂直膠囊形量表，或最近 30 次讀數的圖表"
 
-#: resource-bar@ticko4.github.io/prefs.js:237
+#: resource-bar@ticko4.github.io/prefs.js:270
 msgid "Show icon"
 msgstr "顯示圖示"
 
-#: resource-bar@ticko4.github.io/prefs.js:238
+#: resource-bar@ticko4.github.io/prefs.js:271
 msgid "Show value"
 msgstr "顯示數值"
 
-#: resource-bar@ticko4.github.io/prefs.js:239
+#: resource-bar@ticko4.github.io/prefs.js:272
 msgid "Show units"
 msgstr "顯示單位"
 
-#: resource-bar@ticko4.github.io/prefs.js:239
+#: resource-bar@ticko4.github.io/prefs.js:272
 msgid "Off: “45” instead of “45°C”"
 msgstr "關閉時：顯示「45」而非「45°C」"
 
-#: resource-bar@ticko4.github.io/prefs.js:240
+#: resource-bar@ticko4.github.io/prefs.js:273
 msgid "Per-core gauge"
 msgstr "每核心量表"
 
-#: resource-bar@ticko4.github.io/prefs.js:241
+#: resource-bar@ticko4.github.io/prefs.js:274
 msgid "For CPU usage in gauge mode, one bar per core"
 msgstr "量表模式下的 CPU 使用率，每個核心顯示一條"
 
-#: resource-bar@ticko4.github.io/prefs.js:242
+#: resource-bar@ticko4.github.io/prefs.js:275
 msgid "Minimum value width"
 msgstr "數值最小寬度"
 
-#: resource-bar@ticko4.github.io/prefs.js:243
+#: resource-bar@ticko4.github.io/prefs.js:276
 msgid "In pixels; reserves room so the top bar does not shift"
 msgstr "單位為像素；預留空間，避免頂端列位移"
 
-#: resource-bar@ticko4.github.io/prefs.js:244
+#: resource-bar@ticko4.github.io/prefs.js:277
 msgid "Spacing between metrics"
 msgstr "指標間距"
 
-#: resource-bar@ticko4.github.io/prefs.js:246
+#: resource-bar@ticko4.github.io/prefs.js:279
 msgid "Smooth animation"
 msgstr "平滑動畫"
 
-#: resource-bar@ticko4.github.io/prefs.js:247
+#: resource-bar@ticko4.github.io/prefs.js:280
 msgid ""
 "Gauges and graphs glide between readings instead of jumping on every update"
 msgstr "量表與圖表在讀數之間平滑過渡，而非每次更新時跳動"
 
-#: resource-bar@ticko4.github.io/prefs.js:248
+#: resource-bar@ticko4.github.io/prefs.js:281
 msgid "Graph colors"
 msgstr "圖表色彩"
 
-#: resource-bar@ticko4.github.io/prefs.js:249
+#: resource-bar@ticko4.github.io/prefs.js:282
 msgid "Only graphs change; gauges, icons and values stay as they are"
 msgstr "僅變更圖表；量表、圖示與數值維持不變"
 
-#: resource-bar@ticko4.github.io/prefs.js:252
+#: resource-bar@ticko4.github.io/prefs.js:285
 msgid "Alert color"
 msgstr "警示色彩"
 
-#: resource-bar@ticko4.github.io/prefs.js:253
+#: resource-bar@ticko4.github.io/prefs.js:286
 msgid "Used when a value goes past its activity and critical thresholds"
 msgstr "數值超過活動門檻與臨界門檻時使用"
 
-#: resource-bar@ticko4.github.io/prefs.js:274
+#: resource-bar@ticko4.github.io/prefs.js:307
 msgid "Reset to default"
 msgstr "重設為預設值"
 
-#: resource-bar@ticko4.github.io/prefs.js:287
+#: resource-bar@ticko4.github.io/prefs.js:320
+msgid "Menu"
+msgstr "選單"
+
+#: resource-bar@ticko4.github.io/prefs.js:321
+msgid "Top processes"
+msgstr "占用最高的程序"
+
+#: resource-bar@ticko4.github.io/prefs.js:323
+msgid "Processes using the most CPU or memory, listed in the menu"
+msgstr "在選單中列出 CPU 或記憶體占用最高的程序"
+
+#: resource-bar@ticko4.github.io/prefs.js:324
+msgid "CPU average"
+msgstr "CPU 平均值"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "30 seconds"
+msgstr "30 秒"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "1 minute"
+msgstr "1 分鐘"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "5 minutes"
+msgstr "5 分鐘"
+
+#: resource-bar@ticko4.github.io/prefs.js:326
+msgid "Time span of the processes’ CPU usage; memory is the current value"
+msgstr "程序 CPU 使用率的統計時間；記憶體為目前值"
+
+#: resource-bar@ticko4.github.io/prefs.js:330
 msgid "Position"
 msgstr "位置"
 
-#: resource-bar@ticko4.github.io/prefs.js:288
+#: resource-bar@ticko4.github.io/prefs.js:331
 msgid "Top bar area"
 msgstr "頂端列區域"
 
-#: resource-bar@ticko4.github.io/prefs.js:289
+#: resource-bar@ticko4.github.io/prefs.js:332
 msgid "Position in the area"
 msgstr "區域內的位置"
 
-#: resource-bar@ticko4.github.io/prefs.js:290
+#: resource-bar@ticko4.github.io/prefs.js:333
 msgid "0 = first item; -1 = last"
 msgstr "0 = 第一個項目；-1 = 最後一個"
 
-#: resource-bar@ticko4.github.io/prefs.js:299
+#: resource-bar@ticko4.github.io/prefs.js:342
 msgid "Monitoring"
 msgstr "監控"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
+#: resource-bar@ticko4.github.io/prefs.js:344
 msgid "General"
 msgstr "一般"
 
-#: resource-bar@ticko4.github.io/prefs.js:302
+#: resource-bar@ticko4.github.io/prefs.js:345
 msgid "Update interval"
 msgstr "更新間隔"
 
-#: resource-bar@ticko4.github.io/prefs.js:303
+#: resource-bar@ticko4.github.io/prefs.js:346
 msgid "Seconds between readings"
 msgstr "兩次讀數之間的秒數"
 
-#: resource-bar@ticko4.github.io/prefs.js:307
+#: resource-bar@ticko4.github.io/prefs.js:347
+msgid "Pause in fullscreen"
+msgstr "全螢幕時暫停"
+
+#: resource-bar@ticko4.github.io/prefs.js:348
+msgid "Stop reading data while a fullscreen app or game hides the top bar"
+msgstr "當全螢幕應用程式或遊戲隱藏頂端列時停止讀取資料"
+
+#: resource-bar@ticko4.github.io/prefs.js:352
 msgid "Default disk"
 msgstr "預設磁碟"
 
-#: resource-bar@ticko4.github.io/prefs.js:308
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid ""
 "Used by disk metrics that do not name a specific disk. The menu always lists "
 "every disk."
 msgstr "供未指定特定磁碟的磁碟指標使用。選單一律列出所有磁碟。"
 
-#: resource-bar@ticko4.github.io/prefs.js:311
+#: resource-bar@ticko4.github.io/prefs.js:356
 msgid "Mount point"
 msgstr "掛載點"
 
-#: resource-bar@ticko4.github.io/prefs.js:322
-#: resource-bar@ticko4.github.io/lib/popup.js:227
+#: resource-bar@ticko4.github.io/prefs.js:367
+#: resource-bar@ticko4.github.io/lib/popup.js:298
 msgid "Network"
 msgstr "網路"
 
-#: resource-bar@ticko4.github.io/prefs.js:327
+#: resource-bar@ticko4.github.io/prefs.js:372
 msgid "Interface"
 msgstr "介面"
 
-#: resource-bar@ticko4.github.io/prefs.js:328
+#: resource-bar@ticko4.github.io/prefs.js:373
 msgid "Automatic (physical interfaces)"
 msgstr "自動（實體介面）"
 
-#: resource-bar@ticko4.github.io/prefs.js:329
+#: resource-bar@ticko4.github.io/prefs.js:374
 msgid "Unit"
 msgstr "單位"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "Compact format"
 msgstr "精簡格式"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "E.g. “1.2M” instead of “1.2 MB/s”"
 msgstr "例如「1.2M」而非「1.2 MB/s」"
 
-#: resource-bar@ticko4.github.io/prefs.js:331
+#: resource-bar@ticko4.github.io/prefs.js:376
 msgid "Decimal places (compact)"
 msgstr "小數位數（精簡格式）"
 
-#: resource-bar@ticko4.github.io/prefs.js:340
+#: resource-bar@ticko4.github.io/prefs.js:385
 msgid "Thresholds"
 msgstr "門檻"
 
-#: resource-bar@ticko4.github.io/prefs.js:342
+#: resource-bar@ticko4.github.io/prefs.js:387
 msgid "Color thresholds"
 msgstr "色彩門檻"
 
-#: resource-bar@ticko4.github.io/prefs.js:343
+#: resource-bar@ticko4.github.io/prefs.js:388
 msgid ""
 "Below the activity threshold a metric uses the normal top bar color. Between "
 "activity and critical it moves toward the alert color, and at critical it is "
@@ -303,79 +344,97 @@ msgstr ""
 "低於活動門檻時，指標使用頂端列的一般色彩。介於活動與臨界之間時，會逐漸轉為警"
 "示色彩；達到臨界時則完全呈現該色彩。"
 
-#: resource-bar@ticko4.github.io/prefs.js:371
+#: resource-bar@ticko4.github.io/prefs.js:416
 msgid "Activity"
 msgstr "活動"
 
-#: resource-bar@ticko4.github.io/prefs.js:372
+#: resource-bar@ticko4.github.io/prefs.js:417
 msgid "Critical"
 msgstr "臨界"
 
-#: resource-bar@ticko4.github.io/prefs.js:396
+#: resource-bar@ticko4.github.io/prefs.js:441
 msgid "Reset thresholds"
 msgstr "重設門檻"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:226
+#: resource-bar@ticko4.github.io/lib/popup.js:297
+#: resource-bar@ticko4.github.io/lib/popup.js:320
 #: resource-bar@ticko4.github.io/lib/stats.js:35
 msgid "Memory"
 msgstr "記憶體"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:228
+#: resource-bar@ticko4.github.io/lib/popup.js:299
 msgid "Disks"
 msgstr "磁碟"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:238
+#: resource-bar@ticko4.github.io/lib/popup.js:309
 msgctxt "disks card"
 msgid "Space"
 msgstr "空間"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:239
+#: resource-bar@ticko4.github.io/lib/popup.js:310
 msgctxt "disks card"
 msgid "Activity"
 msgstr "活動"
 
+#: resource-bar@ticko4.github.io/lib/popup.js:318
+msgid "Processes"
+msgstr "程序"
+
 #. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
-#: resource-bar@ticko4.github.io/lib/popup.js:304
+#: resource-bar@ticko4.github.io/lib/popup.js:384
 #, javascript-format
 msgid "Load %s   ·   Up %s"
 msgstr "負載 %s   ·   已開機 %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:399
 #, javascript-format
 msgid "%d core"
 msgid_plural "%d cores"
 msgstr[0] "%d 個核心"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:335
+#: resource-bar@ticko4.github.io/lib/popup.js:415
 msgid "No swap"
 msgstr "無置換空間"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:350
+#: resource-bar@ticko4.github.io/lib/popup.js:430
 #, javascript-format
 msgid "Interface %s"
 msgstr "介面 %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:350
+#: resource-bar@ticko4.github.io/lib/popup.js:430
 msgid "Physical interfaces"
 msgstr "實體介面"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:394
+#: resource-bar@ticko4.github.io/lib/popup.js:474
 #, javascript-format
 msgid "%d disk"
 msgid_plural "%d disks"
 msgstr[0] "%d 個磁碟"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:396
+#: resource-bar@ticko4.github.io/lib/popup.js:476
+#: resource-bar@ticko4.github.io/lib/popup.js:535
 msgid "Calculating…"
 msgstr "正在計算…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:409
+#: resource-bar@ticko4.github.io/lib/popup.js:491
 msgid "Suspended (power saving)"
 msgstr "已暫停（省電）"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:419
+#: resource-bar@ticko4.github.io/lib/popup.js:501
 msgid "Waiting for data…"
 msgstr "正在等待資料…"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:526
+msgid "CPU: average over the last 30 seconds"
+msgstr "CPU：最近 30 秒的平均值"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:527
+msgid "CPU: average over the last minute"
+msgstr "CPU：最近 1 分鐘的平均值"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:528
+msgid "CPU: average over the last 5 minutes"
+msgstr "CPU：最近 5 分鐘的平均值"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:29
 #: resource-bar@ticko4.github.io/lib/stats.js:132

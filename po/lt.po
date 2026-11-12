@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-12 00:33+0000\n"
+"POT-Creation-Date: 2026-11-12 14:15+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Lithuanian\n"
@@ -35,6 +35,7 @@ msgid "Graph"
 msgstr "Grafikas"
 
 #: resource-bar@ticko4.github.io/prefs.js:17
+#: resource-bar@ticko4.github.io/prefs.js:322
 msgid "None"
 msgstr "Nėra"
 
@@ -66,15 +67,15 @@ msgstr "Dešinėje"
 msgid "Automatic"
 msgstr "Automatiškai"
 
-#: resource-bar@ticko4.github.io/prefs.js:113
+#: resource-bar@ticko4.github.io/prefs.js:146
 msgid "Top Bar"
 msgstr "Viršutinė juosta"
 
-#: resource-bar@ticko4.github.io/prefs.js:116
+#: resource-bar@ticko4.github.io/prefs.js:149
 msgid "Metrics in the top bar"
 msgstr "Rodikliai viršutinėje juostoje"
 
-#: resource-bar@ticko4.github.io/prefs.js:117
+#: resource-bar@ticko4.github.io/prefs.js:150
 msgid ""
 "Each metric becomes an item with an icon, a gauge or graph and its value, "
 "like Noctalia’s sysmon widget."
@@ -82,50 +83,50 @@ msgstr ""
 "Kiekvienas rodiklis tampa elementu su piktograma, matuokliu arba grafiku ir "
 "reikšme, kaip Noctalia sysmon valdiklis."
 
-#: resource-bar@ticko4.github.io/prefs.js:140
+#: resource-bar@ticko4.github.io/prefs.js:173
 #, javascript-format
 msgid "default (%s)"
 msgstr "numatytasis (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:157
+#: resource-bar@ticko4.github.io/prefs.js:190
 msgid "Move up"
 msgstr "Perkelti aukštyn"
 
-#: resource-bar@ticko4.github.io/prefs.js:162
+#: resource-bar@ticko4.github.io/prefs.js:195
 msgid "Move down"
 msgstr "Perkelti žemyn"
 
-#: resource-bar@ticko4.github.io/prefs.js:167
+#: resource-bar@ticko4.github.io/prefs.js:200
 msgid "Remove"
 msgstr "Pašalinti"
 
-#: resource-bar@ticko4.github.io/prefs.js:174
+#: resource-bar@ticko4.github.io/prefs.js:207
 msgid "Add metric"
 msgstr "Pridėti rodiklį"
 
-#: resource-bar@ticko4.github.io/prefs.js:177
+#: resource-bar@ticko4.github.io/prefs.js:210
 #, javascript-format
 msgid "Default (%s)"
 msgstr "Numatytasis (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:179
+#: resource-bar@ticko4.github.io/prefs.js:212
 msgid "Disk"
 msgstr "Diskas"
 
-#: resource-bar@ticko4.github.io/prefs.js:187
+#: resource-bar@ticko4.github.io/prefs.js:220
 msgid "Add"
 msgstr "Pridėti"
 
-#: resource-bar@ticko4.github.io/prefs.js:208
+#: resource-bar@ticko4.github.io/prefs.js:241
 msgid "All disks"
 msgstr "Visi diskai"
 
 #. TRANSLATORS: %s is a list of disk names.
-#: resource-bar@ticko4.github.io/prefs.js:211
+#: resource-bar@ticko4.github.io/prefs.js:244
 msgid "Adds “Disk used (%)” for: %s"
 msgstr "Prideda „Užimta diske (%)“ šiems diskams: %s"
 
-#: resource-bar@ticko4.github.io/prefs.js:212
+#: resource-bar@ticko4.github.io/prefs.js:245
 #, javascript-format
 msgid "The %d detected disk is already in the top bar"
 msgid_plural "All %d detected disks are already in the top bar"
@@ -133,129 +134,169 @@ msgstr[0] "%d aptiktas diskas jau yra viršutinėje juostoje"
 msgstr[1] "Visi %d aptikti diskai jau yra viršutinėje juostoje"
 msgstr[2] "Visi %d aptiktų diskų jau yra viršutinėje juostoje"
 
-#: resource-bar@ticko4.github.io/prefs.js:216
+#: resource-bar@ticko4.github.io/prefs.js:249
 msgid "Add all"
 msgstr "Pridėti visus"
 
-#: resource-bar@ticko4.github.io/prefs.js:234
+#: resource-bar@ticko4.github.io/prefs.js:267
 msgid "Appearance"
 msgstr "Išvaizda"
 
-#: resource-bar@ticko4.github.io/prefs.js:235
+#: resource-bar@ticko4.github.io/prefs.js:268
 msgid "Visualization"
 msgstr "Vizualizacija"
 
-#: resource-bar@ticko4.github.io/prefs.js:236
+#: resource-bar@ticko4.github.io/prefs.js:269
 msgid "Vertical pill gauge or a graph of the last 30 readings"
 msgstr ""
 "Vertikalus piliulės formos matuoklis arba paskutinių 30 matavimų grafikas"
 
-#: resource-bar@ticko4.github.io/prefs.js:237
+#: resource-bar@ticko4.github.io/prefs.js:270
 msgid "Show icon"
 msgstr "Rodyti piktogramą"
 
-#: resource-bar@ticko4.github.io/prefs.js:238
+#: resource-bar@ticko4.github.io/prefs.js:271
 msgid "Show value"
 msgstr "Rodyti reikšmę"
 
-#: resource-bar@ticko4.github.io/prefs.js:239
+#: resource-bar@ticko4.github.io/prefs.js:272
 msgid "Show units"
 msgstr "Rodyti vienetus"
 
-#: resource-bar@ticko4.github.io/prefs.js:239
+#: resource-bar@ticko4.github.io/prefs.js:272
 msgid "Off: “45” instead of “45°C”"
 msgstr "Išjungta: „45“ vietoje „45°C“"
 
-#: resource-bar@ticko4.github.io/prefs.js:240
+#: resource-bar@ticko4.github.io/prefs.js:273
 msgid "Per-core gauge"
 msgstr "Matuoklis kiekvienam branduoliui"
 
-#: resource-bar@ticko4.github.io/prefs.js:241
+#: resource-bar@ticko4.github.io/prefs.js:274
 msgid "For CPU usage in gauge mode, one bar per core"
 msgstr ""
 "CPU naudojimui matuoklio veiksenoje – po juostelę kiekvienam branduoliui"
 
-#: resource-bar@ticko4.github.io/prefs.js:242
+#: resource-bar@ticko4.github.io/prefs.js:275
 msgid "Minimum value width"
 msgstr "Mažiausias reikšmės plotis"
 
-#: resource-bar@ticko4.github.io/prefs.js:243
+#: resource-bar@ticko4.github.io/prefs.js:276
 msgid "In pixels; reserves room so the top bar does not shift"
 msgstr "Pikseliais; rezervuoja vietos, kad viršutinė juosta nepasislinktų"
 
-#: resource-bar@ticko4.github.io/prefs.js:244
+#: resource-bar@ticko4.github.io/prefs.js:277
 msgid "Spacing between metrics"
 msgstr "Tarpai tarp rodiklių"
 
-#: resource-bar@ticko4.github.io/prefs.js:246
+#: resource-bar@ticko4.github.io/prefs.js:279
 msgid "Smooth animation"
 msgstr "Sklandi animacija"
 
-#: resource-bar@ticko4.github.io/prefs.js:247
+#: resource-bar@ticko4.github.io/prefs.js:280
 msgid ""
 "Gauges and graphs glide between readings instead of jumping on every update"
 msgstr ""
 "Matuokliai ir grafikai sklandžiai pereina tarp matavimų, užuot šokinėję po "
 "kiekvieno atnaujinimo"
 
-#: resource-bar@ticko4.github.io/prefs.js:248
+#: resource-bar@ticko4.github.io/prefs.js:281
 msgid "Graph colors"
 msgstr "Grafikų spalvos"
 
-#: resource-bar@ticko4.github.io/prefs.js:249
+#: resource-bar@ticko4.github.io/prefs.js:282
 msgid "Only graphs change; gauges, icons and values stay as they are"
 msgstr ""
 "Keičiasi tik grafikai; matuokliai, piktogramos ir reikšmės lieka nepakitę"
 
-#: resource-bar@ticko4.github.io/prefs.js:252
+#: resource-bar@ticko4.github.io/prefs.js:285
 msgid "Alert color"
 msgstr "Įspėjimo spalva"
 
-#: resource-bar@ticko4.github.io/prefs.js:253
+#: resource-bar@ticko4.github.io/prefs.js:286
 msgid "Used when a value goes past its activity and critical thresholds"
 msgstr "Naudojama, kai reikšmė viršija aktyvumo ir kritinę ribas"
 
-#: resource-bar@ticko4.github.io/prefs.js:274
+#: resource-bar@ticko4.github.io/prefs.js:307
 msgid "Reset to default"
 msgstr "Atstatyti numatytąją"
 
-#: resource-bar@ticko4.github.io/prefs.js:287
+#: resource-bar@ticko4.github.io/prefs.js:320
+msgid "Menu"
+msgstr "Meniu"
+
+#: resource-bar@ticko4.github.io/prefs.js:321
+msgid "Top processes"
+msgstr "Daugiausiai naudojantys procesai"
+
+#: resource-bar@ticko4.github.io/prefs.js:323
+msgid "Processes using the most CPU or memory, listed in the menu"
+msgstr "Procesai, naudojantys daugiausiai CPU arba atminties, rodomi meniu"
+
+#: resource-bar@ticko4.github.io/prefs.js:324
+msgid "CPU average"
+msgstr "CPU vidurkis"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "30 seconds"
+msgstr "30 sekundžių"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "1 minute"
+msgstr "1 minutė"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "5 minutes"
+msgstr "5 minutės"
+
+#: resource-bar@ticko4.github.io/prefs.js:326
+msgid "Time span of the processes’ CPU usage; memory is the current value"
+msgstr "Procesų CPU naudojimo laikotarpis; atmintis – dabartinė vertė"
+
+#: resource-bar@ticko4.github.io/prefs.js:330
 msgid "Position"
 msgstr "Padėtis"
 
-#: resource-bar@ticko4.github.io/prefs.js:288
+#: resource-bar@ticko4.github.io/prefs.js:331
 msgid "Top bar area"
 msgstr "Viršutinės juostos sritis"
 
-#: resource-bar@ticko4.github.io/prefs.js:289
+#: resource-bar@ticko4.github.io/prefs.js:332
 msgid "Position in the area"
 msgstr "Padėtis srityje"
 
-#: resource-bar@ticko4.github.io/prefs.js:290
+#: resource-bar@ticko4.github.io/prefs.js:333
 msgid "0 = first item; -1 = last"
 msgstr "0 = pirmas elementas; -1 = paskutinis"
 
-#: resource-bar@ticko4.github.io/prefs.js:299
+#: resource-bar@ticko4.github.io/prefs.js:342
 msgid "Monitoring"
 msgstr "Stebėjimas"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
+#: resource-bar@ticko4.github.io/prefs.js:344
 msgid "General"
 msgstr "Bendri"
 
-#: resource-bar@ticko4.github.io/prefs.js:302
+#: resource-bar@ticko4.github.io/prefs.js:345
 msgid "Update interval"
 msgstr "Atnaujinimo intervalas"
 
-#: resource-bar@ticko4.github.io/prefs.js:303
+#: resource-bar@ticko4.github.io/prefs.js:346
 msgid "Seconds between readings"
 msgstr "Sekundės tarp matavimų"
 
-#: resource-bar@ticko4.github.io/prefs.js:307
+#: resource-bar@ticko4.github.io/prefs.js:347
+msgid "Pause in fullscreen"
+msgstr "Pristabdyti per visą ekraną"
+
+#: resource-bar@ticko4.github.io/prefs.js:348
+msgid "Stop reading data while a fullscreen app or game hides the top bar"
+msgstr "Nebeskaityti duomenų, kol per visą ekraną veikianti programa ar žaidimas slepia viršutinę juostą"
+
+#: resource-bar@ticko4.github.io/prefs.js:352
 msgid "Default disk"
 msgstr "Numatytasis diskas"
 
-#: resource-bar@ticko4.github.io/prefs.js:308
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid ""
 "Used by disk metrics that do not name a specific disk. The menu always lists "
 "every disk."
@@ -263,48 +304,48 @@ msgstr ""
 "Naudojamas disko rodiklių, kuriems nenurodytas konkretus diskas. Meniu "
 "visada rodo visus diskus."
 
-#: resource-bar@ticko4.github.io/prefs.js:311
+#: resource-bar@ticko4.github.io/prefs.js:356
 msgid "Mount point"
 msgstr "Prijungimo taškas"
 
-#: resource-bar@ticko4.github.io/prefs.js:322
-#: resource-bar@ticko4.github.io/lib/popup.js:227
+#: resource-bar@ticko4.github.io/prefs.js:367
+#: resource-bar@ticko4.github.io/lib/popup.js:298
 msgid "Network"
 msgstr "Tinklas"
 
-#: resource-bar@ticko4.github.io/prefs.js:327
+#: resource-bar@ticko4.github.io/prefs.js:372
 msgid "Interface"
 msgstr "Sąsaja"
 
-#: resource-bar@ticko4.github.io/prefs.js:328
+#: resource-bar@ticko4.github.io/prefs.js:373
 msgid "Automatic (physical interfaces)"
 msgstr "Automatiškai (fizinės sąsajos)"
 
-#: resource-bar@ticko4.github.io/prefs.js:329
+#: resource-bar@ticko4.github.io/prefs.js:374
 msgid "Unit"
 msgstr "Vienetas"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "Compact format"
 msgstr "Kompaktiškas formatas"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "E.g. “1.2M” instead of “1.2 MB/s”"
 msgstr "Pvz., „1.2M“ vietoje „1.2 MB/s“"
 
-#: resource-bar@ticko4.github.io/prefs.js:331
+#: resource-bar@ticko4.github.io/prefs.js:376
 msgid "Decimal places (compact)"
 msgstr "Skaitmenys po kablelio (kompaktiškai)"
 
-#: resource-bar@ticko4.github.io/prefs.js:340
+#: resource-bar@ticko4.github.io/prefs.js:385
 msgid "Thresholds"
 msgstr "Ribos"
 
-#: resource-bar@ticko4.github.io/prefs.js:342
+#: resource-bar@ticko4.github.io/prefs.js:387
 msgid "Color thresholds"
 msgstr "Spalvų ribos"
 
-#: resource-bar@ticko4.github.io/prefs.js:343
+#: resource-bar@ticko4.github.io/prefs.js:388
 msgid ""
 "Below the activity threshold a metric uses the normal top bar color. Between "
 "activity and critical it moves toward the alert color, and at critical it is "
@@ -314,44 +355,49 @@ msgstr ""
 "Tarp aktyvumo ir kritinės ribos jis artėja prie įspėjimo spalvos, o pasiekus "
 "kritinę ribą tampa visiškai tos spalvos."
 
-#: resource-bar@ticko4.github.io/prefs.js:371
+#: resource-bar@ticko4.github.io/prefs.js:416
 msgid "Activity"
 msgstr "Aktyvumas"
 
-#: resource-bar@ticko4.github.io/prefs.js:372
+#: resource-bar@ticko4.github.io/prefs.js:417
 msgid "Critical"
 msgstr "Kritinė"
 
-#: resource-bar@ticko4.github.io/prefs.js:396
+#: resource-bar@ticko4.github.io/prefs.js:441
 msgid "Reset thresholds"
 msgstr "Atstatyti ribas"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:226
+#: resource-bar@ticko4.github.io/lib/popup.js:297
+#: resource-bar@ticko4.github.io/lib/popup.js:320
 #: resource-bar@ticko4.github.io/lib/stats.js:35
 msgid "Memory"
 msgstr "Atmintis"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:228
+#: resource-bar@ticko4.github.io/lib/popup.js:299
 msgid "Disks"
 msgstr "Diskai"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:238
+#: resource-bar@ticko4.github.io/lib/popup.js:309
 msgctxt "disks card"
 msgid "Space"
 msgstr "Vieta"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:239
+#: resource-bar@ticko4.github.io/lib/popup.js:310
 msgctxt "disks card"
 msgid "Activity"
 msgstr "Aktyvumas"
 
+#: resource-bar@ticko4.github.io/lib/popup.js:318
+msgid "Processes"
+msgstr "Procesai"
+
 #. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
-#: resource-bar@ticko4.github.io/lib/popup.js:304
+#: resource-bar@ticko4.github.io/lib/popup.js:384
 #, javascript-format
 msgid "Load %s   ·   Up %s"
 msgstr "Apkrova %s   ·   Veikia %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:399
 #, javascript-format
 msgid "%d core"
 msgid_plural "%d cores"
@@ -359,20 +405,20 @@ msgstr[0] "%d branduolys"
 msgstr[1] "%d branduoliai"
 msgstr[2] "%d branduolių"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:335
+#: resource-bar@ticko4.github.io/lib/popup.js:415
 msgid "No swap"
 msgstr "Nėra mainų srities"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:350
+#: resource-bar@ticko4.github.io/lib/popup.js:430
 #, javascript-format
 msgid "Interface %s"
 msgstr "Sąsaja %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:350
+#: resource-bar@ticko4.github.io/lib/popup.js:430
 msgid "Physical interfaces"
 msgstr "Fizinės sąsajos"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:394
+#: resource-bar@ticko4.github.io/lib/popup.js:474
 #, javascript-format
 msgid "%d disk"
 msgid_plural "%d disks"
@@ -380,17 +426,30 @@ msgstr[0] "%d diskas"
 msgstr[1] "%d diskai"
 msgstr[2] "%d diskų"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:396
+#: resource-bar@ticko4.github.io/lib/popup.js:476
+#: resource-bar@ticko4.github.io/lib/popup.js:535
 msgid "Calculating…"
 msgstr "Skaičiuojama…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:409
+#: resource-bar@ticko4.github.io/lib/popup.js:491
 msgid "Suspended (power saving)"
 msgstr "Pristabdyta (energijos taupymas)"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:419
+#: resource-bar@ticko4.github.io/lib/popup.js:501
 msgid "Waiting for data…"
 msgstr "Laukiama duomenų…"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:526
+msgid "CPU: average over the last 30 seconds"
+msgstr "CPU: paskutinių 30 sekundžių vidurkis"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:527
+msgid "CPU: average over the last minute"
+msgstr "CPU: paskutinės minutės vidurkis"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:528
+msgid "CPU: average over the last 5 minutes"
+msgstr "CPU: paskutinių 5 minučių vidurkis"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:29
 #: resource-bar@ticko4.github.io/lib/stats.js:132

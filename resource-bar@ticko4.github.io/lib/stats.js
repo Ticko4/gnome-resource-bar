@@ -341,6 +341,11 @@ export class StatModel {
         }
     }
 
+    clearAll() {
+        this._history.clear();
+        this._counts.clear();
+    }
+
     clear(keys) {
         for (const key of keys) {
             this._history.delete(key);

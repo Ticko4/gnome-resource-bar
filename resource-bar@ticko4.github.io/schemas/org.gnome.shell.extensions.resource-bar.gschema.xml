@@ -100,6 +100,34 @@
       <description>space: space used; activity: time spent reading/writing (like iostat %util) and speeds. Changed with the switch on the card itself.</description>
     </key>
 
+    <key name="top-processes" type="i">
+      <range min="0" max="5"/>
+      <default>3</default>
+      <summary>Number of top processes shown in the menu (0 = none)</summary>
+    </key>
+
+    <key name="processes-window" type="i">
+      <range min="30" max="300"/>
+      <default>60</default>
+      <summary>Seconds over which the processes' CPU usage is averaged</summary>
+    </key>
+
+    <key name="processes-sort" type="s">
+      <choices>
+        <choice value="cpu"/>
+        <choice value="memory"/>
+      </choices>
+      <default>'cpu'</default>
+      <summary>Sort the menu's processes by CPU or memory use</summary>
+      <description>Changed with the switch on the Processes card itself.</description>
+    </key>
+
+    <key name="pause-when-hidden" type="b">
+      <default>true</default>
+      <summary>Pause while a fullscreen app hides the top bar</summary>
+      <description>Stops all readings (including nvidia-smi and the process list) while a fullscreen window on the primary monitor hides the top bar, and resumes with fresh readings when it is back.</description>
+    </key>
+
     <key name="update-interval" type="d">
       <range min="0.5" max="10.0"/>
       <default>1.0</default>

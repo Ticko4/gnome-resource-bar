@@ -2,12 +2,16 @@
 // memory, network, GPU with history graphs) plus a card listing every disk.
 
 import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
+import Shell from 'gi://Shell';
 import St from 'gi://St';
 
 import {gettext as _, ngettext, pgettext} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
-import {categoryOf, diskUtilKey, fmt, formatDuration, formatRate, formatUsage, gradientFactor} from './stats.js';
+import {
+    categoryOf, diskUtilKey, fmt, formatBytes, formatDuration, formatRate, formatUsage, gradientFactor,
+} from './stats.js';
 import {mountName} from './mounts.js';
 import {graphBaseColor, mixColors, toCss, withAlpha} from './color.js';
 import {CoreGauges, Gauge, Graph, iconFor} from './widgets.js';
@@ -126,10 +130,13 @@ class Segmented {
 
     setActive(value) {
         for (const [v, button] of this._buttons) {
-            if (v === value)
+            if (v === value) {
                 button.add_style_class_name('active');
-            else
+                button.opacity = 255;
+            } else {
                 button.remove_style_class_name('active');
+                button.opacity = 170;
+            }
         }
     }
 }
@@ -204,6 +211,70 @@ class DiskRow {
     }
 }
 
+// One line per process: icon and name of its app when it has a window
+// (otherwise its command name and a generic icon), CPU share and memory.
+// The column the list is sorted by is bold.
+class ProcessRow {
+    constructor() {
+        const label = (style, params = {}) => new St.Label({
+            style_class: style,
+            y_align: Clutter.ActorAlign.CENTER,
+            ...params,
+        });
+        this.actor = new St.BoxLayout({style_class: 'resource-bar-proc-row', x_expand: true});
+        this.icon = new St.Icon({style_class: 'resource-bar-proc-icon', y_align: Clutter.ActorAlign.CENTER});
+        this.name = label('resource-bar-proc-name', {x_expand: true});
+        this.cpu = label('resource-bar-proc-cpu');
+        this.mem = label('resource-bar-proc-mem');
+        for (const child of [this.icon, this.name, this.cpu, this.mem])
+            this.actor.add_child(child);
+        this._iconKey = null;
+    }
+
+    // Same row with placeholder content while the first reading is taken, so
+    // the card already has its final height and the menu does not jump.
+    placeholder(text = '') {
+        this.actor.show();
+        this._setIcon('', null);
+        this.icon.opacity = 90;
+        this.name.text = text;
+        this.name.opacity = 170;
+        for (const column of [this.cpu, this.mem]) {
+            column.text = '—';
+            column.remove_style_class_name('sorted');
+            column.opacity = 120;
+        }
+    }
+
+    _setIcon(key, app) {
+        if (key === this._iconKey)
+            return;
+        this._iconKey = key;
+        this.icon.gicon = app?.get_icon() ?? Gio.ThemedIcon.new('application-x-executable-symbolic');
+    }
+
+    update(proc, app, sort) {
+        this.actor.show();
+        this.icon.opacity = 255;
+        this.name.opacity = 255;
+        this._setIcon(app?.get_id() ?? '', app);
+        this.name.text = app?.get_name() ?? proc.name;
+        this.cpu.text = `${proc.cpu.toFixed(proc.cpu < 10 ? 1 : 0)}%`;
+        this.mem.text = formatBytes(proc.mem);
+        for (const [column, active] of [[this.cpu, sort === 'cpu'], [this.mem, sort === 'memory']]) {
+            if (active)
+                column.add_style_class_name('sorted');
+            else
+                column.remove_style_class_name('sorted');
+            column.opacity = active ? 255 : 170;
+        }
+    }
+
+    hide() {
+        this.actor.hide();
+    }
+}
+
 export class ResourcePopup {
     constructor(extension) {
         this._ext = extension;
@@ -244,6 +315,14 @@ export class ResourcePopup {
         this._diskRows = [];
         this._diskSig = null;
 
+        this._cards.procs = new Card(_('Processes'), 'processes', path);
+        this._cards.procs.addList();
+        this._procMode = new Segmented([['cpu', 'CPU'], ['memory', _('Memory')]],
+            mode => extension.setProcessesSort(mode));
+        this._cards.procs.addHeaderControl(this._procMode.actor);
+        this._cards.procs.value.text = '';
+        this._procRows = [];
+
         // CPU | Memory, Network | GPU (Network takes the row without a GPU),
         // then Disks across the full width.
         this._gridLayout = grid;
@@ -252,6 +331,7 @@ export class ResourcePopup {
         grid.attach(this._cards.mem.actor, 1, 0, 1, 1);
         this._layoutGpuRow(false);
         grid.attach(this._cards.disk.actor, 0, 2, 2, 1);
+        grid.attach(this._cards.procs.actor, 0, 3, 2, 1);
     }
 
     // The GPU is detected asynchronously after the menu is built, so the
@@ -396,6 +476,8 @@ export class ResourcePopup {
             card.setLines(list.length === 0 ? _('Calculating…') : '');
         }
 
+        this._refreshProcesses(ctx, base, cardBg);
+
         // GPU
         {
             const card = this._cards.gpu;
@@ -421,6 +503,50 @@ export class ResourcePopup {
                 card.graph.setSeries([series('gpu_usage', graphColor)], withAlpha(base, 0.05), animMs);
             }
         }
+    }
+
+    // Top processes by CPU or memory; the card is hidden when set to none.
+    _refreshProcesses(ctx, base, cardBg) {
+        const card = this._cards.procs;
+        const count = ctx.topProcesses ?? 0;
+        card.actor.visible = count > 0;
+        if (count === 0)
+            return;
+        card.setAccent(base, cardBg);
+        while (this._procRows.length < count) {
+            const row = new ProcessRow();
+            card.list.add_child(row.actor);
+            this._procRows.push(row);
+        }
+        const sort = ctx.processesSort === 'memory' ? 'memory' : 'cpu';
+        this._procMode.setActive(sort);
+
+        // TRANSLATORS: subtitle of the Processes card: the CPU column is an average.
+        const windows = {
+            30: _('CPU: average over the last 30 seconds'),
+            60: _('CPU: average over the last minute'),
+            300: _('CPU: average over the last 5 minutes'),
+        };
+        card.setLines(windows[ctx.processesWindow] ?? windows[60]);
+        const list = ctx.snapshot.processes;
+        if (!list) {
+            this._procRows.forEach((row, i) => {
+                if (i < count)
+                    row.placeholder(i === 0 ? _('Calculating…') : '');
+                else
+                    row.hide();
+            });
+            return;
+        }
+        const key = sort === 'memory' ? 'mem' : 'cpu';
+        const top = [...list].sort((a, b) => b[key] - a[key] || b.mem - a.mem).slice(0, count);
+        const tracker = Shell.WindowTracker.get_default();
+        this._procRows.forEach((row, i) => {
+            if (i < top.length)
+                row.update(top[i], tracker.get_app_from_pid(top[i].pid), sort);
+            else
+                row.hide();
+        });
     }
 
     destroy() {

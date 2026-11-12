@@ -77,6 +77,39 @@ function choiceRow(settings, key, title, choices, subtitle = '') {
     return row;
 }
 
+// Adw.ComboRow bound to an integer key: item i of `labels` stores i.
+function indexRow(settings, key, title, labels, subtitle = '') {
+    const row = new Adw.ComboRow({title, subtitle, model: Gtk.StringList.new(labels)});
+    const sync = () => {
+        row.selected = Math.min(labels.length - 1, Math.max(0, settings.get_int(key)));
+    };
+    sync();
+    row.connect('notify::selected', () => {
+        if (row.selected !== settings.get_int(key))
+            settings.set_int(key, row.selected);
+    });
+    const id = settings.connect(`changed::${key}`, sync);
+    row.connect('destroy', () => settings.disconnect(id));
+    return row;
+}
+
+// Adw.ComboRow bound to an integer key with a fixed [value, label] list.
+function intChoiceRow(settings, key, title, choices, subtitle = '') {
+    const row = new Adw.ComboRow({title, subtitle, model: Gtk.StringList.new(choices.map(c => c[1]))});
+    const sync = () => {
+        row.selected = Math.max(0, choices.findIndex(c => c[0] === settings.get_int(key)));
+    };
+    sync();
+    row.connect('notify::selected', () => {
+        const value = choices[row.selected]?.[0];
+        if (value !== undefined && value !== settings.get_int(key))
+            settings.set_int(key, value);
+    });
+    const id = settings.connect(`changed::${key}`, sync);
+    row.connect('destroy', () => settings.disconnect(id));
+    return row;
+}
+
 function switchRow(settings, key, title, subtitle = '') {
     const row = new Adw.SwitchRow({title, subtitle});
     settings.bind(key, row, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -283,6 +316,16 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         look.add(colorRow);
         page.add(look);
 
+        // Menu
+        const menu = new Adw.PreferencesGroup({title: _('Menu')});
+        menu.add(indexRow(settings, 'top-processes', _('Top processes'),
+            [_('None'), '1', '2', '3', '4', '5'],
+            _('Processes using the most CPU or memory, listed in the menu')));
+        menu.add(intChoiceRow(settings, 'processes-window', _('CPU average'),
+            [[30, _('30 seconds')], [60, _('1 minute')], [300, _('5 minutes')]],
+            _('Time span of the processes’ CPU usage; memory is the current value')));
+        page.add(menu);
+
         // Position
         const pos = new Adw.PreferencesGroup({title: _('Position')});
         pos.add(choiceRow(settings, 'panel-position', _('Top bar area'), POSITIONS));
@@ -301,6 +344,8 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         const general = new Adw.PreferencesGroup({title: _('General')});
         general.add(spinRow(settings, 'update-interval', _('Update interval'),
             {min: 0.5, max: 10, step: 0.5, digits: 1, subtitle: _('Seconds between readings')}));
+        general.add(switchRow(settings, 'pause-when-hidden', _('Pause in fullscreen'),
+            _('Stop reading data while a fullscreen app or game hides the top bar')));
         page.add(general);
 
         const disk = new Adw.PreferencesGroup({

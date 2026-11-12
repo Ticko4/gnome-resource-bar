@@ -66,8 +66,9 @@
   font-feature-settings: "tnum";
 }
 
+/* The background is recomputed from the menu text color at runtime. */
 .resource-bar-card {
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: rgba(127, 127, 127, 0.1);
   border-radius: 14px;
   padding: 10px 12px;
   margin: 4px;
@@ -109,9 +110,11 @@
   margin-top: 2px;
 }
 
-/* Ocupação | Utilização switch in the Discos card header */
+/* Space | Activity switch in the Disks card header. Neutral grays and the
+   inherited text color, so it reads on the dark, light and high-contrast
+   menus; inactive options are dimmed with opacity in popup.js. */
 .resource-bar-seg {
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: rgba(127, 127, 127, 0.15);
   border-radius: 999px;
   padding: 2px;
   spacing: 2px;
@@ -122,17 +125,15 @@
   border-radius: 999px;
   padding: 1px 10px;
   font-size: 0.85em;
-  color: rgba(255, 255, 255, 0.7);
 }
 
 .resource-bar-seg-btn:hover,
 .resource-bar-seg-btn:focus {
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(127, 127, 127, 0.15);
 }
 
 .resource-bar-seg-btn.active {
-  background-color: rgba(255, 255, 255, 0.16);
-  color: rgba(255, 255, 255, 1);
+  background-color: rgba(127, 127, 127, 0.3);
   font-weight: bold;
 }
 
@@ -146,6 +147,34 @@
 }
 
 /* Fixed-width columns keep every bar the same length in all rows and modes. */
+/* Processes card: app icon, name, then fixed-width CPU and memory columns. */
+.resource-bar-proc-row {
+  spacing: 10px;
+}
+
+.resource-bar-proc-icon {
+  icon-size: 16px;
+}
+
+.resource-bar-proc-cpu,
+.resource-bar-proc-mem {
+  text-align: right;
+  font-size: 0.9em;
+  font-feature-settings: "tnum";
+}
+
+.resource-bar-proc-cpu {
+  width: 56px;
+}
+
+.resource-bar-proc-mem {
+  width: 84px;
+}
+
+.resource-bar-proc-row .sorted {
+  font-weight: bold;
+}
+
 .resource-bar-disk-name {
   width: 112px;
   font-feature-settings: "tnum";

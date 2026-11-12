@@ -12,8 +12,12 @@ Gio._promisify(Gio.DataInputStream.prototype, 'read_line_async');
 Gio._promisify(Gio.File.prototype, 'enumerate_children_async');
 Gio._promisify(Gio.FileEnumerator.prototype, 'next_files_async');
 Gio._promisify(Gio.FileEnumerator.prototype, 'close_async');
+Gio._promisify(Gio.Subprocess.prototype, 'communicate_async');
 
 const decoder = new TextDecoder();
+
+// Resident memory in /proc/<pid>/stat is in pages.
+const PAGE_SIZE = 4096;
 
 async function readText(path, cancellable) {
     const [bytes] = await Gio.File.new_for_path(path).load_contents_async(cancellable);
@@ -50,6 +54,18 @@ async function listDir(path, cancellable) {
     } catch {
         return [];
     }
+}
+
+// All of /proc/<pid>/stat in one go. Reading ~200-500 files one by one from
+// the shell costs ~80 ms of CPU (a thread hop and a callback per file); a
+// single `cat` in a child process costs ~17 ms and keeps the work out of the
+// shell. Stat lines end with a newline, one per process.
+async function readAllProcStats(cancellable) {
+    const proc = Gio.Subprocess.new(['sh', '-c', 'exec cat /proc/[0-9]*/stat'],
+        Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_SILENCE);
+    const [stdout] = await proc.communicate_async(null, cancellable);
+    // Bytes, not UTF-8: process names may contain anything.
+    return stdout ? decoder.decode(stdout.toArray()) : '';
 }
 
 const exists = path => GLib.file_test(path, GLib.FileTest.EXISTS);
@@ -218,6 +234,8 @@ export function emptySnapshot() {
         diskList: [],
         // Per block device (diskstats name): {util %, read, write bytes/s}.
         diskIo: {},
+        // [{pid, name, cpu %, mem bytes}] while the menu lists processes.
+        processes: null,
         defaultDisk: '/',
         net: null,
         gpu: null,
@@ -235,6 +253,13 @@ export class Sampler {
         this._physical = new Map();
         this._extraDisks = new Set();
         this._prevIo = null;
+        // Process CPU history: snapshots about 5 s apart covering the
+        // averaging window (see _sampleProcesses).
+        this._procRing = [];
+        this._procLast = 0;
+        this._procEvery = 5000;
+        this._procWindow = 60;
+        this._cpuTotal = null;
         this._ioNames = new Map();
         this._iface = '';
         this._diskStamp = 0;
@@ -257,7 +282,14 @@ export class Sampler {
         return this._gpu?.kind ?? null;
     }
 
-    setOptions({diskPath, networkInterface, interval}) {
+    // processesEvery: ms between process readings (5000 in the background,
+    // 0 = every sample while the menu is open); processesWindow: seconds the
+    // CPU average covers.
+    setOptions({diskPath, networkInterface, interval, processesEvery, processesWindow}) {
+        if (processesEvery !== undefined)
+            this._procEvery = processesEvery;
+        if (processesWindow !== undefined)
+            this._procWindow = processesWindow;
         if (diskPath !== undefined && (diskPath || '/') !== this.snapshot.defaultDisk) {
             this.snapshot.defaultDisk = diskPath || '/';
             this._diskStamp = 0;
@@ -277,6 +309,18 @@ export class Sampler {
         if ([...next].some(p => !this._extraDisks.has(p)))
             this._diskStamp = 0;
         this._extraDisks = next;
+    }
+
+    // Forget previous readings, e.g. after a pause: the next deltas start from
+    // a fresh baseline instead of averaging over the pause. Values on screen
+    // stay until new ones arrive.
+    reset() {
+        this._prevCpu = null;
+        this._prevNet = null;
+        this._prevIo = null;
+        this._procRing.length = 0;
+        this._procLast = 0;
+        this._nvidia?.stop();
     }
 
     setSources(sources) {
@@ -321,6 +365,17 @@ export class Sampler {
                 if (r.status === 'rejected' && !isCancelled(r.reason))
                     console.debug(`[resource-bar] ${r.reason}`);
             }
+            // After the CPU sample, which provides this tick's total CPU time.
+            if (want.has('processes')) {
+                await this._sampleProcesses(c).catch(e => {
+                    if (!isCancelled(e))
+                        console.debug(`[resource-bar] processes: ${e}`);
+                });
+            } else {
+                this.snapshot.processes = null;
+                this._procRing.length = 0;
+                this._procLast = 0;
+            }
         } finally {
             this._busy = false;
         }
@@ -354,10 +409,9 @@ export class Sampler {
         }
         const prev = this._prevCpu;
         this._prevCpu = now;
-        if (!prev) {
-            this.snapshot.cpu = {usage: null, cores: []};
-            return;
-        }
+        this._cpuTotal = now.cpu?.total ?? null;
+        if (!prev)
+            return; // first reading (or after a pause): keep what is shown
         const usage = key => {
             const a = prev[key];
             const b = now[key];
@@ -371,6 +425,95 @@ export class Sampler {
             .sort((a, b) => Number(a.slice(3)) - Number(b.slice(3)))
             .map(usage);
         this.snapshot.cpu = {usage: usage('cpu'), cores};
+    }
+
+    // Processes with their CPU use averaged over the last `_procWindow`
+    // seconds (share of all CPU time, 100% = the whole machine, like the CPU
+    // card) and their current resident memory. Readings are kept about 5 s
+    // apart; the average compares this reading with the oldest one in the
+    // window, so it is ready as soon as the menu opens. Kernel threads are
+    // skipped; processes are keyed by pid and start time, so a reused pid
+    // never inherits another process's CPU time.
+    async _sampleProcesses(c) {
+        const t = GLib.get_monotonic_time();
+        if (this._procLast && t - this._procLast < this._procEvery * 1000 - 100000)
+            return;
+        const total = this._cpuTotal;
+        if (total === null)
+            return;
+        this._procLast = t;
+
+        const procs = new Map();
+        for (const line of (await readAllProcStats(c)).split('\n')) {
+            // "<pid> (<name>) <state> ...": the name is between the first "("
+            // and the last ")", and may itself contain spaces or parentheses.
+            const open = line.indexOf('(');
+            const close = line.lastIndexOf(')');
+            if (open < 1 || close < open)
+                continue;
+            const pid = Number(line.slice(0, open));
+            const f = line.slice(close + 2).split(' ');
+            if (!pid || !Number(f[20])) // no address space: kernel thread
+                continue;
+            procs.set(`${pid}:${f[19]}`, { // pid + start time
+                pid,
+                name: line.slice(open + 1, close),
+                ticks: Number(f[11]) + Number(f[12]), // utime + stime
+                rss: Number(f[21]) * PAGE_SIZE,
+            });
+        }
+
+        // Readings older than the window (or left from before a long pause,
+        // e.g. "Top processes" was off) are dropped, keeping one at or
+        // before the window start as the base.
+        const ring = this._procRing;
+        const windowStart = t - this._procWindow * 1e6;
+        if (ring.length && t - ring[ring.length - 1].t > this._procWindow * 1e6)
+            ring.length = 0;
+        while (ring.length > 1 && ring[1].t <= windowStart)
+            ring.shift();
+        const base = ring[0];
+        if (!ring.length || t - ring[ring.length - 1].t >= 4500000)
+            ring.push({t, total, ticks: new Map([...procs].map(([k, p]) => [k, p.ticks]))});
+
+        if (!base) {
+            this.snapshot.processes = null;
+            return;
+        }
+        const elapsed = total - base.total;
+        const list = [];
+        for (const [key, p] of procs) {
+            // A process started inside the window has no base: count all of it.
+            const used = p.ticks - (base.ticks.get(key) ?? 0);
+            list.push({
+                pid: p.pid,
+                name: p.name,
+                cpu: elapsed > 0 ? Math.max(0, 100 * used / elapsed) : 0,
+                mem: p.rss,
+            });
+        }
+        await this._fullNames(list, c);
+        this.snapshot.processes = list;
+    }
+
+    // The kernel cuts process names to 15 characters ("jetbrains-toolb").
+    // For the few processes the menu can show (top 5 by CPU and by memory),
+    // take the full name from the command line when it extends the short one.
+    async _fullNames(list, c) {
+        const top = new Set([
+            ...[...list].sort((a, b) => b.cpu - a.cpu).slice(0, 5),
+            ...[...list].sort((a, b) => b.mem - a.mem).slice(0, 5),
+        ]);
+        await Promise.all([...top].filter(p => p.name.length >= 15).map(async p => {
+            try {
+                const argv0 = (await readText(`/proc/${p.pid}/cmdline`, c)).split('\0')[0];
+                const base = GLib.path_get_basename(argv0);
+                if (base.startsWith(p.name))
+                    p.name = base;
+            } catch {
+                // exited meanwhile: keep the short name
+            }
+        }));
     }
 
     async _sampleCpuTemp(c) {

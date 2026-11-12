@@ -93,6 +93,8 @@ class ResourceBarIndicator extends PanelMenu.Button {
         }
         this.menu.addAction(_('Settings'), () => ext.openPreferences(), 'preferences-system-symbolic');
         this.menu.connect('open-state-changed', (_menu, open) => ext.onMenuOpenChanged(open));
+        // Hidden when a fullscreen window covers the primary monitor.
+        this.connect('notify::mapped', () => ext.onVisibilityChanged());
 
         // Hidden probe that resolves the system accent color (-st-accent-color);
         // St recomputes its theme node whenever the accent changes in Settings.
@@ -176,16 +178,17 @@ export default class ResourceBarExtension extends Extension {
     }
 
     disable() {
-        if (this._timerId) {
-            GLib.source_remove(this._timerId);
-            this._timerId = 0;
-        }
+        this._stopTimers();
         if (this._settingsChangedId) {
             this._settings.disconnect(this._settingsChangedId);
             this._settingsChangedId = 0;
         }
-        this._indicator?.destroy();
+        // Destroying the indicator unmaps it, which would count as hidden.
+        const indicator = this._indicator;
         this._indicator = null;
+        indicator?.destroy();
+        this._stopTimers();
+        this._paused = false;
         this._sampler?.destroy();
         this._sampler = null;
         this._model = null;
@@ -203,6 +206,9 @@ export default class ResourceBarExtension extends Extension {
             labelMinWidth: s.get_int('label-min-width'),
             graphColors: s.get_string('graph-colors'),
             diskCardMode: s.get_string('disk-card-mode'),
+            topProcesses: s.get_int('top-processes'),
+            processesSort: s.get_string('processes-sort'),
+            processesWindow: s.get_int('processes-window'),
             smooth: s.get_boolean('smooth-animation'),
             spacing: s.get_int('spacing'),
         };
@@ -244,6 +250,15 @@ export default class ResourceBarExtension extends Extension {
             for (const src of ['cpuFreq', 'gpu', 'system'])
                 sources.add(src);
         }
+        // Processes are read every 5 s in the background so their CPU
+        // average is ready when the menu opens, and on every update while
+        // it is open.
+        if (this._config.topProcesses > 0)
+            sources.add('processes');
+        this._sampler.setOptions({
+            processesEvery: this._menuOpen ? 0 : 5000,
+            processesWindow: this._config.processesWindow,
+        });
         this._sampler.setSources(sources);
     }
 
@@ -260,6 +275,44 @@ export default class ResourceBarExtension extends Extension {
         Main.panel.addToStatusArea(this.uuid, this._indicator,
             this._settings.get_int('panel-index'), this._settings.get_string('panel-position'));
         this._refreshUi();
+        this.onVisibilityChanged();
+    }
+
+    // Pauses all reading while the top bar is hidden (a fullscreen app or
+    // game on the primary monitor), if enabled, and resumes when it is back.
+    onVisibilityChanged() {
+        if (!this._indicator)
+            return;
+        const hidden = !this._indicator.mapped;
+        const pause = Boolean(hidden && this._settings.get_boolean('pause-when-hidden'));
+        if (pause === Boolean(this._paused))
+            return;
+        this._paused = pause;
+        if (pause) {
+            this._stopTimers();
+            this._sampler.reset(); // also stops nvidia-smi
+            return;
+        }
+        // Back: start fresh deltas and graphs, read now and again shortly so
+        // rates are current within a fraction of a second.
+        this._sampler.reset();
+        this._model.clearAll();
+        this._tick();
+        this._quickId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 300, () => {
+            this._quickId = 0;
+            this._tick();
+            return GLib.SOURCE_REMOVE;
+        });
+        this._restartTimer();
+    }
+
+    _stopTimers() {
+        for (const id of ['_timerId', '_quickId']) {
+            if (this[id]) {
+                GLib.source_remove(this[id]);
+                this[id] = 0;
+            }
+        }
     }
 
     _onSettingChanged(key) {
@@ -271,6 +324,9 @@ export default class ResourceBarExtension extends Extension {
             return;
         case 'update-interval':
             this._restartTimer();
+            break;
+        case 'pause-when-hidden':
+            this.onVisibilityChanged();
             break;
         case 'disk-path':
             this._model.clear(['disk_used_pct', 'disk_used', 'disk_free_pct', 'disk_free']);
@@ -287,6 +343,9 @@ export default class ResourceBarExtension extends Extension {
     _restartTimer() {
         if (this._timerId)
             GLib.source_remove(this._timerId);
+        this._timerId = 0;
+        if (this._paused)
+            return;
         this._timerId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, this._intervalMs(), () => {
             this._tick();
             return GLib.SOURCE_CONTINUE;
@@ -323,6 +382,9 @@ export default class ResourceBarExtension extends Extension {
             hasGpu: this._sampler.hasGpu,
             graphColors: this._config.graphColors,
             diskCardMode: this._config.diskCardMode,
+            topProcesses: this._config.topProcesses,
+            processesSort: this._config.processesSort,
+            processesWindow: this._config.processesWindow,
             // Glide slightly longer than the interval: the next sample
             // normally arrives just before the motion ends and continues it
             // from where it is, so gauges and graphs never stop and restart.
@@ -334,9 +396,14 @@ export default class ResourceBarExtension extends Extension {
             this._indicator.popup?.refresh(ctx);
     }
 
-    // Called by the Discos card switch; the settings change refreshes the menu.
+    // Called by the switches on the Disks and Processes cards; the settings
+    // change refreshes the menu.
     setDiskCardMode(mode) {
         this._settings.set_string('disk-card-mode', mode);
+    }
+
+    setProcessesSort(mode) {
+        this._settings.set_string('processes-sort', mode);
     }
 
     onMenuOpenChanged(open) {
