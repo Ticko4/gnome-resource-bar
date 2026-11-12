@@ -56,7 +56,15 @@ without waking sleeping disks) with read (↓) and write (↑) speeds.
 
 ## Install
 
-From [extensions.gnome.org](https://extensions.gnome.org) (once published), or from source:
+From [extensions.gnome.org](https://extensions.gnome.org) (once published), or with one command that
+downloads the latest [release](https://github.com/Ticko4/gnome-resource-bar/releases), installs it and turns it
+on (GNOME Shell 51; nothing to build):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Ticko4/gnome-resource-bar/main/get.sh | bash
+```
+
+Then log out and back in. Running it again updates to the newest release. From source:
 
 ```bash
 git clone https://github.com/Ticko4/gnome-resource-bar.git
@@ -65,8 +73,9 @@ cd gnome-resource-bar
 ```
 
 The script installs the extension in `~/.local/share/gnome-shell/extensions` and enables it. On Wayland,
-log out and back in for it to appear. `./install.sh --pack` builds the zip for extensions.gnome.org.
-The listing icon there is `docs/icon.png` (512 px, drawn from `docs/icon.svg`); it is not part of the zip and
+log out and back in for it to appear. `./install.sh --pack` builds the zip for extensions.gnome.org;
+GitHub releases attach the same zip as `resource-bar.zip`, which `get.sh` downloads.
+The extensions.gnome.org listing icon is `docs/icon.png` (512 px, drawn from `docs/icon.svg`); it is not part of the zip and
 is uploaded on the extension’s page by clicking the puzzle icon next to its name.
 
 ## Preferences
