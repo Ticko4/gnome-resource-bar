@@ -4,31 +4,33 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Gtk from 'gi://Gtk';
 
-import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {ExtensionPreferences, gettext as _, ngettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import {DISK_IDS, STATS, STAT_IDS, THRESHOLDS, isValidKey, makeKey, parseKey} from './lib/stats.js';
+import {DISK_IDS, N_, STATS, STAT_IDS, THRESHOLDS, fmt, isValidKey, makeKey, parseKey} from './lib/stats.js';
 import {mountName, parseMounts} from './lib/mounts.js';
 
+// Labels are marked with N_() and translated when the rows are built
+// (gettext is not usable before the preferences object exists).
 const VISUALIZATIONS = [
-    ['gauge', 'Medidor'],
-    ['graph', 'Gráfico'],
-    ['none', 'Nenhuma'],
+    ['gauge', N_('Gauge')],
+    ['graph', N_('Graph')],
+    ['none', N_('None')],
 ];
 
 const GRAPH_COLORS = [
-    ['default', 'Padrão (cor do texto)'],
-    ['accent', 'Cor de destaque do sistema'],
-    ['resources', 'Por recurso (como o Resources)'],
+    ['default', N_('Default (text color)')],
+    ['accent', N_('System accent color')],
+    ['resources', N_('Per resource (like Resources)')],
 ];
 
 const POSITIONS = [
-    ['left', 'Esquerda'],
-    ['center', 'Centro'],
-    ['right', 'Direita'],
+    ['left', N_('Left')],
+    ['center', N_('Center')],
+    ['right', N_('Right')],
 ];
 
 const NET_UNITS = [
-    ['auto', 'Automática'],
+    ['auto', N_('Automatic')],
     ['kb', 'kB/s'],
     ['mb', 'MB/s'],
 ];
@@ -58,7 +60,7 @@ function choiceRow(settings, key, title, choices, subtitle = '') {
     const row = new Adw.ComboRow({
         title,
         subtitle,
-        model: Gtk.StringList.new(choices.map(c => c[1])),
+        model: Gtk.StringList.new(choices.map(c => _(c[1]))),
     });
     const sync = () => {
         const idx = choices.findIndex(c => c[0] === settings.get_string(key));
@@ -108,11 +110,11 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
     // ---------- Panel page ----------
 
     _panelPage(settings) {
-        const page = new Adw.PreferencesPage({title: 'Painel', icon_name: 'view-app-grid-symbolic'});
+        const page = new Adw.PreferencesPage({title: _('Top Bar'), icon_name: 'view-app-grid-symbolic'});
 
         const statsGroup = new Adw.PreferencesGroup({
-            title: 'Métricas no painel',
-            description: 'Cada métrica vira um item com ícone, medidor ou gráfico e valor, como no widget sysmon do Noctalia.',
+            title: _('Metrics in the top bar'),
+            description: _('Each metric becomes an item with an icon, a gauge or graph and its value, like Noctalia’s sysmon widget.'),
         });
         const list = new Gtk.ListBox({selection_mode: Gtk.SelectionMode.NONE, css_classes: ['boxed-list']});
         statsGroup.add(list);
@@ -135,9 +137,9 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
                 const {id, param} = parseKey(key);
                 let subtitle = id;
                 if (DISK_IDS.includes(id))
-                    subtitle = param ? `${id} · ${param}` : `${id} · padrão (${defaultDisk})`;
+                    subtitle = param ? `${id} · ${param}` : `${id} · ${fmt(_('default (%s)'), defaultDisk)}`;
                 const row = new Adw.ActionRow({
-                    title: param ? `${STATS[id].name} — ${mountName(param)}` : STATS[id].name,
+                    title: param ? `${_(STATS[id].name)} — ${mountName(param)}` : _(STATS[id].name),
                     subtitle,
                 });
                 row.add_prefix(this._icon(STATS[id].icon));
@@ -152,29 +154,29 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
                     b.connect('clicked', cb);
                     row.add_suffix(b);
                 };
-                mk('go-up-symbolic', 'Mover para cima', i > 0, () => {
+                mk('go-up-symbolic', _('Move up'), i > 0, () => {
                     const keys = [...enabled];
                     [keys[i - 1], keys[i]] = [keys[i], keys[i - 1]];
                     save(keys);
                 });
-                mk('go-down-symbolic', 'Mover para baixo', i < enabled.length - 1, () => {
+                mk('go-down-symbolic', _('Move down'), i < enabled.length - 1, () => {
                     const keys = [...enabled];
                     [keys[i + 1], keys[i]] = [keys[i], keys[i + 1]];
                     save(keys);
                 });
-                mk('user-trash-symbolic', 'Remover', true, () => save(enabled.filter((_k, j) => j !== i)));
+                mk('user-trash-symbolic', _('Remove'), true, () => save(enabled.filter((_k, j) => j !== i)));
                 list.append(row);
             });
 
             // Disk stats can be added once per disk; the others only once.
             const available = STAT_IDS.filter(id => DISK_IDS.includes(id) || !enabled.includes(id));
             if (available.length > 0) {
-                const addRow = new Adw.ActionRow({title: 'Adicionar métrica'});
-                const dropdown = Gtk.DropDown.new_from_strings(available.map(id => STATS[id].name));
+                const addRow = new Adw.ActionRow({title: _('Add metric')});
+                const dropdown = Gtk.DropDown.new_from_strings(available.map(id => _(STATS[id].name)));
                 dropdown.valign = Gtk.Align.CENTER;
-                const diskChoices = [['', `Padrão (${defaultDisk})`], ...disks.map(d => [d.path, mountName(d.path)])];
+                const diskChoices = [['', fmt(_('Default (%s)'), defaultDisk)], ...disks.map(d => [d.path, mountName(d.path)])];
                 const diskDropdown = Gtk.DropDown.new_from_strings(diskChoices.map(c => c[1]));
-                diskDropdown.set({valign: Gtk.Align.CENTER, tooltip_text: 'Disco'});
+                diskDropdown.set({valign: Gtk.Align.CENTER, tooltip_text: _('Disk')});
                 const syncDisk = () => {
                     diskDropdown.visible = DISK_IDS.includes(available[dropdown.selected]);
                 };
@@ -182,7 +184,7 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
                 syncDisk();
                 const add = new Gtk.Button({
                     icon_name: 'list-add-symbolic',
-                    tooltip_text: 'Adicionar',
+                    tooltip_text: _('Add'),
                     valign: Gtk.Align.CENTER,
                     css_classes: ['suggested-action', 'circular'],
                 });
@@ -199,17 +201,19 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
                 list.append(addRow);
             }
 
-            // One "Disco usado (%)" per disk that has no disk stat yet.
+            // One "Disk used (%)" per disk that has no disk stat yet.
             const shown = new Set(enabled.map(diskOf).filter(Boolean));
             const missing = disks.filter(d => !shown.has(d.path));
             const allRow = new Adw.ActionRow({
-                title: 'Todos os discos',
+                title: _('All disks'),
                 subtitle: missing.length > 0
-                    ? `Adiciona “Disco usado (%)” para: ${missing.map(d => mountName(d.path)).join(', ')}`
-                    : `Todos os ${disks.length} discos detectados já estão no painel`,
+                    // TRANSLATORS: %s is a list of disk names.
+                    ? fmt(_('Adds “Disk used (%)” for: %s'), missing.map(d => mountName(d.path)).join(', '))
+                    : fmt(ngettext('The %d detected disk is already in the top bar',
+                        'All %d detected disks are already in the top bar', disks.length), disks.length),
             });
             const addAll = new Gtk.Button({
-                label: 'Adicionar todos',
+                label: _('Add all'),
                 sensitive: missing.length > 0,
                 valign: Gtk.Align.CENTER,
             });
@@ -227,26 +231,26 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         });
 
         // Appearance
-        const look = new Adw.PreferencesGroup({title: 'Aparência'});
-        look.add(choiceRow(settings, 'visualization', 'Visualização', VISUALIZATIONS,
-            'Medidor em pílula vertical ou gráfico com os últimos 30 valores'));
-        look.add(switchRow(settings, 'show-icon', 'Mostrar ícone'));
-        look.add(switchRow(settings, 'show-value', 'Mostrar valor'));
-        look.add(switchRow(settings, 'show-units', 'Mostrar unidades', 'Desligado: “45” em vez de “45°C”'));
-        look.add(switchRow(settings, 'show-cpu-cores', 'Medidor por núcleo',
-            'No uso da CPU com visualização em medidor, uma barra por núcleo'));
-        look.add(spinRow(settings, 'label-min-width', 'Largura mínima do valor',
-            {min: 0, max: 200, step: 1, subtitle: 'Em pixels; evita que o painel “pule” quando o número muda'}));
-        look.add(spinRow(settings, 'spacing', 'Espaço entre métricas', {min: 0, max: 40, step: 1}));
+        const look = new Adw.PreferencesGroup({title: _('Appearance')});
+        look.add(choiceRow(settings, 'visualization', _('Visualization'), VISUALIZATIONS,
+            _('Vertical pill gauge or a graph of the last 30 readings')));
+        look.add(switchRow(settings, 'show-icon', _('Show icon')));
+        look.add(switchRow(settings, 'show-value', _('Show value')));
+        look.add(switchRow(settings, 'show-units', _('Show units'), _('Off: “45” instead of “45°C”')));
+        look.add(switchRow(settings, 'show-cpu-cores', _('Per-core gauge'),
+            _('For CPU usage in gauge mode, one bar per core')));
+        look.add(spinRow(settings, 'label-min-width', _('Minimum value width'),
+            {min: 0, max: 200, step: 1, subtitle: _('In pixels; reserves room so the top bar does not shift')}));
+        look.add(spinRow(settings, 'spacing', _('Spacing between metrics'), {min: 0, max: 40, step: 1}));
 
-        look.add(switchRow(settings, 'smooth-animation', 'Animação suave',
-            'Medidores e gráficos deslizam entre leituras em vez de saltar a cada atualização'));
-        look.add(choiceRow(settings, 'graph-colors', 'Cores dos gráficos', GRAPH_COLORS,
-            'Só os gráficos mudam; barras, ícones e valores continuam como estão'));
+        look.add(switchRow(settings, 'smooth-animation', _('Smooth animation'),
+            _('Gauges and graphs glide between readings instead of jumping on every update')));
+        look.add(choiceRow(settings, 'graph-colors', _('Graph colors'), GRAPH_COLORS,
+            _('Only graphs change; gauges, icons and values stay as they are')));
 
         const colorRow = new Adw.ActionRow({
-            title: 'Cor de alerta',
-            subtitle: 'Usada quando o valor passa dos limites de atividade e crítico',
+            title: _('Alert color'),
+            subtitle: _('Used when a value goes past its activity and critical thresholds'),
         });
         const colorButton = new Gtk.ColorDialogButton({
             dialog: new Gtk.ColorDialog({with_alpha: false}),
@@ -267,7 +271,7 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         });
         const resetColor = new Gtk.Button({
             icon_name: 'edit-undo-symbolic',
-            tooltip_text: 'Restaurar padrão',
+            tooltip_text: _('Reset to default'),
             valign: Gtk.Align.CENTER,
             css_classes: ['flat', 'circular'],
         });
@@ -280,10 +284,10 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         page.add(look);
 
         // Position
-        const pos = new Adw.PreferencesGroup({title: 'Posição'});
-        pos.add(choiceRow(settings, 'panel-position', 'Área do painel', POSITIONS));
-        pos.add(spinRow(settings, 'panel-index', 'Posição na área',
-            {min: -1, max: 50, step: 1, subtitle: '0 = primeiro item; -1 = último'}));
+        const pos = new Adw.PreferencesGroup({title: _('Position')});
+        pos.add(choiceRow(settings, 'panel-position', _('Top bar area'), POSITIONS));
+        pos.add(spinRow(settings, 'panel-index', _('Position in the area'),
+            {min: -1, max: 50, step: 1, subtitle: _('0 = first item; -1 = last')}));
         page.add(pos);
 
         return page;
@@ -292,20 +296,19 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
     // ---------- Monitoring page ----------
 
     _monitorPage(settings) {
-        const page = new Adw.PreferencesPage({title: 'Monitoramento', icon_name: 'utilities-system-monitor-symbolic'});
+        const page = new Adw.PreferencesPage({title: _('Monitoring'), icon_name: 'utilities-system-monitor-symbolic'});
 
-        const general = new Adw.PreferencesGroup({title: 'Geral'});
-        general.add(spinRow(settings, 'update-interval', 'Intervalo de atualização',
-            {min: 0.5, max: 10, step: 0.5, digits: 1, subtitle: 'Segundos entre leituras'}));
+        const general = new Adw.PreferencesGroup({title: _('General')});
+        general.add(spinRow(settings, 'update-interval', _('Update interval'),
+            {min: 0.5, max: 10, step: 0.5, digits: 1, subtitle: _('Seconds between readings')}));
         page.add(general);
 
         const disk = new Adw.PreferencesGroup({
-            title: 'Disco padrão',
-            description: 'Usado pelas métricas de disco que não indicam um disco específico. ' +
-                'O menu do painel sempre lista todos os discos.',
+            title: _('Default disk'),
+            description: _('Used by disk metrics that do not name a specific disk. The menu always lists every disk.'),
         });
         const diskRow = new Adw.EntryRow({
-            title: 'Ponto de montagem',
+            title: _('Mount point'),
             text: settings.get_string('disk-path'),
             show_apply_button: true,
         });
@@ -316,16 +319,16 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         disk.add(diskRow);
         page.add(disk);
 
-        const net = new Adw.PreferencesGroup({title: 'Rede'});
+        const net = new Adw.PreferencesGroup({title: _('Network')});
         const current = settings.get_string('network-interface');
         const ifaces = listInterfaces();
         if (current && !ifaces.includes(current))
             ifaces.push(current);
-        net.add(choiceRow(settings, 'network-interface', 'Interface',
-            [['', 'Automática (interfaces físicas)'], ...ifaces.map(i => [i, i])]));
-        net.add(choiceRow(settings, 'network-speed-unit', 'Unidade', NET_UNITS));
-        net.add(switchRow(settings, 'network-speed-compact', 'Formato compacto', 'Ex.: “1.2M” em vez de “1.2 MB/s”'));
-        net.add(spinRow(settings, 'network-speed-decimals', 'Casas decimais (compacto)', {min: 0, max: 2, step: 1}));
+        net.add(choiceRow(settings, 'network-interface', _('Interface'),
+            [['', N_('Automatic (physical interfaces)')], ...ifaces.map(i => [i, i])]));
+        net.add(choiceRow(settings, 'network-speed-unit', _('Unit'), NET_UNITS));
+        net.add(switchRow(settings, 'network-speed-compact', _('Compact format'), _('E.g. “1.2M” instead of “1.2 MB/s”')));
+        net.add(spinRow(settings, 'network-speed-decimals', _('Decimal places (compact)'), {min: 0, max: 2, step: 1}));
         page.add(net);
 
         return page;
@@ -334,11 +337,11 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
     // ---------- Thresholds page ----------
 
     _thresholdsPage(settings) {
-        const page = new Adw.PreferencesPage({title: 'Limites', icon_name: 'dialog-warning-symbolic'});
+        const page = new Adw.PreferencesPage({title: _('Thresholds'), icon_name: 'dialog-warning-symbolic'});
         const group = new Adw.PreferencesGroup({
-            title: 'Limites de cor',
-            description: 'Abaixo do limite de atividade a métrica usa a cor normal do painel. ' +
-                'Entre atividade e crítico ela vai em direção à cor de alerta; no crítico fica totalmente nessa cor.',
+            title: _('Color thresholds'),
+            description: _('Below the activity threshold a metric uses the normal top bar color. ' +
+                'Between activity and critical it moves toward the alert color, and at critical it is fully that color.'),
         });
 
         const read = () => settings.get_value('thresholds').deepUnpack();
@@ -353,7 +356,7 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
 
         const rows = [];
         for (const [key, def] of Object.entries(THRESHOLDS)) {
-            const exp = new Adw.ExpanderRow({title: def.name});
+            const exp = new Adw.ExpanderRow({title: _(def.name)});
             const mk = (idx, title) => {
                 const r = Adw.SpinRow.new_with_range(def.min, def.max, def.step);
                 r.set({title: `${title} (${def.unit})`, digits: def.digits});
@@ -365,8 +368,8 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
                 exp.add_row(r);
                 return r;
             };
-            const activity = mk(0, 'Atividade');
-            const critical = mk(1, 'Crítico');
+            const activity = mk(0, _('Activity'));
+            const critical = mk(1, _('Critical'));
             rows.push({key, def, exp, activity, critical});
             group.add(exp);
         }
@@ -390,7 +393,7 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
 
         const resetGroup = new Adw.PreferencesGroup();
         const reset = new Gtk.Button({
-            label: 'Restaurar limites padrão',
+            label: _('Reset thresholds'),
             halign: Gtk.Align.CENTER,
             css_classes: ['pill'],
         });

@@ -1,6 +1,17 @@
 // Stat catalogue, formatting and threshold logic. Pure JS: shared by the
 // shell extension and the preferences window, so no Shell/St imports here.
 
+// Marks a string for translation without translating it: this module is
+// shared by the shell and the preferences, which each translate with _().
+export const N_ = s => s;
+
+// Replaces %s / %d placeholders in order (String.prototype.format is not
+// available in the preferences process).
+export function fmt(str, ...args) {
+    let i = 0;
+    return str.replace(/%[sd]/g, () => String(args[i++]));
+}
+
 // Points visible across a graph's width.
 export const HISTORY_SIZE = 30;
 // Samples kept: two more than visible, so while a graph scrolls (shifted up to
@@ -15,18 +26,18 @@ const GIB = 1024 * MIB;
 // and critical it fades toward the highlight color; at critical it is fully
 // highlighted.
 export const THRESHOLDS = {
-    cpu_usage: {name: 'Uso da CPU', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [50, 90]},
-    cpu_temp: {name: 'Temperatura da CPU', unit: '°C', min: 0, max: 120, step: 1, digits: 0, defaults: [60, 85]},
-    cpu_freq: {name: 'Frequência da CPU', unit: 'GHz', min: 0, max: 8, step: 0.1, digits: 1, defaults: [2.5, 4.5]},
-    gpu_usage: {name: 'Uso da GPU', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [50, 95]},
-    gpu_temp: {name: 'Temperatura da GPU', unit: '°C', min: 0, max: 120, step: 1, digits: 0, defaults: [60, 85]},
-    gpu_vram: {name: 'VRAM', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [50, 90]},
-    ram: {name: 'Memória', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [60, 90]},
-    swap: {name: 'Swap', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [20, 80]},
-    disk: {name: 'Disco (uso)', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [80, 95]},
-    disk_io: {name: 'Disco (utilização)', unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [50, 90]},
-    net_rx: {name: 'Download', unit: 'MB/s', min: 0, max: 1000, step: 0.1, digits: 1, defaults: [1, 50]},
-    net_tx: {name: 'Upload', unit: 'MB/s', min: 0, max: 1000, step: 0.1, digits: 1, defaults: [1, 50]},
+    cpu_usage: {name: N_('CPU usage'), unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [50, 90]},
+    cpu_temp: {name: N_('CPU temperature'), unit: '°C', min: 0, max: 120, step: 1, digits: 0, defaults: [60, 85]},
+    cpu_freq: {name: N_('CPU frequency'), unit: 'GHz', min: 0, max: 8, step: 0.1, digits: 1, defaults: [2.5, 4.5]},
+    gpu_usage: {name: N_('GPU usage'), unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [50, 95]},
+    gpu_temp: {name: N_('GPU temperature'), unit: '°C', min: 0, max: 120, step: 1, digits: 0, defaults: [60, 85]},
+    gpu_vram: {name: N_('VRAM'), unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [50, 90]},
+    ram: {name: N_('Memory'), unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [60, 90]},
+    swap: {name: N_('Swap'), unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [20, 80]},
+    disk: {name: N_('Disk (space used)'), unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [80, 95]},
+    disk_io: {name: N_('Disk (activity)'), unit: '%', min: 0, max: 100, step: 1, digits: 0, defaults: [50, 90]},
+    net_rx: {name: N_('Download'), unit: 'MB/s', min: 0, max: 1000, step: 0.1, digits: 1, defaults: [1, 50]},
+    net_tx: {name: N_('Upload'), unit: 'MB/s', min: 0, max: 1000, step: 0.1, digits: 1, defaults: [1, 50]},
 };
 
 const pct = v => `${Math.round(v)}%`;
@@ -118,107 +129,107 @@ const diskFreePct = (s, p) => {
 //   norm(raw, history, snapshot)      0..1         gauge / graph position
 export const STATS = {
     cpu_usage: {
-        name: 'Uso da CPU', icon: 'cpu', threshold: 'cpu_usage', source: 'cpu',
+        name: N_('CPU usage'), icon: 'cpu', threshold: 'cpu_usage', source: 'cpu',
         raw: s => s.cpu.usage,
         text: (s, o, v) => pct(v),
         norm: percentNorm,
     },
     cpu_temp: {
-        name: 'Temperatura da CPU', icon: 'temperature', threshold: 'cpu_temp', source: 'cpuTemp',
+        name: N_('CPU temperature'), icon: 'temperature', threshold: 'cpu_temp', source: 'cpuTemp',
         raw: s => s.cpuTemp,
         text: (s, o, v) => celsius(v),
         norm: tempNorm,
     },
     cpu_freq: {
-        name: 'Frequência da CPU', icon: 'bolt', threshold: 'cpu_freq', source: 'cpuFreq',
+        name: N_('CPU frequency'), icon: 'bolt', threshold: 'cpu_freq', source: 'cpuFreq',
         raw: s => s.cpuFreq ? s.cpuFreq.mhz : null,
         level: (s, v) => v / 1000,
         text: (s, o, v) => `${(v / 1000).toFixed(1)} GHz`,
         norm: (v, h, s) => v / (s.cpuFreq?.maxMhz || 5000),
     },
     gpu_usage: {
-        name: 'Uso da GPU', icon: 'gpu', threshold: 'gpu_usage', source: 'gpu',
+        name: N_('GPU usage'), icon: 'gpu', threshold: 'gpu_usage', source: 'gpu',
         raw: s => s.gpu ? s.gpu.usage : null,
         text: (s, o, v) => pct(v),
         norm: percentNorm,
     },
     gpu_temp: {
-        name: 'Temperatura da GPU', icon: 'gpu-temperature', threshold: 'gpu_temp', source: 'gpu',
+        name: N_('GPU temperature'), icon: 'gpu-temperature', threshold: 'gpu_temp', source: 'gpu',
         raw: s => s.gpu ? s.gpu.temp : null,
         text: (s, o, v) => celsius(v),
         norm: tempNorm,
     },
     gpu_vram: {
-        name: 'VRAM (%)', icon: 'gpu-memory', threshold: 'gpu_vram', source: 'gpu',
+        name: N_('VRAM (%)'), icon: 'gpu-memory', threshold: 'gpu_vram', source: 'gpu',
         raw: vramPct,
         text: (s, o, v) => pct(v),
         norm: percentNorm,
     },
     gpu_vram_used: {
-        name: 'VRAM usada', icon: 'gpu-memory', threshold: 'gpu_vram', source: 'gpu',
+        name: N_('VRAM used'), icon: 'gpu-memory', threshold: 'gpu_vram', source: 'gpu',
         raw: vramPct,
         text: s => formatBytes(s.gpu.vramUsed),
         norm: percentNorm,
     },
     ram_pct: {
-        name: 'Memória (%)', icon: 'memory', threshold: 'ram', source: 'mem',
+        name: N_('Memory (%)'), icon: 'memory', threshold: 'ram', source: 'mem',
         raw: s => s.mem ? s.mem.pct : null,
         text: (s, o, v) => pct(v),
         norm: percentNorm,
     },
     ram_used: {
-        name: 'Memória usada', icon: 'memory', threshold: 'ram', source: 'mem',
+        name: N_('Memory used'), icon: 'memory', threshold: 'ram', source: 'mem',
         raw: s => s.mem ? s.mem.pct : null,
         text: s => formatBytes(s.mem.used),
         norm: percentNorm,
     },
     swap_pct: {
-        name: 'Swap (%)', icon: 'swap', threshold: 'swap', source: 'mem',
+        name: N_('Swap (%)'), icon: 'swap', threshold: 'swap', source: 'mem',
         raw: s => s.mem && s.mem.swapTotal > 0 ? s.mem.swapPct : null,
         text: (s, o, v) => pct(v),
         norm: percentNorm,
     },
     disk_used_pct: {
-        name: 'Disco usado (%)', icon: 'disk', threshold: 'disk', source: 'disk',
+        name: N_('Disk used (%)'), icon: 'disk', threshold: 'disk', source: 'disk',
         raw: diskUsedPct,
         text: (s, o, v) => pct(v),
         norm: percentNorm,
     },
     disk_used: {
-        name: 'Disco usado', icon: 'disk', threshold: 'disk', source: 'disk',
+        name: N_('Disk used'), icon: 'disk', threshold: 'disk', source: 'disk',
         raw: diskUsedPct,
         text: (s, o, v, p) => diskSize(diskFor(s, p).used),
         norm: percentNorm,
     },
     disk_free_pct: {
-        name: 'Disco livre (%)', icon: 'disk', threshold: 'disk', source: 'disk',
+        name: N_('Disk free (%)'), icon: 'disk', threshold: 'disk', source: 'disk',
         raw: diskFreePct,
         level: (s, v, p) => diskFor(s, p).pct,
         text: (s, o, v) => pct(v),
         norm: percentNorm,
     },
     disk_free: {
-        name: 'Disco livre', icon: 'disk', threshold: 'disk', source: 'disk',
+        name: N_('Disk free'), icon: 'disk', threshold: 'disk', source: 'disk',
         raw: diskFreePct,
         level: (s, v, p) => diskFor(s, p).pct,
         text: (s, o, v, p) => diskSize(diskFor(s, p).avail),
         norm: percentNorm,
     },
     disk_util: {
-        name: 'Utilização do disco', icon: 'disk', threshold: 'disk_io', source: 'diskio',
+        name: N_('Disk activity'), icon: 'disk', threshold: 'disk_io', source: 'diskio',
         raw: diskUtil,
         text: (s, o, v) => pct(v),
         norm: percentNorm,
     },
     net_rx: {
-        name: 'Download', icon: 'download', threshold: 'net_rx', source: 'net',
+        name: N_('Download'), icon: 'download', threshold: 'net_rx', source: 'net',
         raw: s => s.net ? s.net.rx : null,
         level: (s, v) => v / 1e6,
         text: (s, o, v) => formatRate(v, o.net),
         norm: rateNorm,
     },
     net_tx: {
-        name: 'Upload', icon: 'upload', threshold: 'net_tx', source: 'net',
+        name: N_('Upload'), icon: 'upload', threshold: 'net_tx', source: 'net',
         raw: s => s.net ? s.net.tx : null,
         level: (s, v) => v / 1e6,
         text: (s, o, v) => formatRate(v, o.net),

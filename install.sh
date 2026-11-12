@@ -1,44 +1,64 @@
 #!/usr/bin/env bash
-# Instala (ou atualiza) a extensão Resource Bar para o usuário atual.
-#   ./install.sh          instala em ~/.local/share/gnome-shell/extensions
-#   ./install.sh --pack   gera resource-bar@local.shell-extension.zip
+# Install (or update) Resource Bar for the current user.
+#   ./install.sh          install into ~/.local/share/gnome-shell/extensions
+#   ./install.sh --pack   build the zip to upload to extensions.gnome.org
 set -euo pipefail
 
-UUID="resource-bar@local"
+UUID="resource-bar@ticko4.github.io"
+OLD_UUID="resource-bar@local"   # pre-release name, migrated below
+DOMAIN="resource-bar"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SRC="$ROOT/$UUID"
 
 glib-compile-schemas --strict "$SRC/schemas"
 
 if [[ "${1:-}" == "--pack" ]]; then
+    # gnome-extensions compiles the translations from po/ into the zip.
     gnome-extensions pack "$SRC" --force --out-dir "$ROOT" \
-        --extra-source=lib --extra-source=icons
-    echo "Pacote criado: $ROOT/$UUID.shell-extension.zip"
-    echo "Instale com: gnome-extensions install --force $ROOT/$UUID.shell-extension.zip"
+        --extra-source=lib --extra-source=icons --podir="$ROOT/po"
+    echo "Package: $ROOT/$UUID.shell-extension.zip"
+    echo "Upload it at https://extensions.gnome.org/upload/"
     exit 0
 fi
 
-DEST="${XDG_DATA_HOME:-$HOME/.local/share}/gnome-shell/extensions/$UUID"
-rm -rf "$DEST"
-mkdir -p "$(dirname "$DEST")"
-cp -r "$SRC" "$DEST"
-echo "Instalado em $DEST"
+# Compile translations into the extension's locale directory.
+for po in "$ROOT"/po/*.po; do
+    [[ -e "$po" ]] || continue
+    lang="$(basename "$po" .po)"
+    mkdir -p "$SRC/locale/$lang/LC_MESSAGES"
+    msgfmt --check -o "$SRC/locale/$lang/LC_MESSAGES/$DOMAIN.mo" "$po"
+done
 
+EXT_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/gnome-shell/extensions"
+DEST="$EXT_DIR/$UUID"
+rm -rf "$DEST"
+mkdir -p "$EXT_DIR"
+cp -r "$SRC" "$DEST"
+echo "Installed in $DEST"
+
+# Before publishing the extension was called $OLD_UUID: remove that copy.
+# Settings are kept, the GSettings schema did not change.
+if [[ -d "$EXT_DIR/$OLD_UUID" ]]; then
+    rm -rf "${EXT_DIR:?}/$OLD_UUID"
+    echo "Removed the old copy ($OLD_UUID)"
+fi
+
+# Mark the extension as enabled (replacing the old UUID). On Wayland the
+# running shell only picks up new extensions at the next login.
+gjs -c "
+    const {Gio} = imports.gi;
+    const s = new Gio.Settings({schema_id: 'org.gnome.shell'});
+    const on = s.get_strv('enabled-extensions').filter(u => u !== '$OLD_UUID');
+    if (!on.includes('$UUID'))
+        on.push('$UUID');
+    s.set_strv('enabled-extensions', on);
+    s.set_strv('disabled-extensions',
+        s.get_strv('disabled-extensions').filter(u => u !== '$UUID' && u !== '$OLD_UUID'));
+    Gio.Settings.sync();
+"
 if gnome-extensions info "$UUID" >/dev/null 2>&1; then
     gnome-extensions enable "$UUID"
-    echo "Extensão ativada. Se já estava ativa, encerre a sessão e entre de novo para carregar a nova versão."
+    echo "Enabled. If it was already running, log out and back in to load the new version."
 else
-    # The running shell does not know the extension yet (Wayland only scans
-    # on login), so mark it enabled in GSettings; it starts on next login.
-    gjs -c "
-        const {Gio} = imports.gi;
-        const s = new Gio.Settings({schema_id: 'org.gnome.shell'});
-        const on = s.get_strv('enabled-extensions');
-        if (!on.includes('$UUID'))
-            s.set_strv('enabled-extensions', [...on, '$UUID']);
-        s.set_strv('disabled-extensions', s.get_strv('disabled-extensions').filter(u => u !== '$UUID'));
-        Gio.Settings.sync();
-    "
-    echo "Extensão marcada como ativa. No Wayland o GNOME Shell só carrega extensões novas no login:"
-    echo "encerre a sessão e entre de novo para vê-la no painel."
+    echo "Enabled for the next login: log out and back in to see it in the top bar."
 fi

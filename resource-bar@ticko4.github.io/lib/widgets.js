@@ -11,6 +11,8 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import St from 'gi://St';
 
+import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+
 import {HISTORY_KEEP, HISTORY_SIZE, STATS, parseKey} from './stats.js';
 import {mountName} from './mounts.js';
 import {toCss, withAlpha} from './color.js';
@@ -363,7 +365,7 @@ class ResourceBarStatItem extends St.BoxLayout {
         super._init({
             style_class: 'resource-bar-item',
             y_align: Clutter.ActorAlign.CENTER,
-            accessible_name: param ? `${def.name} ${param}` : def.name,
+            accessible_name: param ? `${_(def.name)} ${param}` : _(def.name),
         });
         this.statKey = statKey;
         this._config = config;

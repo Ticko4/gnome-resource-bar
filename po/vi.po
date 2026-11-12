@@ -1,0 +1,474 @@
+# Vietnamese translation for Resource Bar.
+# This file is distributed under the same license as the Resource Bar package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Resource Bar\n"
+"Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
+"POT-Creation-Date: 2026-11-12 00:33+0000\n"
+"PO-Revision-Date: 2026-11-11 22:00+0000\n"
+"Last-Translator: Resource Bar contributors\n"
+"Language-Team: Vietnamese\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. TRANSLATORS: %s is the system monitor app, e.g. "Resources".
+#: resource-bar@ticko4.github.io/extension.js:91
+#, javascript-format
+msgid "Open %s"
+msgstr "Mở %s"
+
+#: resource-bar@ticko4.github.io/extension.js:94
+msgid "Settings"
+msgstr "Cài đặt"
+
+#: resource-bar@ticko4.github.io/prefs.js:15
+msgid "Gauge"
+msgstr "Đồng hồ đo"
+
+#: resource-bar@ticko4.github.io/prefs.js:16
+msgid "Graph"
+msgstr "Đồ thị"
+
+#: resource-bar@ticko4.github.io/prefs.js:17
+msgid "None"
+msgstr "Không"
+
+#: resource-bar@ticko4.github.io/prefs.js:21
+msgid "Default (text color)"
+msgstr "Mặc định (màu chữ)"
+
+#: resource-bar@ticko4.github.io/prefs.js:22
+msgid "System accent color"
+msgstr "Màu nhấn của hệ thống"
+
+#: resource-bar@ticko4.github.io/prefs.js:23
+msgid "Per resource (like Resources)"
+msgstr "Theo tài nguyên (như Resources)"
+
+#: resource-bar@ticko4.github.io/prefs.js:27
+msgid "Left"
+msgstr "Trái"
+
+#: resource-bar@ticko4.github.io/prefs.js:28
+msgid "Center"
+msgstr "Giữa"
+
+#: resource-bar@ticko4.github.io/prefs.js:29
+msgid "Right"
+msgstr "Phải"
+
+#: resource-bar@ticko4.github.io/prefs.js:33
+msgid "Automatic"
+msgstr "Tự động"
+
+#: resource-bar@ticko4.github.io/prefs.js:113
+msgid "Top Bar"
+msgstr "Thanh đỉnh"
+
+#: resource-bar@ticko4.github.io/prefs.js:116
+msgid "Metrics in the top bar"
+msgstr "Chỉ số trên thanh đỉnh"
+
+#: resource-bar@ticko4.github.io/prefs.js:117
+msgid ""
+"Each metric becomes an item with an icon, a gauge or graph and its value, "
+"like Noctalia’s sysmon widget."
+msgstr ""
+"Mỗi chỉ số trở thành một mục gồm biểu tượng, đồng hồ đo hoặc đồ thị và giá "
+"trị, giống widget sysmon của Noctalia."
+
+#: resource-bar@ticko4.github.io/prefs.js:140
+#, javascript-format
+msgid "default (%s)"
+msgstr "mặc định (%s)"
+
+#: resource-bar@ticko4.github.io/prefs.js:157
+msgid "Move up"
+msgstr "Chuyển lên"
+
+#: resource-bar@ticko4.github.io/prefs.js:162
+msgid "Move down"
+msgstr "Chuyển xuống"
+
+#: resource-bar@ticko4.github.io/prefs.js:167
+msgid "Remove"
+msgstr "Gỡ bỏ"
+
+#: resource-bar@ticko4.github.io/prefs.js:174
+msgid "Add metric"
+msgstr "Thêm chỉ số"
+
+#: resource-bar@ticko4.github.io/prefs.js:177
+#, javascript-format
+msgid "Default (%s)"
+msgstr "Mặc định (%s)"
+
+#: resource-bar@ticko4.github.io/prefs.js:179
+msgid "Disk"
+msgstr "Đĩa"
+
+#: resource-bar@ticko4.github.io/prefs.js:187
+msgid "Add"
+msgstr "Thêm"
+
+#: resource-bar@ticko4.github.io/prefs.js:208
+msgid "All disks"
+msgstr "Tất cả các đĩa"
+
+#. TRANSLATORS: %s is a list of disk names.
+#: resource-bar@ticko4.github.io/prefs.js:211
+msgid "Adds “Disk used (%)” for: %s"
+msgstr "Thêm “Đĩa đã dùng (%)” cho: %s"
+
+#: resource-bar@ticko4.github.io/prefs.js:212
+#, javascript-format
+msgid "The %d detected disk is already in the top bar"
+msgid_plural "All %d detected disks are already in the top bar"
+msgstr[0] "Tất cả %d đĩa phát hiện được đã có trên thanh đỉnh"
+
+#: resource-bar@ticko4.github.io/prefs.js:216
+msgid "Add all"
+msgstr "Thêm tất cả"
+
+#: resource-bar@ticko4.github.io/prefs.js:234
+msgid "Appearance"
+msgstr "Diện mạo"
+
+#: resource-bar@ticko4.github.io/prefs.js:235
+msgid "Visualization"
+msgstr "Kiểu hiển thị"
+
+#: resource-bar@ticko4.github.io/prefs.js:236
+msgid "Vertical pill gauge or a graph of the last 30 readings"
+msgstr "Đồng hồ đo dạng viên thuốc dọc hoặc đồ thị của 30 lần đo gần nhất"
+
+#: resource-bar@ticko4.github.io/prefs.js:237
+msgid "Show icon"
+msgstr "Hiện biểu tượng"
+
+#: resource-bar@ticko4.github.io/prefs.js:238
+msgid "Show value"
+msgstr "Hiện giá trị"
+
+#: resource-bar@ticko4.github.io/prefs.js:239
+msgid "Show units"
+msgstr "Hiện đơn vị"
+
+#: resource-bar@ticko4.github.io/prefs.js:239
+msgid "Off: “45” instead of “45°C”"
+msgstr "Tắt: “45” thay vì “45°C”"
+
+#: resource-bar@ticko4.github.io/prefs.js:240
+msgid "Per-core gauge"
+msgstr "Đồng hồ đo theo lõi"
+
+#: resource-bar@ticko4.github.io/prefs.js:241
+msgid "For CPU usage in gauge mode, one bar per core"
+msgstr "Với mức dùng CPU ở chế độ đồng hồ đo, mỗi lõi một thanh"
+
+#: resource-bar@ticko4.github.io/prefs.js:242
+msgid "Minimum value width"
+msgstr "Độ rộng tối thiểu của giá trị"
+
+#: resource-bar@ticko4.github.io/prefs.js:243
+msgid "In pixels; reserves room so the top bar does not shift"
+msgstr "Tính bằng điểm ảnh; chừa chỗ để thanh đỉnh không bị xê dịch"
+
+#: resource-bar@ticko4.github.io/prefs.js:244
+msgid "Spacing between metrics"
+msgstr "Khoảng cách giữa các chỉ số"
+
+#: resource-bar@ticko4.github.io/prefs.js:246
+msgid "Smooth animation"
+msgstr "Hoạt ảnh mượt"
+
+#: resource-bar@ticko4.github.io/prefs.js:247
+msgid ""
+"Gauges and graphs glide between readings instead of jumping on every update"
+msgstr ""
+"Đồng hồ đo và đồ thị chuyển mượt giữa các lần đo thay vì nhảy ở mỗi lần cập "
+"nhật"
+
+#: resource-bar@ticko4.github.io/prefs.js:248
+msgid "Graph colors"
+msgstr "Màu đồ thị"
+
+#: resource-bar@ticko4.github.io/prefs.js:249
+msgid "Only graphs change; gauges, icons and values stay as they are"
+msgstr "Chỉ đồ thị thay đổi; đồng hồ đo, biểu tượng và giá trị giữ nguyên"
+
+#: resource-bar@ticko4.github.io/prefs.js:252
+msgid "Alert color"
+msgstr "Màu cảnh báo"
+
+#: resource-bar@ticko4.github.io/prefs.js:253
+msgid "Used when a value goes past its activity and critical thresholds"
+msgstr "Dùng khi giá trị vượt ngưỡng hoạt động và ngưỡng nguy hiểm"
+
+#: resource-bar@ticko4.github.io/prefs.js:274
+msgid "Reset to default"
+msgstr "Đặt lại mặc định"
+
+#: resource-bar@ticko4.github.io/prefs.js:287
+msgid "Position"
+msgstr "Vị trí"
+
+#: resource-bar@ticko4.github.io/prefs.js:288
+msgid "Top bar area"
+msgstr "Vùng trên thanh đỉnh"
+
+#: resource-bar@ticko4.github.io/prefs.js:289
+msgid "Position in the area"
+msgstr "Vị trí trong vùng"
+
+#: resource-bar@ticko4.github.io/prefs.js:290
+msgid "0 = first item; -1 = last"
+msgstr "0 = mục đầu tiên; -1 = mục cuối cùng"
+
+#: resource-bar@ticko4.github.io/prefs.js:299
+msgid "Monitoring"
+msgstr "Giám sát"
+
+#: resource-bar@ticko4.github.io/prefs.js:301
+msgid "General"
+msgstr "Chung"
+
+#: resource-bar@ticko4.github.io/prefs.js:302
+msgid "Update interval"
+msgstr "Chu kỳ cập nhật"
+
+#: resource-bar@ticko4.github.io/prefs.js:303
+msgid "Seconds between readings"
+msgstr "Số giây giữa các lần đo"
+
+#: resource-bar@ticko4.github.io/prefs.js:307
+msgid "Default disk"
+msgstr "Đĩa mặc định"
+
+#: resource-bar@ticko4.github.io/prefs.js:308
+msgid ""
+"Used by disk metrics that do not name a specific disk. The menu always lists "
+"every disk."
+msgstr ""
+"Dùng cho các chỉ số đĩa không chỉ định đĩa cụ thể. Trình đơn luôn liệt kê "
+"mọi đĩa."
+
+#: resource-bar@ticko4.github.io/prefs.js:311
+msgid "Mount point"
+msgstr "Điểm gắn"
+
+#: resource-bar@ticko4.github.io/prefs.js:322
+#: resource-bar@ticko4.github.io/lib/popup.js:227
+msgid "Network"
+msgstr "Mạng"
+
+#: resource-bar@ticko4.github.io/prefs.js:327
+msgid "Interface"
+msgstr "Giao diện"
+
+#: resource-bar@ticko4.github.io/prefs.js:328
+msgid "Automatic (physical interfaces)"
+msgstr "Tự động (giao diện vật lý)"
+
+#: resource-bar@ticko4.github.io/prefs.js:329
+msgid "Unit"
+msgstr "Đơn vị"
+
+#: resource-bar@ticko4.github.io/prefs.js:330
+msgid "Compact format"
+msgstr "Định dạng gọn"
+
+#: resource-bar@ticko4.github.io/prefs.js:330
+msgid "E.g. “1.2M” instead of “1.2 MB/s”"
+msgstr "Ví dụ: “1.2M” thay vì “1.2 MB/s”"
+
+#: resource-bar@ticko4.github.io/prefs.js:331
+msgid "Decimal places (compact)"
+msgstr "Số chữ số thập phân (gọn)"
+
+#: resource-bar@ticko4.github.io/prefs.js:340
+msgid "Thresholds"
+msgstr "Ngưỡng"
+
+#: resource-bar@ticko4.github.io/prefs.js:342
+msgid "Color thresholds"
+msgstr "Ngưỡng màu"
+
+#: resource-bar@ticko4.github.io/prefs.js:343
+msgid ""
+"Below the activity threshold a metric uses the normal top bar color. Between "
+"activity and critical it moves toward the alert color, and at critical it is "
+"fully that color."
+msgstr ""
+"Dưới ngưỡng hoạt động, chỉ số dùng màu bình thường của thanh đỉnh. Giữa hoạt "
+"động và nguy hiểm, màu chuyển dần sang màu cảnh báo, và ở mức nguy hiểm thì "
+"hoàn toàn là màu đó."
+
+#: resource-bar@ticko4.github.io/prefs.js:371
+msgid "Activity"
+msgstr "Hoạt động"
+
+#: resource-bar@ticko4.github.io/prefs.js:372
+msgid "Critical"
+msgstr "Nguy hiểm"
+
+#: resource-bar@ticko4.github.io/prefs.js:396
+msgid "Reset thresholds"
+msgstr "Đặt lại ngưỡng"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:226
+#: resource-bar@ticko4.github.io/lib/stats.js:35
+msgid "Memory"
+msgstr "Bộ nhớ"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:228
+msgid "Disks"
+msgstr "Đĩa"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:238
+msgctxt "disks card"
+msgid "Space"
+msgstr "Dung lượng"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:239
+msgctxt "disks card"
+msgid "Activity"
+msgstr "Hoạt động"
+
+#. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+#, javascript-format
+msgid "Load %s   ·   Up %s"
+msgstr "Tải %s   ·   Đã chạy %s"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:319
+#, javascript-format
+msgid "%d core"
+msgid_plural "%d cores"
+msgstr[0] "%d lõi"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:335
+msgid "No swap"
+msgstr "Không có swap"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:350
+#, javascript-format
+msgid "Interface %s"
+msgstr "Giao diện %s"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:350
+msgid "Physical interfaces"
+msgstr "Giao diện vật lý"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:394
+#, javascript-format
+msgid "%d disk"
+msgid_plural "%d disks"
+msgstr[0] "%d đĩa"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:396
+msgid "Calculating…"
+msgstr "Đang tính…"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:409
+msgid "Suspended (power saving)"
+msgstr "Đã tạm ngưng (tiết kiệm điện)"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:419
+msgid "Waiting for data…"
+msgstr "Đang chờ dữ liệu…"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:29
+#: resource-bar@ticko4.github.io/lib/stats.js:132
+msgid "CPU usage"
+msgstr "Mức dùng CPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:30
+#: resource-bar@ticko4.github.io/lib/stats.js:138
+msgid "CPU temperature"
+msgstr "Nhiệt độ CPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:31
+#: resource-bar@ticko4.github.io/lib/stats.js:144
+msgid "CPU frequency"
+msgstr "Tần số CPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:32
+#: resource-bar@ticko4.github.io/lib/stats.js:151
+msgid "GPU usage"
+msgstr "Mức dùng GPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:33
+#: resource-bar@ticko4.github.io/lib/stats.js:157
+msgid "GPU temperature"
+msgstr "Nhiệt độ GPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:34
+msgid "VRAM"
+msgstr "VRAM"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:36
+msgid "Swap"
+msgstr "Swap"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:37
+msgid "Disk (space used)"
+msgstr "Đĩa (dung lượng đã dùng)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:38
+msgid "Disk (activity)"
+msgstr "Đĩa (hoạt động)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:39
+#: resource-bar@ticko4.github.io/lib/stats.js:225
+msgid "Download"
+msgstr "Tải xuống"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:40
+#: resource-bar@ticko4.github.io/lib/stats.js:232
+msgid "Upload"
+msgstr "Tải lên"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:163
+msgid "VRAM (%)"
+msgstr "VRAM (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:169
+msgid "VRAM used"
+msgstr "VRAM đã dùng"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:175
+msgid "Memory (%)"
+msgstr "Bộ nhớ (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:181
+msgid "Memory used"
+msgstr "Bộ nhớ đã dùng"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:187
+msgid "Swap (%)"
+msgstr "Swap (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:193
+msgid "Disk used (%)"
+msgstr "Đĩa đã dùng (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:199
+msgid "Disk used"
+msgstr "Đĩa đã dùng"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:205
+msgid "Disk free (%)"
+msgstr "Đĩa còn trống (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:212
+msgid "Disk free"
+msgstr "Đĩa còn trống"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:219
+msgid "Disk activity"
+msgstr "Hoạt động đĩa"

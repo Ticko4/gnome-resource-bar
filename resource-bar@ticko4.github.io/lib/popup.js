@@ -4,9 +4,10 @@
 import Clutter from 'gi://Clutter';
 import St from 'gi://St';
 
+import {gettext as _, ngettext, pgettext} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
-import {categoryOf, diskUtilKey, formatDuration, formatRate, formatUsage, gradientFactor} from './stats.js';
+import {categoryOf, diskUtilKey, fmt, formatDuration, formatRate, formatUsage, gradientFactor} from './stats.js';
 import {mountName} from './mounts.js';
 import {graphBaseColor, mixColors, toCss, withAlpha} from './color.js';
 import {CoreGauges, Gauge, Graph, iconFor} from './widgets.js';
@@ -222,9 +223,9 @@ export class ResourcePopup {
 
         this._cards = {
             cpu: new Card('CPU', 'cpu', path),
-            mem: new Card('Memória', 'memory', path),
-            net: new Card('Rede', 'download', path),
-            disk: new Card('Discos', 'disk', path),
+            mem: new Card(_('Memory'), 'memory', path),
+            net: new Card(_('Network'), 'download', path),
+            disk: new Card(_('Disks'), 'disk', path),
             gpu: new Card('GPU', 'gpu', path),
         };
         this._cards.cpu.addCores();
@@ -232,28 +233,45 @@ export class ResourcePopup {
         this._cards.mem.addGraph();
         this._cards.net.addGraph();
         this._cards.disk.addList();
-        this._diskMode = new Segmented([['space', 'Ocupação'], ['activity', 'Utilização']],
+        // TRANSLATORS: Disks card switch: space used on each disk vs. read/write activity.
+        this._diskMode = new Segmented([
+            ['space', pgettext('disks card', 'Space')],
+            ['activity', pgettext('disks card', 'Activity')],
+        ],
             mode => extension.setDiskCardMode(mode));
         this._cards.disk.addHeaderControl(this._diskMode.actor);
         this._cards.gpu.addGraph();
         this._diskRows = [];
         this._diskSig = null;
 
-        // CPU | Memória, Rede | GPU (Rede takes the row without a GPU),
-        // then Discos across the full width.
-        const hasGpu = extension._sampler?.hasGpu ?? false;
+        // CPU | Memory, Network | GPU (Network takes the row without a GPU),
+        // then Disks across the full width.
+        this._gridLayout = grid;
+        this._gpuLaidOut = null;
         grid.attach(this._cards.cpu.actor, 0, 0, 1, 1);
         grid.attach(this._cards.mem.actor, 1, 0, 1, 1);
-        grid.attach(this._cards.net.actor, 0, 1, hasGpu ? 1 : 2, 1);
-        if (hasGpu)
-            grid.attach(this._cards.gpu.actor, 1, 1, 1, 1);
+        this._layoutGpuRow(false);
         grid.attach(this._cards.disk.actor, 0, 2, 2, 1);
+    }
+
+    // The GPU is detected asynchronously after the menu is built, so the
+    // second row is laid out again once we know whether there is one.
+    _layoutGpuRow(hasGpu) {
+        if (hasGpu === this._gpuLaidOut)
+            return;
+        this._gpuLaidOut = hasGpu;
+        for (const actor of [this._cards.net.actor, this._cards.gpu.actor])
+            actor.get_parent()?.remove_child(actor);
+        this._gridLayout.attach(this._cards.net.actor, 0, 1, hasGpu ? 1 : 2, 1);
+        if (hasGpu)
+            this._gridLayout.attach(this._cards.gpu.actor, 1, 1, 1, 1);
     }
 
     // ctx: {snapshot, model, opts, thresholds, highlight, hasGpu, graphColors, accent, animMs,
     //       diskCardMode}
     refresh(ctx) {
         const {snapshot: s, model, opts, thresholds, highlight} = ctx;
+        this._layoutGpuRow(ctx.hasGpu);
         let base;
         try {
             const fg = this._header.get_theme_node().get_foreground_color();
@@ -282,7 +300,8 @@ export class ResourcePopup {
         // Header
         if (s.system) {
             const load = s.system.load.map(v => v.toFixed(2)).join('  ');
-            this._header.text = `Carga ${load}   ·   Ligado há ${formatDuration(s.system.uptime)}`;
+            // TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
+            this._header.text = fmt(_('Load %s   ·   Up %s'), load, formatDuration(s.system.uptime));
         }
 
         // CPU
@@ -296,7 +315,8 @@ export class ResourcePopup {
                 parts.push(`${Math.round(s.cpuTemp)}°C`);
             if (s.cpuFreq)
                 parts.push(`${(s.cpuFreq.mhz / 1000).toFixed(2)} GHz`);
-            parts.push(`${s.cpu.cores.length} núcleos`);
+            const n = s.cpu.cores.length;
+            parts.push(fmt(ngettext('%d core', '%d cores', n), n));
             card.setLines(parts.join('  ·  '));
             const [a, c] = thresholds.cpu_usage;
             card.cores.update(s.cpu.cores, v => mixColors(base, highlight, gradientFactor(v, a, c)), animMs);
@@ -312,7 +332,7 @@ export class ResourcePopup {
             if (s.mem) {
                 const swap = s.mem.swapTotal > 0
                     ? `Swap ${Math.round(s.mem.swapPct)}%  ·  ${formatUsage(s.mem.swapUsed, s.mem.swapTotal)}`
-                    : 'Sem swap';
+                    : _('No swap');
                 card.setLines(`${formatUsage(s.mem.used, s.mem.total)}`, swap);
             }
             card.graph.setSeries([series('ram_pct', graphColor)], withAlpha(base, 0.05), animMs);
@@ -326,7 +346,8 @@ export class ResourcePopup {
             const rate = v => formatRate(v, {unit: opts.net.unit});
             card.value.text = s.net ? `↓ ${rate(s.net.rx)}` : '--';
             card.setAccent(rx.color, cardBg);
-            card.setLines(s.net ? `↑ ${rate(s.net.tx)}` : '', opts.iface ? `Interface ${opts.iface}` : 'Interfaces físicas');
+            card.setLines(s.net ? `↑ ${rate(s.net.tx)}` : '',
+                opts.iface ? fmt(_('Interface %s'), opts.iface) : _('Physical interfaces'));
             card.graph.setSeries([
                 series('net_rx', rx.graphColor),
                 series('net_tx', withAlpha(tx.graphColor, 0.55), false),
@@ -370,9 +391,9 @@ export class ResourcePopup {
                     this._diskRows[i].update(d, mixColors(base, highlight, factor), animMs);
                 }
             });
-            card.value.text = list.length === 1 ? '1 disco' : `${list.length} discos`;
+            card.value.text = fmt(ngettext('%d disk', '%d disks', list.length), list.length);
             card.setAccent(mixColors(base, highlight, worst), cardBg);
-            card.setLines(list.length === 0 ? 'Calculando…' : '');
+            card.setLines(list.length === 0 ? _('Calculating…') : '');
         }
 
         // GPU
@@ -385,7 +406,7 @@ export class ResourcePopup {
                 card.setAccent(color, cardBg);
                 const g = s.gpu;
                 if (g?.suspended) {
-                    card.setLines('Em suspensão (economia de energia)');
+                    card.setLines(_('Suspended (power saving)'));
                 } else if (g) {
                     const parts = [];
                     if (g.temp !== null)
@@ -395,7 +416,7 @@ export class ResourcePopup {
                     card.title.text = shortGpuName(g.name);
                     card.setLines(parts.join('  ·  '));
                 } else {
-                    card.setLines('Aguardando dados…');
+                    card.setLines(_('Waiting for data…'));
                 }
                 card.graph.setSeries([series('gpu_usage', graphColor)], withAlpha(base, 0.05), animMs);
             }

@@ -1,0 +1,482 @@
+# French translation for Resource Bar.
+# This file is distributed under the same license as the Resource Bar package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Resource Bar\n"
+"Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
+"POT-Creation-Date: 2026-11-12 00:33+0000\n"
+"PO-Revision-Date: 2026-11-11 22:00+0000\n"
+"Last-Translator: Resource Bar contributors\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. TRANSLATORS: %s is the system monitor app, e.g. "Resources".
+#: resource-bar@ticko4.github.io/extension.js:91
+#, javascript-format
+msgid "Open %s"
+msgstr "Ouvrir %s"
+
+#: resource-bar@ticko4.github.io/extension.js:94
+msgid "Settings"
+msgstr "Paramètres"
+
+#: resource-bar@ticko4.github.io/prefs.js:15
+msgid "Gauge"
+msgstr "Jauge"
+
+#: resource-bar@ticko4.github.io/prefs.js:16
+msgid "Graph"
+msgstr "Graphique"
+
+#: resource-bar@ticko4.github.io/prefs.js:17
+msgid "None"
+msgstr "Aucune"
+
+#: resource-bar@ticko4.github.io/prefs.js:21
+msgid "Default (text color)"
+msgstr "Par défaut (couleur du texte)"
+
+#: resource-bar@ticko4.github.io/prefs.js:22
+msgid "System accent color"
+msgstr "Couleur d’accentuation du système"
+
+#: resource-bar@ticko4.github.io/prefs.js:23
+msgid "Per resource (like Resources)"
+msgstr "Par ressource (comme Resources)"
+
+#: resource-bar@ticko4.github.io/prefs.js:27
+msgid "Left"
+msgstr "Gauche"
+
+#: resource-bar@ticko4.github.io/prefs.js:28
+msgid "Center"
+msgstr "Centre"
+
+#: resource-bar@ticko4.github.io/prefs.js:29
+msgid "Right"
+msgstr "Droite"
+
+#: resource-bar@ticko4.github.io/prefs.js:33
+msgid "Automatic"
+msgstr "Automatique"
+
+#: resource-bar@ticko4.github.io/prefs.js:113
+msgid "Top Bar"
+msgstr "Barre supérieure"
+
+#: resource-bar@ticko4.github.io/prefs.js:116
+msgid "Metrics in the top bar"
+msgstr "Métriques dans la barre supérieure"
+
+#: resource-bar@ticko4.github.io/prefs.js:117
+msgid ""
+"Each metric becomes an item with an icon, a gauge or graph and its value, "
+"like Noctalia’s sysmon widget."
+msgstr ""
+"Chaque métrique devient un élément avec une icône, une jauge ou un graphique "
+"et sa valeur, comme le widget sysmon de Noctalia."
+
+#: resource-bar@ticko4.github.io/prefs.js:140
+#, javascript-format
+msgid "default (%s)"
+msgstr "par défaut (%s)"
+
+#: resource-bar@ticko4.github.io/prefs.js:157
+msgid "Move up"
+msgstr "Monter"
+
+#: resource-bar@ticko4.github.io/prefs.js:162
+msgid "Move down"
+msgstr "Descendre"
+
+#: resource-bar@ticko4.github.io/prefs.js:167
+msgid "Remove"
+msgstr "Retirer"
+
+#: resource-bar@ticko4.github.io/prefs.js:174
+msgid "Add metric"
+msgstr "Ajouter une métrique"
+
+#: resource-bar@ticko4.github.io/prefs.js:177
+#, javascript-format
+msgid "Default (%s)"
+msgstr "Par défaut (%s)"
+
+#: resource-bar@ticko4.github.io/prefs.js:179
+msgid "Disk"
+msgstr "Disque"
+
+#: resource-bar@ticko4.github.io/prefs.js:187
+msgid "Add"
+msgstr "Ajouter"
+
+#: resource-bar@ticko4.github.io/prefs.js:208
+msgid "All disks"
+msgstr "Tous les disques"
+
+#. TRANSLATORS: %s is a list of disk names.
+#: resource-bar@ticko4.github.io/prefs.js:211
+msgid "Adds “Disk used (%)” for: %s"
+msgstr "Ajoute « Disque utilisé (%) » pour : %s"
+
+#: resource-bar@ticko4.github.io/prefs.js:212
+#, javascript-format
+msgid "The %d detected disk is already in the top bar"
+msgid_plural "All %d detected disks are already in the top bar"
+msgstr[0] "Le %d disque détecté est déjà dans la barre supérieure"
+msgstr[1] "Les %d disques détectés sont déjà tous dans la barre supérieure"
+
+#: resource-bar@ticko4.github.io/prefs.js:216
+msgid "Add all"
+msgstr "Tout ajouter"
+
+#: resource-bar@ticko4.github.io/prefs.js:234
+msgid "Appearance"
+msgstr "Apparence"
+
+#: resource-bar@ticko4.github.io/prefs.js:235
+msgid "Visualization"
+msgstr "Visualisation"
+
+#: resource-bar@ticko4.github.io/prefs.js:236
+msgid "Vertical pill gauge or a graph of the last 30 readings"
+msgstr ""
+"Jauge verticale en forme de pilule ou graphique des 30 dernières mesures"
+
+#: resource-bar@ticko4.github.io/prefs.js:237
+msgid "Show icon"
+msgstr "Afficher l’icône"
+
+#: resource-bar@ticko4.github.io/prefs.js:238
+msgid "Show value"
+msgstr "Afficher la valeur"
+
+#: resource-bar@ticko4.github.io/prefs.js:239
+msgid "Show units"
+msgstr "Afficher les unités"
+
+#: resource-bar@ticko4.github.io/prefs.js:239
+msgid "Off: “45” instead of “45°C”"
+msgstr "Désactivé : « 45 » au lieu de « 45°C »"
+
+#: resource-bar@ticko4.github.io/prefs.js:240
+msgid "Per-core gauge"
+msgstr "Jauge par cœur"
+
+#: resource-bar@ticko4.github.io/prefs.js:241
+msgid "For CPU usage in gauge mode, one bar per core"
+msgstr "Pour l’utilisation du CPU en mode jauge, une barre par cœur"
+
+#: resource-bar@ticko4.github.io/prefs.js:242
+msgid "Minimum value width"
+msgstr "Largeur minimale de la valeur"
+
+#: resource-bar@ticko4.github.io/prefs.js:243
+msgid "In pixels; reserves room so the top bar does not shift"
+msgstr ""
+"En pixels ; réserve de la place pour que la barre supérieure ne bouge pas"
+
+#: resource-bar@ticko4.github.io/prefs.js:244
+msgid "Spacing between metrics"
+msgstr "Espacement entre les métriques"
+
+#: resource-bar@ticko4.github.io/prefs.js:246
+msgid "Smooth animation"
+msgstr "Animation fluide"
+
+#: resource-bar@ticko4.github.io/prefs.js:247
+msgid ""
+"Gauges and graphs glide between readings instead of jumping on every update"
+msgstr ""
+"Les jauges et les graphiques glissent d’une mesure à l’autre au lieu de "
+"sauter à chaque mise à jour"
+
+#: resource-bar@ticko4.github.io/prefs.js:248
+msgid "Graph colors"
+msgstr "Couleurs des graphiques"
+
+#: resource-bar@ticko4.github.io/prefs.js:249
+msgid "Only graphs change; gauges, icons and values stay as they are"
+msgstr ""
+"Seuls les graphiques changent ; les jauges, les icônes et les valeurs "
+"restent inchangées"
+
+#: resource-bar@ticko4.github.io/prefs.js:252
+msgid "Alert color"
+msgstr "Couleur d’alerte"
+
+#: resource-bar@ticko4.github.io/prefs.js:253
+msgid "Used when a value goes past its activity and critical thresholds"
+msgstr "Utilisée lorsqu’une valeur dépasse ses seuils d’activité et critique"
+
+#: resource-bar@ticko4.github.io/prefs.js:274
+msgid "Reset to default"
+msgstr "Rétablir la valeur par défaut"
+
+#: resource-bar@ticko4.github.io/prefs.js:287
+msgid "Position"
+msgstr "Position"
+
+#: resource-bar@ticko4.github.io/prefs.js:288
+msgid "Top bar area"
+msgstr "Zone de la barre supérieure"
+
+#: resource-bar@ticko4.github.io/prefs.js:289
+msgid "Position in the area"
+msgstr "Position dans la zone"
+
+#: resource-bar@ticko4.github.io/prefs.js:290
+msgid "0 = first item; -1 = last"
+msgstr "0 = premier élément ; -1 = dernier"
+
+#: resource-bar@ticko4.github.io/prefs.js:299
+msgid "Monitoring"
+msgstr "Surveillance"
+
+#: resource-bar@ticko4.github.io/prefs.js:301
+msgid "General"
+msgstr "Général"
+
+#: resource-bar@ticko4.github.io/prefs.js:302
+msgid "Update interval"
+msgstr "Intervalle de mise à jour"
+
+#: resource-bar@ticko4.github.io/prefs.js:303
+msgid "Seconds between readings"
+msgstr "Secondes entre les mesures"
+
+#: resource-bar@ticko4.github.io/prefs.js:307
+msgid "Default disk"
+msgstr "Disque par défaut"
+
+#: resource-bar@ticko4.github.io/prefs.js:308
+msgid ""
+"Used by disk metrics that do not name a specific disk. The menu always lists "
+"every disk."
+msgstr ""
+"Utilisé par les métriques de disque qui ne désignent pas un disque précis. "
+"Le menu affiche toujours tous les disques."
+
+#: resource-bar@ticko4.github.io/prefs.js:311
+msgid "Mount point"
+msgstr "Point de montage"
+
+#: resource-bar@ticko4.github.io/prefs.js:322
+#: resource-bar@ticko4.github.io/lib/popup.js:227
+msgid "Network"
+msgstr "Réseau"
+
+#: resource-bar@ticko4.github.io/prefs.js:327
+msgid "Interface"
+msgstr "Interface"
+
+#: resource-bar@ticko4.github.io/prefs.js:328
+msgid "Automatic (physical interfaces)"
+msgstr "Automatique (interfaces physiques)"
+
+#: resource-bar@ticko4.github.io/prefs.js:329
+msgid "Unit"
+msgstr "Unité"
+
+#: resource-bar@ticko4.github.io/prefs.js:330
+msgid "Compact format"
+msgstr "Format compact"
+
+#: resource-bar@ticko4.github.io/prefs.js:330
+msgid "E.g. “1.2M” instead of “1.2 MB/s”"
+msgstr "Par ex. « 1.2M » au lieu de « 1.2 MB/s »"
+
+#: resource-bar@ticko4.github.io/prefs.js:331
+msgid "Decimal places (compact)"
+msgstr "Décimales (compact)"
+
+#: resource-bar@ticko4.github.io/prefs.js:340
+msgid "Thresholds"
+msgstr "Seuils"
+
+#: resource-bar@ticko4.github.io/prefs.js:342
+msgid "Color thresholds"
+msgstr "Seuils de couleur"
+
+#: resource-bar@ticko4.github.io/prefs.js:343
+msgid ""
+"Below the activity threshold a metric uses the normal top bar color. Between "
+"activity and critical it moves toward the alert color, and at critical it is "
+"fully that color."
+msgstr ""
+"En dessous du seuil d’activité, une métrique utilise la couleur normale de "
+"la barre supérieure. Entre l’activité et le seuil critique, elle tend vers "
+"la couleur d’alerte, et au seuil critique elle prend entièrement cette "
+"couleur."
+
+#: resource-bar@ticko4.github.io/prefs.js:371
+msgid "Activity"
+msgstr "Activité"
+
+#: resource-bar@ticko4.github.io/prefs.js:372
+msgid "Critical"
+msgstr "Critique"
+
+#: resource-bar@ticko4.github.io/prefs.js:396
+msgid "Reset thresholds"
+msgstr "Réinitialiser les seuils"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:226
+#: resource-bar@ticko4.github.io/lib/stats.js:35
+msgid "Memory"
+msgstr "Mémoire"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:228
+msgid "Disks"
+msgstr "Disques"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:238
+msgctxt "disks card"
+msgid "Space"
+msgstr "Espace"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:239
+msgctxt "disks card"
+msgid "Activity"
+msgstr "Activité"
+
+#. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+#, javascript-format
+msgid "Load %s   ·   Up %s"
+msgstr "Charge %s   ·   Actif depuis %s"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:319
+#, javascript-format
+msgid "%d core"
+msgid_plural "%d cores"
+msgstr[0] "%d cœur"
+msgstr[1] "%d cœurs"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:335
+msgid "No swap"
+msgstr "Pas de swap"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:350
+#, javascript-format
+msgid "Interface %s"
+msgstr "Interface %s"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:350
+msgid "Physical interfaces"
+msgstr "Interfaces physiques"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:394
+#, javascript-format
+msgid "%d disk"
+msgid_plural "%d disks"
+msgstr[0] "%d disque"
+msgstr[1] "%d disques"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:396
+msgid "Calculating…"
+msgstr "Calcul en cours…"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:409
+msgid "Suspended (power saving)"
+msgstr "En veille (économie d’énergie)"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:419
+msgid "Waiting for data…"
+msgstr "En attente de données…"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:29
+#: resource-bar@ticko4.github.io/lib/stats.js:132
+msgid "CPU usage"
+msgstr "Utilisation du CPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:30
+#: resource-bar@ticko4.github.io/lib/stats.js:138
+msgid "CPU temperature"
+msgstr "Température du CPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:31
+#: resource-bar@ticko4.github.io/lib/stats.js:144
+msgid "CPU frequency"
+msgstr "Fréquence du CPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:32
+#: resource-bar@ticko4.github.io/lib/stats.js:151
+msgid "GPU usage"
+msgstr "Utilisation du GPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:33
+#: resource-bar@ticko4.github.io/lib/stats.js:157
+msgid "GPU temperature"
+msgstr "Température du GPU"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:34
+msgid "VRAM"
+msgstr "VRAM"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:36
+msgid "Swap"
+msgstr "Swap"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:37
+msgid "Disk (space used)"
+msgstr "Disque (espace utilisé)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:38
+msgid "Disk (activity)"
+msgstr "Disque (activité)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:39
+#: resource-bar@ticko4.github.io/lib/stats.js:225
+msgid "Download"
+msgstr "Réception"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:40
+#: resource-bar@ticko4.github.io/lib/stats.js:232
+msgid "Upload"
+msgstr "Envoi"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:163
+msgid "VRAM (%)"
+msgstr "VRAM (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:169
+msgid "VRAM used"
+msgstr "VRAM utilisée"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:175
+msgid "Memory (%)"
+msgstr "Mémoire (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:181
+msgid "Memory used"
+msgstr "Mémoire utilisée"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:187
+msgid "Swap (%)"
+msgstr "Swap (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:193
+msgid "Disk used (%)"
+msgstr "Disque utilisé (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:199
+msgid "Disk used"
+msgstr "Disque utilisé"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:205
+msgid "Disk free (%)"
+msgstr "Disque libre (%)"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:212
+msgid "Disk free"
+msgstr "Disque libre"
+
+#: resource-bar@ticko4.github.io/lib/stats.js:219
+msgid "Disk activity"
+msgstr "Activité du disque"

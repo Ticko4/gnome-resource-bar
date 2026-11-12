@@ -9,14 +9,14 @@ import GObject from 'gi://GObject';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import {Sampler} from './lib/sampler.js';
 import {
-    STATS, StatModel, THRESHOLDS, categoryOf, diskUtilKey, gradientFactor, isValidKey, parseKey, sourcesFor,
+    STATS, StatModel, THRESHOLDS, categoryOf, diskUtilKey, fmt, gradientFactor, isValidKey, parseKey, sourcesFor,
 } from './lib/stats.js';
 import {WHITE, fromCogl, graphBaseColor, mixColors, parseColor} from './lib/color.js';
 import {StatItem, iconFor} from './lib/widgets.js';
@@ -70,8 +70,8 @@ function loadThresholds(settings) {
     return out;
 }
 
-const ResourceIndicator = GObject.registerClass(
-class ResourceIndicator extends PanelMenu.Button {
+const ResourceBarIndicator = GObject.registerClass(
+class ResourceBarIndicator extends PanelMenu.Button {
     _init(ext) {
         super._init(0.5, 'Resource Bar', false);
         this._ext = ext;
@@ -87,10 +87,11 @@ class ResourceIndicator extends PanelMenu.Button {
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         const monitor = findMonitorApp();
         if (monitor) {
-            this.menu.addAction(`Abrir ${monitor.get_name()}`, () => monitor.activate(),
+            // TRANSLATORS: %s is the system monitor app, e.g. "Resources".
+            this.menu.addAction(fmt(_('Open %s'), monitor.get_name()), () => monitor.activate(),
                 monitorIcon(monitor, ext.path));
         }
-        this.menu.addAction('Configurações', () => ext.openPreferences(), 'preferences-system-symbolic');
+        this.menu.addAction(_('Settings'), () => ext.openPreferences(), 'preferences-system-symbolic');
         this.menu.connect('open-state-changed', (_menu, open) => ext.onMenuOpenChanged(open));
 
         // Hidden probe that resolves the system accent color (-st-accent-color);
@@ -248,7 +249,7 @@ export default class ResourceBarExtension extends Extension {
 
     _createIndicator() {
         this._indicator?.destroy();
-        const indicator = new ResourceIndicator(this);
+        const indicator = new ResourceBarIndicator(this);
         // The shell can destroy the panel (e.g. on shutdown) before disable().
         indicator.connect('destroy', () => {
             if (this._indicator === indicator)

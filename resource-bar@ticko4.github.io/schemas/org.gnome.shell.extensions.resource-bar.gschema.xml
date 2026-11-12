@@ -4,8 +4,8 @@
 
     <key name="stats" type="as">
       <default>['cpu_usage', 'cpu_temp', 'ram_pct', 'net_rx', 'net_tx']</default>
-      <summary>Métricas exibidas no painel, na ordem</summary>
-      <description>Cada item é um ID ou ID:ponto-de-montagem para métricas de disco (ex.: disk_used_pct:/mnt/dados). IDs: cpu_usage, cpu_temp, cpu_freq, gpu_usage, gpu_temp, gpu_vram, gpu_vram_used, ram_pct, ram_used, swap_pct, disk_used_pct, disk_used, disk_free_pct, disk_free, disk_util, net_rx, net_tx.</description>
+      <summary>Metrics shown in the top bar, in order</summary>
+      <description>Each item is an ID, or ID:mount-point for disk metrics (e.g. disk_used_pct:/mnt/data). IDs: cpu_usage, cpu_temp, cpu_freq, gpu_usage, gpu_temp, gpu_vram, gpu_vram_used, ram_pct, ram_used, swap_pct, disk_used_pct, disk_used, disk_free_pct, disk_free, disk_util, net_rx, net_tx.</description>
     </key>
 
     <key name="visualization" type="s">
@@ -15,45 +15,45 @@
         <choice value="none"/>
       </choices>
       <default>'gauge'</default>
-      <summary>Visualização ao lado do valor (medidor, gráfico ou nenhuma)</summary>
+      <summary>Visualization next to the value (gauge, graph or none)</summary>
     </key>
 
     <key name="show-icon" type="b">
       <default>true</default>
-      <summary>Mostrar ícone</summary>
+      <summary>Show icon</summary>
     </key>
 
     <key name="show-value" type="b">
       <default>true</default>
-      <summary>Mostrar valor</summary>
+      <summary>Show value</summary>
     </key>
 
     <key name="show-units" type="b">
       <default>true</default>
-      <summary>Mostrar unidades no valor</summary>
+      <summary>Show units in the value</summary>
     </key>
 
     <key name="show-cpu-cores" type="b">
       <default>false</default>
-      <summary>Medidor por núcleo no uso da CPU</summary>
+      <summary>Per-core gauge for CPU usage</summary>
     </key>
 
     <key name="label-min-width" type="i">
       <range min="0" max="200"/>
       <default>0</default>
-      <summary>Largura mínima do valor (px)</summary>
+      <summary>Minimum value width (px)</summary>
     </key>
 
     <key name="spacing" type="i">
       <range min="0" max="40"/>
       <default>10</default>
-      <summary>Espaço entre métricas (px)</summary>
+      <summary>Spacing between metrics (px)</summary>
     </key>
 
     <key name="smooth-animation" type="b">
       <default>true</default>
-      <summary>Animação suave</summary>
-      <description>Medidores e gráficos deslizam entre leituras durante o intervalo de atualização em vez de saltar. Também segue a opção do GNOME de reduzir animações.</description>
+      <summary>Smooth animation</summary>
+      <description>Gauges and graphs glide between readings over the update interval instead of jumping. Also follows GNOME's reduce animation setting.</description>
     </key>
 
     <key name="graph-colors" type="s">
@@ -63,13 +63,13 @@
         <choice value="resources"/>
       </choices>
       <default>'default'</default>
-      <summary>Cores dos gráficos</summary>
-      <description>default: cor do texto do painel; accent: cor de destaque do GNOME; resources: uma cor por recurso, como no app Resources (CPU azul, memória roxo, GPU vermelho, discos laranja, rede azul-esverdeado). Só os gráficos mudam; barras, ícones e valores não. Acima dos limites continuam indo para a cor de alerta.</description>
+      <summary>Graph colors</summary>
+      <description>default: top bar text color; accent: GNOME accent color; resources: one color per resource, like the Resources app (CPU blue, memory purple, GPU red, disks orange, network teal). Only graphs change; gauges, icons and values do not. Above the thresholds they still move toward the alert color.</description>
     </key>
 
     <key name="highlight-color" type="s">
       <default>'#FD4663'</default>
-      <summary>Cor de alerta para valores altos</summary>
+      <summary>Alert color for high values</summary>
     </key>
 
     <key name="thresholds" type="a{s(dd)}">
@@ -87,7 +87,7 @@
         'net_rx': (1.0, 50.0),
         'net_tx': (1.0, 50.0)
       }</default>
-      <summary>Limites (atividade, crítico) por grupo de métrica</summary>
+      <summary>Thresholds (activity, critical) per metric group</summary>
     </key>
 
     <key name="disk-card-mode" type="s">
@@ -96,24 +96,24 @@
         <choice value="activity"/>
       </choices>
       <default>'space'</default>
-      <summary>Cartão Discos: ocupação ou utilização</summary>
-      <description>space: espaço usado; activity: tempo em leitura/gravação (como o %util do iostat) e velocidades. Trocado pelo seletor no próprio cartão.</description>
+      <summary>Disks card: space used or activity</summary>
+      <description>space: space used; activity: time spent reading/writing (like iostat %util) and speeds. Changed with the switch on the card itself.</description>
     </key>
 
     <key name="update-interval" type="d">
       <range min="0.5" max="10.0"/>
       <default>1.0</default>
-      <summary>Intervalo de atualização (segundos)</summary>
+      <summary>Update interval (seconds)</summary>
     </key>
 
     <key name="disk-path" type="s">
       <default>'/'</default>
-      <summary>Ponto de montagem monitorado</summary>
+      <summary>Default disk mount point</summary>
     </key>
 
     <key name="network-interface" type="s">
       <default>''</default>
-      <summary>Interface de rede (vazio = todas as físicas)</summary>
+      <summary>Network interface (empty = all physical ones)</summary>
     </key>
 
     <key name="network-speed-unit" type="s">
@@ -123,18 +123,18 @@
         <choice value="mb"/>
       </choices>
       <default>'auto'</default>
-      <summary>Unidade da velocidade de rede</summary>
+      <summary>Network speed unit</summary>
     </key>
 
     <key name="network-speed-compact" type="b">
       <default>false</default>
-      <summary>Velocidade de rede compacta (ex.: 1.2M)</summary>
+      <summary>Compact network speed (e.g. 1.2M)</summary>
     </key>
 
     <key name="network-speed-decimals" type="i">
       <range min="0" max="2"/>
       <default>1</default>
-      <summary>Casas decimais no modo compacto</summary>
+      <summary>Decimal places in compact mode</summary>
     </key>
 
     <key name="panel-position" type="s">
@@ -144,13 +144,13 @@
         <choice value="right"/>
       </choices>
       <default>'right'</default>
-      <summary>Área do painel</summary>
+      <summary>Top bar area</summary>
     </key>
 
     <key name="panel-index" type="i">
       <range min="-1" max="50"/>
       <default>0</default>
-      <summary>Posição dentro da área (-1 = final)</summary>
+      <summary>Position inside the area (-1 = last)</summary>
     </key>
 
   </schema>

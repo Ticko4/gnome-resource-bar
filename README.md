@@ -1,45 +1,48 @@
-# Resource Bar (extensão GNOME Shell)
+# Resource Bar
 
-Monitor de recursos para o painel superior do GNOME, inspirado no widget **sysmon** da barra do
-[Noctalia Shell](https://github.com/noctalia-dev/noctalia-shell). Cada métrica vira um item compacto:
-**ícone + medidor (ou gráfico) + valor**, e a cor muda para a cor de destaque conforme o valor passa
-dos limites de *atividade* e *crítico*, como no Noctalia.
+A system resource monitor for the GNOME Shell top bar, inspired by the **sysmon** widget of
+[Noctalia Shell](https://github.com/noctalia-dev/noctalia-shell). Each metric is a compact item, an
+**icon + a pill gauge (or a history graph) + its value**, that tints toward an alert color as the value
+crosses its *activity* and *critical* thresholds.
 
-Compatível com GNOME Shell 48–51 (testado no 51.1, Wayland).
+![Resource Bar](docs/screenshot.png)
 
-## O que mostra
+For GNOME Shell 51 (Wayland and X11 sessions alike). The interface follows the system language; see
+[Translations](#translations).
 
-| ID | Métrica | Fonte |
+## What it shows
+
+| ID | Metric | Source |
 |---|---|---|
-| `cpu_usage` | Uso da CPU (opcional: uma barra por núcleo) | `/proc/stat` |
-| `cpu_temp` | Temperatura da CPU | hwmon `k10temp`/`zenpower` (Tctl/Tdie), `coretemp`, zonas térmicas |
-| `cpu_freq` | Frequência média | `/proc/cpuinfo` |
+| `cpu_usage` | CPU usage (optionally one bar per core) | `/proc/stat` |
+| `cpu_temp` | CPU temperature | hwmon `k10temp`/`zenpower` (Tctl/Tdie), `coretemp`, thermal zones |
+| `cpu_freq` | Average CPU frequency | `/proc/cpuinfo` |
 | `gpu_usage`, `gpu_temp`, `gpu_vram`, `gpu_vram_used` | GPU | NVIDIA via `nvidia-smi`, AMD via sysfs |
-| `ram_pct`, `ram_used` | Memória | `/proc/meminfo` (`MemTotal − MemAvailable`) |
+| `ram_pct`, `ram_used` | Memory | `/proc/meminfo` (`MemTotal − MemAvailable`) |
 | `swap_pct` | Swap | `/proc/meminfo` |
-| `disk_used_pct`, `disk_used`, `disk_free_pct`, `disk_free`, `disk_util` (utilização) | Disco: o padrão ou um disco específico (`disk_used_pct:/mnt/dados`) | `/proc/self/mounts` + `statfs` via GIO |
-| `net_rx`, `net_tx` | Download / upload | `/proc/net/dev` (por padrão, só interfaces físicas) |
+| `disk_used_pct`, `disk_used`, `disk_free_pct`, `disk_free`, `disk_util` | Disk space and activity, for the default disk or a specific one (`disk_used_pct:/mnt/data`) | `/proc/self/mounts`, `statfs`, `/proc/diskstats` |
+| `net_rx`, `net_tx` | Download / upload | `/proc/net/dev` (physical interfaces by default) |
 
-Ao clicar no painel abre um menu com cartões de CPU (com barras por núcleo), memória/swap, rede
-(download e upload no mesmo gráfico) e GPU, uma lista com todos os discos montados (barra, % e usado/total)
-e a carga média com o tempo ligado.
+Clicking the item opens a menu with cards for CPU (with per-core bars), memory and swap, network
+(download and upload on one graph) and GPU, plus every mounted disk, and the load average and uptime.
 
-### Vários discos
+### Disks
 
-Os discos são detectados em `/proc/self/mounts`: entram sistemas de arquivos locais (ext4, btrfs, xfs,
-ntfs3, exfat, vfat…) e ficam de fora `/boot`, `/efi`, imagens somente leitura (ISO) e pseudo-sistemas.
-Subvolumes btrfs do mesmo disco (`/` e `/home`) aparecem uma vez só.
+Disks are found in `/proc/self/mounts`: local filesystems (ext4, btrfs, xfs, ntfs3, exfat, vfat…) are
+listed; `/boot`, `/efi`, read-only images (ISO) and pseudo filesystems are left out, and btrfs subvolumes of
+the same partition (`/` and `/home`) appear once.
 
-Nas preferências, ao adicionar uma métrica de disco você escolhe qual disco ela mostra, e **Todos os discos**
-adiciona um “Disco usado (%)” para cada disco que ainda não está no painel. Cada item de disco mostra o nome
-do disco (ex.: `KIOXIA-SSD`) ao lado do ícone; se o disco for desmontado, o item mostra `--`.
+In the preferences, a disk metric can be pinned to any disk, and **All disks** adds a “Disk used (%)” item
+for every disk not yet in the top bar. Disk items show the disk name next to the icon, and `--` when the disk
+is unmounted.
 
-No cartão **Discos** do menu, o seletor **Ocupação | Utilização** alterna entre o espaço usado e a atividade
-de cada disco: um gráfico dos últimos 30 s (no lugar da barra) e a % mostram o tempo em leitura/gravação (como o `%util` do `iostat`, lido de
-`/proc/diskstats`, sem acordar discos em repouso) e ao lado ficam as velocidades de leitura (↓) e gravação (↑).
-A escolha fica salva.
+The **Disks** card has a **Space | Activity** switch. *Space* shows the used space; *Activity* shows, per
+disk, a graph of the last 30 seconds of busy time (like `iostat`’s `%util`, read from `/proc/diskstats`
+without waking sleeping disks) with read (↓) and write (↑) speeds.
 
-## Instalação
+## Install
+
+From [extensions.gnome.org](https://extensions.gnome.org) (once published), or from source:
 
 ```bash
 git clone https://github.com/Ticko4/gnome-resource-bar.git
@@ -47,68 +50,77 @@ cd gnome-resource-bar
 ./install.sh
 ```
 
-O script copia a extensão para `~/.local/share/gnome-shell/extensions` e a marca como ativa.
-No Wayland, encerre a sessão e entre de novo para ela aparecer no painel.
+The script installs the extension in `~/.local/share/gnome-shell/extensions` and enables it. On Wayland,
+log out and back in for it to appear. `./install.sh --pack` builds the zip for extensions.gnome.org.
 
-Para gerar um `.zip` instalável: `./install.sh --pack`.
+## Preferences
 
-## Configuração
+`gnome-extensions prefs resource-bar@ticko4.github.io`, or **Settings** in the extension’s menu:
 
-`gnome-extensions prefs resource-bar@local` (ou **Configurações** no menu da extensão):
+- **Top Bar**: which metrics and in what order; visualization (gauge, graph or none); icon, value, units,
+  per-core gauge, minimum value width, spacing, smooth animation, graph colors (default, the system accent
+  color, or one color per resource like the Resources app: CPU blue, memory purple, GPU red, disks orange,
+  network teal; only graphs change), alert color (default `#FD4663`, Noctalia’s “error”); area and
+  position in the top bar.
+- **Monitoring**: update interval (1 s by default), default disk, network interface, speed unit and
+  compact format.
+- **Thresholds**: activity/critical per metric group, with Noctalia’s defaults (CPU 50/90 %,
+  temperature 60/85 °C, memory 60/90 %, swap 20/80 %, disk 80/95 %, disk activity 50/90 %,
+  network 1/50 MB/s…).
 
-- **Painel**: quais métricas e em que ordem; visualização (medidor, gráfico ou nenhuma); ícone, valor,
-  unidades, medidor por núcleo, largura mínima do valor, espaçamento, animação suave, cores dos gráficos
-  (padrão, cor de destaque do sistema ou uma cor por recurso como no Resources: CPU azul, memória roxo,
-  GPU vermelho, discos laranja, rede azul-esverdeado; só os gráficos mudam, não as barras), cor de alerta (padrão `#FD4663`, o “error” do Noctalia);
-  área e posição no painel.
-- **Monitoramento**: intervalo (padrão 1 s), disco padrão, interface de rede,
-  unidade e formato compacto da velocidade.
-- **Limites**: atividade/crítico por grupo, com os padrões do Noctalia (CPU 50/90 %, temperatura 60/85 °C,
-  RAM 60/90 %, swap 20/80 %, disco 80/95 %, rede 1/50 MB/s…).
+## How it works
 
-## Como funciona
+- Every read is asynchronous (`Gio.File.load_contents_async`, `query_filesystem_info_async`, async sensor
+  discovery), so the shell never waits on the kernel.
+- Only what is needed is read: GPU and CPU frequency only while they are in the top bar or the menu is open.
+- NVIDIA: a single `nvidia-smi --loop-ms` process runs while the GPU is needed (much cheaper than
+  starting it every second) and is stopped afterwards. Runtime-suspended GPUs are not woken up.
+- Smooth animation (on by default): gauges glide to each new value and graphs scroll continuously, each
+  reading continuing from what is on screen, at up to ~30 fps; changes under a quarter pixel do not animate
+  and GNOME’s *Reduce animation* setting turns it off. Value labels only shrink after 10 s so items do not
+  shift. Graph mode keeps the top bar redrawing, which costs a little more; it can be turned off.
+- Color: below the activity threshold an item uses the top bar text color; past it, it starts at 25 % of the
+  alert color and reaches 100 % at the critical threshold (Noctalia’s curve).
 
-- Toda leitura é assíncrona (`Gio.File.load_contents_async`, `query_filesystem_info_async`); o shell
-  nunca bloqueia esperando o kernel.
-- Só lê o que é necessário: GPU e frequência só são lidas quando estão no painel ou com o menu aberto.
-- NVIDIA: um único processo `nvidia-smi --loop-ms` fica rodando enquanto a GPU é necessária
-  (bem mais barato que iniciar o programa a cada segundo) e é encerrado quando não é mais.
-- GPUs em suspensão automática (`runtime_status = suspended`) não são acordadas só para leitura.
-- Animação suave (ligada por padrão): a cada leitura os medidores deslizam até o valor novo e os gráficos
-  rolam continuamente (a leitura entra pela direita; mudanças de escala, como um novo pico de rede, também
-  são suavizadas). A animação dura um pouco mais que o intervalo e cada leitura continua o movimento a
-  partir do que está na tela, então nada para entre leituras. A largura dos valores no painel só encolhe
-  depois de 10 s, para os itens não se deslocarem. Limitada a ~30 fps; mudanças de menos de 1/4 de pixel
-  não animam, e a opção “Reduzir animação” do GNOME desliga tudo. No modo gráfico o painel é redesenhado
-  continuamente, o que custa um pouco mais; dá para desligar em Aparência.
-- Cor: abaixo do limite de atividade o item usa a cor do texto do painel; ao passar dele, já começa
-  com 25 % de destaque e vai a 100 % no crítico (mesma curva do Noctalia).
-
-## Estrutura
+## Layout
 
 ```
-resource-bar@local/
-├── extension.js      indicador, timer, configurações
-├── prefs.js          janela de preferências (libadwaita)
+resource-bar@ticko4.github.io/
+├── extension.js      indicator, timer, settings
+├── prefs.js          preferences window (libadwaita)
 ├── stylesheet.css
-├── lib/sampler.js    leitura de /proc, /sys, nvidia-smi
-├── lib/stats.js      catálogo de métricas, formatação, limites, histórico
-├── lib/widgets.js    medidor, barras por núcleo, gráfico, item do painel
-├── lib/popup.js      cartões do menu
-├── lib/color.js      utilitários de cor
-├── icons/            ícones simbólicos
+├── lib/sampler.js    reads /proc, /sys, nvidia-smi
+├── lib/stats.js      metric catalogue, formatting, thresholds, history
+├── lib/widgets.js    gauge, per-core gauges, graph, top bar item
+├── lib/popup.js      menu cards
+├── lib/mounts.js     disk discovery
+├── lib/color.js      color helpers
+├── icons/            symbolic icons
 └── schemas/          GSettings
+po/                   translations (po/update-pot.sh refreshes the template)
 ```
 
-## Limitações
+## Translations
 
-- GPU Intel integrada: sem uso/VRAM (o kernel não expõe isso de forma simples).
-- O `nvidia-smi` mantém a GPU NVIDIA acordada enquanto roda; em notebooks com GPU híbrida, deixe as
-  métricas de GPU fora do painel se quiser que ela suspenda.
+Included: English (source), Arabic, Basque, Bulgarian, Catalan, Chinese (Simplified and Traditional),
+Croatian, Czech, Danish, Dutch, Estonian, Finnish, French, Galician, German, Greek, Hebrew, Hindi,
+Hungarian, Indonesian, Italian, Japanese, Korean, Latvian, Lithuanian, Norwegian Bokmål, Persian, Polish,
+Portuguese (Portugal and Brazil), Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish, Thai,
+Turkish, Ukrainian and Vietnamese.
 
-## Licença
+The translations were drafted with AI assistance and have not all been reviewed by native speakers yet:
+corrections are very welcome. See [po/TRANSLATING.md](po/TRANSLATING.md) for context on every string;
+`po/update-pot.sh` refreshes the template, and `python3 po/check_po.py po/<lang>.po` checks a file.
 
-GPL-2.0-or-later. Veja [LICENSE](LICENSE).
+## Limitations
 
-O visual e os limites padrão seguem o widget sysmon do [Noctalia Shell](https://github.com/noctalia-dev/noctalia-shell)
-(MIT); nenhum código do Noctalia foi copiado.
+- Intel integrated GPUs: no usage or VRAM (not exposed in a simple way by the kernel).
+- `nvidia-smi` keeps an NVIDIA GPU awake while it runs; on hybrid-graphics laptops, keep GPU metrics out of the
+  top bar if you want it to suspend.
+
+## License
+
+GPL-2.0-or-later. See [LICENSE](LICENSE).
+
+The look and default thresholds follow Noctalia Shell’s sysmon widget
+([MIT](https://github.com/noctalia-dev/noctalia-shell)); no Noctalia code was copied.

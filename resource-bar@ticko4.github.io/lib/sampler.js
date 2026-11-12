@@ -9,6 +9,9 @@ import {mountPoints, parseMounts} from './mounts.js';
 Gio._promisify(Gio.File.prototype, 'load_contents_async');
 Gio._promisify(Gio.File.prototype, 'query_filesystem_info_async');
 Gio._promisify(Gio.DataInputStream.prototype, 'read_line_async');
+Gio._promisify(Gio.File.prototype, 'enumerate_children_async');
+Gio._promisify(Gio.FileEnumerator.prototype, 'next_files_async');
+Gio._promisify(Gio.FileEnumerator.prototype, 'close_async');
 
 const decoder = new TextDecoder();
 
@@ -22,31 +25,31 @@ async function readNumber(path, cancellable) {
     return Number.isFinite(n) ? n : null;
 }
 
-// Synchronous reads are only used once, during discovery, on static sysfs
-// attributes (name/label/vendor) that never touch hardware.
-function readSync(path) {
+async function readTrimmed(path, cancellable) {
     try {
-        const [ok, bytes] = GLib.file_get_contents(path);
-        return ok ? decoder.decode(bytes).trim() : null;
+        return (await readText(path, cancellable)).trim();
     } catch {
         return null;
     }
 }
 
-function listDir(path) {
-    const out = [];
-    let dir = null;
+async function listDir(path, cancellable) {
     try {
-        dir = GLib.Dir.open(path, 0);
-        let name;
-        while ((name = dir.read_name()) !== null)
-            out.push(name);
+        const enumerator = await Gio.File.new_for_path(path).enumerate_children_async(
+            'standard::name', Gio.FileQueryInfoFlags.NONE, GLib.PRIORITY_LOW, cancellable);
+        const names = [];
+        for (;;) {
+            // eslint-disable-next-line no-await-in-loop
+            const infos = await enumerator.next_files_async(64, GLib.PRIORITY_LOW, cancellable);
+            if (infos.length === 0)
+                break;
+            names.push(...infos.map(info => info.get_name()));
+        }
+        await enumerator.close_async(GLib.PRIORITY_LOW, null);
+        return names.sort();
     } catch {
-        // missing directory
-    } finally {
-        dir?.close();
+        return [];
     }
-    return out.sort();
 }
 
 const exists = path => GLib.file_test(path, GLib.FileTest.EXISTS);
@@ -55,7 +58,7 @@ function isCancelled(e) {
     return e instanceof GLib.Error && e.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED);
 }
 
-function findCpuTempSensor() {
+async function findCpuTempSensor(c) {
     const base = '/sys/class/hwmon';
     const preferred = [
         ['k10temp', ['Tdie', 'Tctl']],
@@ -65,40 +68,50 @@ function findCpuTempSensor() {
         ['soc_thermal', []],
         ['acpitz', []],
     ];
-    const hwmons = listDir(base).map(h => ({dir: `${base}/${h}`, name: readSync(`${base}/${h}/name`)}));
+    const hwmons = await Promise.all((await listDir(base, c)).map(async h =>
+        ({dir: `${base}/${h}`, name: await readTrimmed(`${base}/${h}/name`, c)})));
 
     for (const [driver, labels] of preferred) {
         const hw = hwmons.find(h => h.name === driver);
         if (!hw)
             continue;
-        const inputs = listDir(hw.dir).filter(f => /^temp\d+_input$/.test(f));
+        // eslint-disable-next-line no-await-in-loop
+        const inputs = (await listDir(hw.dir, c)).filter(f => /^temp\d+_input$/.test(f));
+        // eslint-disable-next-line no-await-in-loop
+        const inputLabels = await Promise.all(inputs.map(f =>
+            readTrimmed(`${hw.dir}/${f.replace('_input', '_label')}`, c)));
         for (const label of labels) {
-            const match = inputs.find(f => readSync(`${hw.dir}/${f.replace('_input', '_label')}`) === label);
-            if (match)
-                return `${hw.dir}/${match}`;
+            const i = inputLabels.indexOf(label);
+            if (i >= 0)
+                return `${hw.dir}/${inputs[i]}`;
         }
         if (inputs.length > 0)
             return `${hw.dir}/${inputs[0]}`;
     }
 
     // Fallback: thermal zones.
-    const zones = listDir('/sys/class/thermal').filter(z => z.startsWith('thermal_zone'));
+    const zones = (await listDir('/sys/class/thermal', c)).filter(z => z.startsWith('thermal_zone'));
+    const types = await Promise.all(zones.map(z => readTrimmed(`/sys/class/thermal/${z}/type`, c)));
     for (const type of ['x86_pkg_temp', 'cpu-thermal', 'acpitz']) {
-        const z = zones.find(zz => readSync(`/sys/class/thermal/${zz}/type`) === type);
-        if (z)
-            return `/sys/class/thermal/${z}/temp`;
+        const i = types.indexOf(type);
+        if (i >= 0)
+            return `/sys/class/thermal/${zones[i]}/temp`;
     }
     return null;
 }
 
-function findGpu() {
-    const cards = listDir('/sys/class/drm').filter(c => /^card\d+$/.test(c));
+async function findGpu(c) {
+    const cards = (await listDir('/sys/class/drm', c)).filter(card => /^card\d+$/.test(card));
     const gpus = [];
     for (const card of cards) {
         const dev = `/sys/class/drm/${card}/device`;
-        const vendor = readSync(`${dev}/vendor`);
+        // eslint-disable-next-line no-await-in-loop
+        const vendor = await readTrimmed(`${dev}/vendor`, c);
         if (vendor === '0x1002') {
-            const hwmon = listDir(`${dev}/hwmon`)[0];
+            // eslint-disable-next-line no-await-in-loop
+            const [hwmon] = await listDir(`${dev}/hwmon`, c);
+            // eslint-disable-next-line no-await-in-loop
+            const vram = Number(await readTrimmed(`${dev}/mem_info_vram_total`, c) ?? 0);
             gpus.push({
                 kind: 'amd',
                 dev,
@@ -106,7 +119,7 @@ function findGpu() {
                 vramUsed: `${dev}/mem_info_vram_used`,
                 vramTotal: `${dev}/mem_info_vram_total`,
                 temp: hwmon ? `${dev}/hwmon/${hwmon}/temp1_input` : null,
-                vram: Number(readSync(`${dev}/mem_info_vram_total`) ?? 0),
+                vram,
             });
         } else if (vendor === '0x10de') {
             const smi = GLib.find_program_in_path('nvidia-smi');
@@ -228,11 +241,12 @@ export class Sampler {
         this._sources = new Set(['cpu', 'mem', 'net']);
         this._interval = 1000;
 
-        this._cpuTempPath = findCpuTempSensor();
-        const maxKhz = Number(readSync('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq'));
-        this._cpuMaxMhz = Number.isFinite(maxKhz) && maxKhz > 0 ? maxKhz / 1000 : null;
-        this._gpu = findGpu();
-        this._nvidia = this._gpu?.kind === 'nvidia' ? new NvidiaMonitor(this._gpu.smi) : null;
+        // Sensors and GPU are found asynchronously on the first sample.
+        this._discovery = null;
+        this._cpuTempPath = null;
+        this._cpuMaxMhz = null;
+        this._gpu = null;
+        this._nvidia = null;
     }
 
     get hasGpu() {
@@ -277,6 +291,13 @@ export class Sampler {
             return false;
         this._busy = true;
         const c = this._cancellable;
+        try {
+            this._discovery ??= this._discover(c);
+            await this._discovery;
+        } catch (e) {
+            if (!isCancelled(e))
+                console.debug(`[resource-bar] discovery: ${e}`);
+        }
         const want = this._sources;
         const jobs = [this._sampleCpu(c), this._sampleMem(c), this._sampleNet(c)];
         if (want.has('cpuTemp'))
@@ -304,6 +325,19 @@ export class Sampler {
             this._busy = false;
         }
         return !c.is_cancelled();
+    }
+
+    async _discover(c) {
+        const [tempPath, maxKhz, gpu] = await Promise.all([
+            findCpuTempSensor(c),
+            readTrimmed('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq', c),
+            findGpu(c),
+        ]);
+        this._cpuTempPath = tempPath;
+        const khz = Number(maxKhz);
+        this._cpuMaxMhz = Number.isFinite(khz) && khz > 0 ? khz / 1000 : null;
+        this._gpu = gpu;
+        this._nvidia = gpu?.kind === 'nvidia' ? new NvidiaMonitor(gpu.smi) : null;
     }
 
     async _sampleCpu(c) {
