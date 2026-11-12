@@ -274,6 +274,11 @@ export class Sampler {
         this._nvidia = null;
     }
 
+    // True once sensors and GPU have been looked for (first sample).
+    get discovered() {
+        return this._discoveryDone === true;
+    }
+
     get hasGpu() {
         return this._gpu !== null;
     }
@@ -393,6 +398,7 @@ export class Sampler {
         this._cpuMaxMhz = Number.isFinite(khz) && khz > 0 ? khz / 1000 : null;
         this._gpu = gpu;
         this._nvidia = gpu?.kind === 'nvidia' ? new NvidiaMonitor(gpu.smi) : null;
+        this._discoveryDone = true;
     }
 
     async _sampleCpu(c) {

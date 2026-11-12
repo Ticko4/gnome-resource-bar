@@ -2,10 +2,12 @@
 
 A system resource monitor for the GNOME Shell top bar, inspired by the **sysmon** widget of
 [Noctalia Shell](https://github.com/noctalia-dev/noctalia-shell). Each metric is a compact item, an
-**icon + a pill gauge (or a history graph) + its value**, that tints toward an alert color as the value
-crosses its *activity* and *critical* thresholds.
+**icon + a pill gauge (or a history graph)**, optionally followed by its value, that tints toward an alert
+color as the value crosses its *activity* and *critical* thresholds.
 
-![Resource Bar](docs/screenshot.png)
+![Resource Bar in the top bar](docs/screenshot-panel.png)
+
+![Resource Bar menu](docs/screenshot.png)
 
 For GNOME Shell 51 (Wayland and X11 sessions alike). The interface follows the system language; see
 [Translations](#translations).
@@ -30,7 +32,7 @@ and the load average and uptime.
 ### Top processes
 
 The **Processes** card lists up to five processes (none to five, set in the preferences; three by default),
-sorted by CPU or memory with the **CPU | Memory** switch on the card. Processes that belong to an app with a
+sorted by memory (default) or CPU with the **CPU | Memory** switch on the card. Processes that belong to an app with a
 window show its icon and name. CPU is the share of the whole machine averaged over the last 30 seconds,
 1 minute (default) or 5 minutes, so the list stays stable instead of reshuffling every second; memory is
 the current resident set. Processes are read every 5 seconds in the background (only while the option is not
@@ -48,7 +50,7 @@ In the preferences, a disk metric can be pinned to any disk, and **All disks** a
 for every disk not yet in the top bar. Disk items show the disk name next to the icon, and `--` when the disk
 is unmounted.
 
-The **Disks** card has a **Space | Activity** switch. *Space* shows the used space; *Activity* shows, per
+The **Disks** card has a **Space | Activity** switch (Activity by default). *Space* shows the used space; *Activity* shows, per
 disk, a graph of the last 30 seconds of busy time (like `iostat`’s `%util`, read from `/proc/diskstats`
 without waking sleeping disks) with read (↓) and write (↑) speeds.
 
@@ -69,7 +71,9 @@ log out and back in for it to appear. `./install.sh --pack` builds the zip for e
 
 `gnome-extensions prefs resource-bar@ticko4.github.io`, or **Settings** in the extension’s menu:
 
-- **Top Bar**: number of top processes in the menu; which metrics and in what order; visualization (gauge, graph or none); icon, value, units,
+- **Top Bar**: number of top processes in the menu; which metrics and in what order (CPU usage, CPU temperature, memory and GPU usage by
+  default; GPU items hide themselves on machines without a supported GPU); visualization (gauge, graph or
+  none); icon, value (off by default), units,
   per-core gauge, minimum value width, spacing, smooth animation, graph colors (default, the system accent
   color, or one color per resource like the Resources app: CPU blue, memory purple, GPU red, disks orange,
   network teal; only graphs change), alert color (default `#FD4663`, Noctalia’s “error”); area and

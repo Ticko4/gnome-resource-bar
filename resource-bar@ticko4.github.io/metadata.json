@@ -1,7 +1,7 @@
 {
   "uuid": "resource-bar@ticko4.github.io",
   "name": "Resource Bar",
-  "description": "System resource monitor for the top bar, inspired by Noctalia Shell's sysmon widget.\n\nEach metric shows an icon, a pill gauge or a history graph and its value, and tints toward an alert color as it crosses activity and critical thresholds: CPU (usage, per core, temperature, frequency), memory, swap, disks (space used and activity, any mounted disk), network and GPU (NVIDIA via nvidia-smi, AMD via sysfs).\n\nThe menu shows cards with history graphs for CPU, memory, network, GPU and every disk. Smooth animations, per-resource graph colors and everything else is configurable in the preferences.",
+  "description": "System resource monitor for the top bar, inspired by Noctalia Shell's sysmon widget.\n\nEach metric shows an icon with a pill gauge or a history graph, optionally its value, and tints toward an alert color as it crosses activity and critical thresholds: CPU (usage, per core, temperature, frequency), memory, swap, disks (space used and activity, any mounted disk), network and GPU (NVIDIA via nvidia-smi, AMD via sysfs).\n\nThe menu shows cards with history graphs for CPU, memory, network, GPU and every disk. Smooth animations, per-resource graph colors and everything else is configurable in the preferences.",
   "shell-version": [
     "51"
   ],

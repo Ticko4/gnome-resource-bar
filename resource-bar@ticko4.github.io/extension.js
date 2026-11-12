@@ -143,7 +143,10 @@ class ResourceBarIndicator extends PanelMenu.Button {
             // gauges, icons and values keep the panel text color.
             const graphBase = graphBaseColor(ctx.graphColors, categoryOf(key), base, ctx.accent);
             const result = model.evaluate(key, snapshot, opts, thresholds);
-            const [activity, critical] = thresholds[STATS[parseKey(key).id].threshold];
+            const def = STATS[parseKey(key).id];
+            // GPU items are hidden once we know there is no supported GPU.
+            item.visible = !(def.source === 'gpu' && ctx.gpuChecked && !ctx.hasGpu);
+            const [activity, critical] = thresholds[def.threshold];
             item.update({
                 result,
                 color: mixColors(base, highlight, result.factor),
@@ -380,6 +383,7 @@ export default class ResourceBarExtension extends Extension {
             thresholds: this._thresholds,
             highlight: this._highlight,
             hasGpu: this._sampler.hasGpu,
+            gpuChecked: this._sampler.discovered,
             graphColors: this._config.graphColors,
             diskCardMode: this._config.diskCardMode,
             topProcesses: this._config.topProcesses,

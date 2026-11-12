@@ -3,7 +3,7 @@
   <schema id="org.gnome.shell.extensions.resource-bar" path="/org/gnome/shell/extensions/resource-bar/">
 
     <key name="stats" type="as">
-      <default>['cpu_usage', 'cpu_temp', 'ram_pct', 'net_rx', 'net_tx']</default>
+      <default>['cpu_usage', 'cpu_temp', 'ram_pct', 'gpu_usage']</default>
       <summary>Metrics shown in the top bar, in order</summary>
       <description>Each item is an ID, or ID:mount-point for disk metrics (e.g. disk_used_pct:/mnt/data). IDs: cpu_usage, cpu_temp, cpu_freq, gpu_usage, gpu_temp, gpu_vram, gpu_vram_used, ram_pct, ram_used, swap_pct, disk_used_pct, disk_used, disk_free_pct, disk_free, disk_util, net_rx, net_tx.</description>
     </key>
@@ -24,7 +24,7 @@
     </key>
 
     <key name="show-value" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Show value</summary>
     </key>
 
@@ -95,7 +95,7 @@
         <choice value="space"/>
         <choice value="activity"/>
       </choices>
-      <default>'space'</default>
+      <default>'activity'</default>
       <summary>Disks card: space used or activity</summary>
       <description>space: space used; activity: time spent reading/writing (like iostat %util) and speeds. Changed with the switch on the card itself.</description>
     </key>
@@ -117,7 +117,7 @@
         <choice value="cpu"/>
         <choice value="memory"/>
       </choices>
-      <default>'cpu'</default>
+      <default>'memory'</default>
       <summary>Sort the menu's processes by CPU or memory use</summary>
       <description>Changed with the switch on the Processes card itself.</description>
     </key>
@@ -177,7 +177,7 @@
 
     <key name="panel-index" type="i">
       <range min="-1" max="50"/>
-      <default>0</default>
+      <default>2</default>
       <summary>Position inside the area (-1 = last)</summary>
     </key>
 
