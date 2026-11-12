@@ -66,6 +66,8 @@ cd gnome-resource-bar
 
 The script installs the extension in `~/.local/share/gnome-shell/extensions` and enables it. On Wayland,
 log out and back in for it to appear. `./install.sh --pack` builds the zip for extensions.gnome.org.
+The listing icon there is `docs/icon.png` (512 px, drawn from `docs/icon.svg`); it is not part of the zip and
+is uploaded on the extension’s page by clicking the puzzle icon next to its name.
 
 ## Preferences
 
