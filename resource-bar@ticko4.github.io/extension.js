@@ -155,6 +155,7 @@ class ResourceBarIndicator extends PanelMenu.Button {
                 history: () => model.normalizedHistory(key, snapshot),
                 historyCount: model.count(key),
                 historySize: model.size,
+                widest: model.widestTexts(key, snapshot, opts),
                 animMs: ctx.animMs,
                 cores: snapshot.cpu.cores,
             });

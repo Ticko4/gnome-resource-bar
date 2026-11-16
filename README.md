@@ -108,8 +108,12 @@ is uploaded on the extension’s page by clicking the puzzle icon next to its na
   starting it every second) and is stopped afterwards. Runtime-suspended GPUs are not woken up.
 - Smooth animation (on by default): gauges glide to each new value and graphs scroll continuously, each
   reading continuing from what is on screen, at up to ~30 fps; changes under a quarter pixel do not animate
-  and GNOME’s *Reduce animation* setting turns it off. Value labels only shrink after 10 s so items do not
-  shift. Graph mode keeps the top bar redrawing, which costs a little more; it can be turned off.
+  and GNOME’s *Reduce animation* setting turns it off. Graph mode keeps the top bar redrawing, which costs
+  a little more; it can be turned off.
+- Values never move the top bar: each one reserves the width of the widest text it can show with the
+  current options (“100%”, “100°C”, “1.00 MB/s”…), measured with the panel font, and sits right next to its
+  gauge. Speeds and sizes always show three significant digits (“0.40 kB/s”, “40.5 kB/s”, “405 kB/s”,
+  “1.02 MB/s”; “999 MiB”, then “0.98 GiB”), so they keep the same width as they change.
 - Graphs hold one point per update across the chosen time span (300 points for 5 minutes at 1 s). Longer
   spans draw fewer frames (about 15 fps for 1 minute, 7.5 for 2) and graphs that move under half a pixel
   per update are simply redrawn once per update, so drawing costs about the same whatever span is chosen.

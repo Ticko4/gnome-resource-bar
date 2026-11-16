@@ -9,6 +9,7 @@ import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
+import Pango from 'gi://Pango';
 import St from 'gi://St';
 
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
@@ -427,17 +428,45 @@ class ResourceBarStatItem extends St.BoxLayout {
                 y_align: Clutter.ActorAlign.CENTER,
                 text: '--',
             });
+            // A font or theme change invalidates the measured widths.
+            this._label.connect('style-changed', () => {
+                this._reservedSig = null;
+            });
             if (config.labelMinWidth > 0)
                 this._label.set_style(`min-width: ${config.labelMinWidth}px;`);
             this.add_child(this._label);
         }
     }
 
-    // Width reserved for the value, in logical px: grows at once but only
-    // shrinks after the text has stayed narrower for 10 s, so items next to
-    // a changing value ("9%" -> "10%", "1.2 kB/s" -> "12.5 kB/s") do not
-    // shift sideways every second.
-    _stableWidth() {
+    // Width of the widest text the value can show (texts from
+    // StatModel.widestTexts), measured with the label's own font, in logical
+    // px. Cached until the texts or the label's style change.
+    _reservedWidth(texts) {
+        if (!texts?.length)
+            return 0;
+        const sig = texts.join('\n');
+        if (sig === this._reservedSig)
+            return this._reserved;
+        const layout = this._label.clutter_text.get_layout().copy();
+        layout.set_width(-1);
+        layout.set_ellipsize(Pango.EllipsizeMode.NONE);
+        let max = 0;
+        for (const text of texts) {
+            layout.set_text(text, -1);
+            max = Math.max(max, layout.get_pixel_size()[0]);
+        }
+        const scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        this._reservedSig = sig;
+        this._reserved = Math.ceil(max / scale);
+        return this._reserved;
+    }
+
+    // Width given to the value, in logical px: the widest text it can show,
+    // so the items next to it never shift as the number changes ("9%" ->
+    // "10%" -> "100%", "1.2 kB/s" -> "12.5 MB/s"). Anything wider still
+    // (or a stat without widest texts) grows at once and only shrinks after
+    // the text has stayed narrower for 10 s.
+    _stableWidth(reserved = 0) {
         const scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         const [, natural] = this._label.clutter_text.get_preferred_width(-1);
         const width = Math.ceil(natural / scale);
@@ -446,11 +475,11 @@ class ResourceBarStatItem extends St.BoxLayout {
             this._widthMax = width;
             this._widthMaxAt = now;
         }
-        return Math.max(this._config.labelMinWidth, this._widthMax);
+        return Math.max(this._config.labelMinWidth, reserved, this._widthMax);
     }
 
     // ctx: {result, color, graphColor, colorFor(value), history(): number[],
-    //       historyCount, cores, animMs}
+    //       historyCount, historySize, cores, animMs, widest: string[]}
     // color tints icon/name/value and gauges; graphColor tints the graph;
     // animMs is how long gauges and graphs glide to the new sample.
     update(ctx) {
@@ -464,7 +493,8 @@ class ResourceBarStatItem extends St.BoxLayout {
         if (this._label) {
             if (this._label.text !== result.text)
                 this._label.text = result.text;
-            setStyleCached(this._label, '_rbStyle', `min-width: ${this._stableWidth()}px; color: ${css};`);
+            const width = this._stableWidth(this._reservedWidth(ctx.widest));
+            setStyleCached(this._label, '_rbStyle', `min-width: ${width}px; color: ${css};`);
         }
 
         if (this._vis instanceof CoreGauges) {

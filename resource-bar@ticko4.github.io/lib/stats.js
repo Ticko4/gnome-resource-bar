@@ -43,16 +43,41 @@ export const THRESHOLDS = {
 
 const pct = v => `${Math.round(v)}%`;
 const celsius = v => `${Math.round(v)}°C`;
-// Disk sizes: GiB, or TiB from 1 TiB up so big drives stay short in the panel.
-const diskSize = bytes => bytes >= 1024 * GIB
-    ? `${(bytes / (1024 * GIB)).toFixed(1)} TiB`
-    : `${(bytes / GIB).toFixed(1)} GiB`;
+const ghz = mhz => `${(mhz / 1000).toFixed(1)} GHz`;
+// Three significant digits ("0.40", "4.05", "40.5", "405"): every reading
+// has three digits, so speeds and sizes keep their width as they change.
+function sig3(v) {
+    if (v === 0)
+        return '0';
+    if (v < 9.995)
+        return v.toFixed(2);
+    if (v < 99.95)
+        return v.toFixed(1);
+    return v.toFixed(0);
+}
+
+// value in units[i] = [size, label]: the largest unit it reaches, or the next
+// one up when the number would round to 1000 ("999 MiB", then "0.98 GiB").
+function scaled(value, units, num = sig3) {
+    let i = 0;
+    while (i < units.length - 1 &&
+           (value >= units[i + 1][0] || Number(num(value / units[i][0])) >= 1000))
+        i++;
+    return [num(value / units[i][0]), units[i]];
+}
+
+const BYTE_UNITS = [[MIB, 'MiB'], [GIB, 'GiB'], [1024 * GIB, 'TiB']];
+const DISK_UNITS = [[GIB, 'GiB'], [1024 * GIB, 'TiB']];
+
+// Disk sizes start at GiB so big drives stay short in the panel.
+function diskSize(bytes) {
+    const [n, [, label]] = scaled(bytes, DISK_UNITS);
+    return `${n} ${label}`;
+}
 
 export function formatBytes(bytes) {
-    const mib = bytes / MIB;
-    if (mib >= 1024)
-        return `${(mib / 1024).toFixed(1)} GiB`;
-    return `${Math.round(mib)} MiB`;
+    const [n, [, label]] = scaled(bytes, BYTE_UNITS);
+    return `${n} ${label}`;
 }
 
 export function formatUsage(used, total) {
@@ -61,24 +86,21 @@ export function formatUsage(used, total) {
     return `${(used / GIB).toFixed(1)} / ${(total / GIB).toFixed(1)} GiB`;
 }
 
-export function formatRate(bytesPerSec, {unit = 'auto', compact = false, decimals = 1} = {}) {
-    const units = [
-        [1e9, 'GB/s', 'G'],
-        [1e6, 'MB/s', 'M'],
-        [1e3, 'kB/s', 'k'],
-    ];
-    let pick;
-    if (unit === 'kb')
-        pick = units[2];
-    else if (unit === 'mb')
-        pick = units[1];
-    else
-        pick = units.find(([div]) => bytesPerSec >= div) ?? units[2];
+const RATE_UNITS = [[1e3, 'kB/s', 'k'], [1e6, 'MB/s', 'M'], [1e9, 'GB/s', 'G']];
 
-    const value = bytesPerSec / pick[0];
-    if (compact)
-        return `${value.toFixed(Math.max(0, Math.min(2, decimals)))}${pick[2]}`;
-    return `${value.toFixed(value >= 100 ? 0 : 1)} ${pick[1]}`;
+// Speeds: three significant digits, or a fixed number of decimals in the
+// compact form ("405k"); "kb" and "mb" pin the unit.
+export function formatRate(bytesPerSec, {unit = 'auto', compact = false, decimals = 1} = {}) {
+    const d = Math.max(0, Math.min(2, decimals));
+    const num = compact ? v => v.toFixed(d) : sig3;
+    let n, u;
+    if (unit === 'kb' || unit === 'mb') {
+        u = RATE_UNITS[unit === 'kb' ? 0 : 1];
+        n = num(bytesPerSec / u[0]);
+    } else {
+        [n, u] = scaled(bytesPerSec, RATE_UNITS, num);
+    }
+    return compact ? `${n}${u[2]}` : `${n} ${u[1]}`;
 }
 
 export function formatDuration(seconds) {
@@ -108,6 +130,28 @@ function rateNorm(v, history) {
 const vramPct = s => s.gpu && s.gpu.vramTotal > 0 && s.gpu.vramUsed !== null
     ? 100 * s.gpu.vramUsed / s.gpu.vramTotal : null;
 
+// Widest texts a stat can show (see StatModel.widestTexts). Digits are
+// tabular, so only their count, the decimal point and the unit matter.
+const widePct = () => [pct(100)];
+const wideTemp = () => [celsius(100)];
+// Values just under 10, 100 and 1000 of every unit hit the rounding edges
+// ("10.0", "100", "1.00 GiB", "1000.00M" with two decimals), up to max.
+function edgeTexts(format, unitSizes, max) {
+    const out = [format(max)];
+    for (const size of unitSizes) {
+        for (const m of [9.999999, 99.99999, 999.9999]) {
+            if (m * size <= max)
+                out.push(format(m * size));
+        }
+    }
+    return out;
+}
+const wideBytes = total => edgeTexts(formatBytes, BYTE_UNITS.map(u => u[0]), total || 1024 * GIB);
+const wideDisk = total => (total > 0 ? edgeTexts(diskSize, DISK_UNITS.map(u => u[0]), total) : []);
+// Speeds stop at a 10 Gbit/s link, or 1 Gbit/s when shown in kB/s.
+const wideRates = (net = {}) =>
+    edgeTexts(v => formatRate(v, net), RATE_UNITS.map(u => u[0]), net.unit === 'kb' ? 1.25e8 : 1.25e9);
+
 // Disk stats take an optional mount point ("disk_used_pct:/mnt/data");
 // without one they use the default disk from the settings.
 export const diskFor = (s, param) => s.disks?.[param || s.defaultDisk] ?? null;
@@ -128,78 +172,91 @@ const diskFreePct = (s, p) => {
 //   level(snapshot, raw, param)       number       compared against thresholds (default raw)
 //   text(snapshot, opts, raw, param)  string       label shown in the panel
 //   norm(raw, history, snapshot)      0..1         gauge / graph position
+//   widest(snapshot, opts, param)     string[]     texts as wide as any text() can be
 export const STATS = {
     cpu_usage: {
         name: N_('CPU usage'), icon: 'cpu', threshold: 'cpu_usage', source: 'cpu',
         raw: s => s.cpu.usage,
         text: (s, o, v) => pct(v),
+        widest: widePct,
         norm: percentNorm,
     },
     cpu_temp: {
         name: N_('CPU temperature'), icon: 'temperature', threshold: 'cpu_temp', source: 'cpuTemp',
         raw: s => s.cpuTemp,
         text: (s, o, v) => celsius(v),
+        widest: wideTemp,
         norm: tempNorm,
     },
     cpu_freq: {
         name: N_('CPU frequency'), icon: 'bolt', threshold: 'cpu_freq', source: 'cpuFreq',
         raw: s => s.cpuFreq ? s.cpuFreq.mhz : null,
         level: (s, v) => v / 1000,
-        text: (s, o, v) => `${(v / 1000).toFixed(1)} GHz`,
+        text: (s, o, v) => ghz(v),
+        widest: () => [ghz(9900)],
         norm: (v, h, s) => v / (s.cpuFreq?.maxMhz || 5000),
     },
     gpu_usage: {
         name: N_('GPU usage'), icon: 'gpu', threshold: 'gpu_usage', source: 'gpu',
         raw: s => s.gpu ? s.gpu.usage : null,
         text: (s, o, v) => pct(v),
+        widest: widePct,
         norm: percentNorm,
     },
     gpu_temp: {
         name: N_('GPU temperature'), icon: 'gpu-temperature', threshold: 'gpu_temp', source: 'gpu',
         raw: s => s.gpu ? s.gpu.temp : null,
         text: (s, o, v) => celsius(v),
+        widest: wideTemp,
         norm: tempNorm,
     },
     gpu_vram: {
         name: N_('VRAM (%)'), icon: 'gpu-memory', threshold: 'gpu_vram', source: 'gpu',
         raw: vramPct,
         text: (s, o, v) => pct(v),
+        widest: widePct,
         norm: percentNorm,
     },
     gpu_vram_used: {
         name: N_('VRAM used'), icon: 'gpu-memory', threshold: 'gpu_vram', source: 'gpu',
         raw: vramPct,
         text: s => formatBytes(s.gpu.vramUsed),
+        widest: s => wideBytes(s.gpu?.vramTotal),
         norm: percentNorm,
     },
     ram_pct: {
         name: N_('Memory (%)'), icon: 'memory', threshold: 'ram', source: 'mem',
         raw: s => s.mem ? s.mem.pct : null,
         text: (s, o, v) => pct(v),
+        widest: widePct,
         norm: percentNorm,
     },
     ram_used: {
         name: N_('Memory used'), icon: 'memory', threshold: 'ram', source: 'mem',
         raw: s => s.mem ? s.mem.pct : null,
         text: s => formatBytes(s.mem.used),
+        widest: s => wideBytes(s.mem?.total),
         norm: percentNorm,
     },
     swap_pct: {
         name: N_('Swap (%)'), icon: 'swap', threshold: 'swap', source: 'mem',
         raw: s => s.mem && s.mem.swapTotal > 0 ? s.mem.swapPct : null,
         text: (s, o, v) => pct(v),
+        widest: widePct,
         norm: percentNorm,
     },
     disk_used_pct: {
         name: N_('Disk used (%)'), icon: 'disk', threshold: 'disk', source: 'disk',
         raw: diskUsedPct,
         text: (s, o, v) => pct(v),
+        widest: widePct,
         norm: percentNorm,
     },
     disk_used: {
         name: N_('Disk used'), icon: 'disk', threshold: 'disk', source: 'disk',
         raw: diskUsedPct,
         text: (s, o, v, p) => diskSize(diskFor(s, p).used),
+        widest: (s, o, p) => wideDisk(diskFor(s, p)?.total),
         norm: percentNorm,
     },
     disk_free_pct: {
@@ -207,6 +264,7 @@ export const STATS = {
         raw: diskFreePct,
         level: (s, v, p) => diskFor(s, p).pct,
         text: (s, o, v) => pct(v),
+        widest: widePct,
         norm: percentNorm,
     },
     disk_free: {
@@ -214,12 +272,14 @@ export const STATS = {
         raw: diskFreePct,
         level: (s, v, p) => diskFor(s, p).pct,
         text: (s, o, v, p) => diskSize(diskFor(s, p).avail),
+        widest: (s, o, p) => wideDisk(diskFor(s, p)?.total),
         norm: percentNorm,
     },
     disk_util: {
         name: N_('Disk activity'), icon: 'disk', threshold: 'disk_io', source: 'diskio',
         raw: diskUtil,
         text: (s, o, v) => pct(v),
+        widest: widePct,
         norm: percentNorm,
     },
     net_rx: {
@@ -227,6 +287,7 @@ export const STATS = {
         raw: s => s.net ? s.net.rx : null,
         level: (s, v) => v / 1e6,
         text: (s, o, v) => formatRate(v, o.net),
+        widest: (s, o) => wideRates(o.net),
         norm: rateNorm,
     },
     net_tx: {
@@ -234,6 +295,7 @@ export const STATS = {
         raw: s => s.net ? s.net.tx : null,
         level: (s, v) => v / 1e6,
         text: (s, o, v) => formatRate(v, o.net),
+        widest: (s, o) => wideRates(o.net),
         norm: rateNorm,
     },
 };
@@ -381,6 +443,20 @@ export class StatModel {
         const def = STATS[parseKey(key).id];
         const h = this.history(key);
         return h.map(v => clamp01(def.norm(v, h, snapshot)));
+    }
+
+    // Texts at least as wide as anything the stat can show with these
+    // options, digits as "0" (they are tabular): the top bar reserves the
+    // widest, so an item keeps its width whatever its value.
+    widestTexts(key, snapshot, opts) {
+        const {id, param} = parseKey(key);
+        let texts;
+        try {
+            texts = STATS[id]?.widest?.(snapshot, opts, param) ?? [];
+        } catch {
+            texts = [];
+        }
+        return texts.map(t => (opts.showUnits === false ? stripUnits(t) : t).replace(/\d/g, '0'));
     }
 
     // Returns {available, text, norm, factor}.

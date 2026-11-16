@@ -16,10 +16,19 @@
   font-size: 0.85em;
 }
 
+/* The label reserves the width of its widest possible text; the value sits
+   next to its gauge and any room left goes after it, toward the next item. */
 .resource-bar-value {
   font-feature-settings: "tnum";
   font-weight: 600;
-  text-align: center;
+}
+
+.resource-bar-value:ltr {
+  text-align: left;
+}
+
+.resource-bar-value:rtl {
+  text-align: right;
 }
 
 /* Vertical pill gauge (Noctalia: ~30% thick, ~85% tall of the glyph).
