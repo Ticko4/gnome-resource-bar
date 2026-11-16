@@ -7,7 +7,6 @@ import Shell from 'gi://Shell';
 import St from 'gi://St';
 
 import {gettext as _, ngettext, pgettext} from 'resource:///org/gnome/shell/extensions/extension.js';
-import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import {
     categoryOf, diskUtilKey, fmt, formatBytes, formatDuration, formatRate, formatUsage, gradientFactor,
@@ -280,8 +279,10 @@ export class ResourcePopup {
         this._ext = extension;
         const path = extension.path;
 
-        this.item = new PopupMenu.PopupBaseMenuItem({reactive: false, can_focus: false});
-        this.item.add_style_class_name('resource-bar-popup-item');
+        // A plain box, not a PopupBaseMenuItem: GNOME styles a non-reactive
+        // menu item as insensitive (dimmed text, #9b9b9d in the default
+        // theme), and every color in the cards follows the menu text color.
+        this.item = new St.BoxLayout({style_class: 'resource-bar-popup-item', x_expand: true});
         const root = new St.BoxLayout({orientation: VERTICAL, style_class: 'resource-bar-popup', x_expand: true});
         this.item.add_child(root);
 
@@ -359,7 +360,9 @@ export class ResourcePopup {
         } catch {
             base = {r: 1, g: 1, b: 1, a: 1};
         }
-        const cardBg = withAlpha(base, 0.06);
+        // Same contrast as GNOME's Quick Settings buttons (about 9 % of the
+        // text color over the menu background).
+        const cardBg = withAlpha(base, 0.09);
         // The dropdown always shows full units, whatever the panel uses.
         const popupOpts = {...opts, showUnits: true, net: {...opts.net, compact: false}};
         // Only the history graphs follow the "graph-colors" setting; bars,

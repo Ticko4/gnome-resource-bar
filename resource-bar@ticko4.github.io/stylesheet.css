@@ -49,12 +49,6 @@
   padding: 4px 6px;
 }
 
-.resource-bar-popup-item:hover,
-.resource-bar-popup-item:focus,
-.resource-bar-popup-item:active {
-  background-color: transparent;
-}
-
 .resource-bar-popup {
   spacing: 8px;
   min-width: 500px;

@@ -83,7 +83,7 @@ class ResourceBarIndicator extends PanelMenu.Button {
         this.add_child(this._box);
 
         this.popup = new ResourcePopup(ext);
-        this.menu.addMenuItem(this.popup.item);
+        this.menu.box.add_child(this.popup.item);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         const monitor = findMonitorApp();
         if (monitor) {
