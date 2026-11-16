@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-15 02:31+0000\n"
+"POT-Creation-Date: 2026-11-16 23:50+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Serbian\n"
@@ -35,47 +35,59 @@ msgid "Graph"
 msgstr "График"
 
 #: resource-bar@ticko4.github.io/prefs.js:17
-#: resource-bar@ticko4.github.io/prefs.js:324
+msgid "Pill with value"
+msgstr "Пилула са вредношћу"
+
+#: resource-bar@ticko4.github.io/prefs.js:18
+#: resource-bar@ticko4.github.io/prefs.js:341
 msgid "None"
 msgstr "Ништа"
 
-#: resource-bar@ticko4.github.io/prefs.js:21
+#: resource-bar@ticko4.github.io/prefs.js:22
+msgid "Plain"
+msgstr "Обично"
+
+#: resource-bar@ticko4.github.io/prefs.js:23
+msgid "Pill"
+msgstr "Пилула"
+
+#: resource-bar@ticko4.github.io/prefs.js:27
 msgid "Default (text color)"
 msgstr "Подразумевано (боја текста)"
 
-#: resource-bar@ticko4.github.io/prefs.js:22
+#: resource-bar@ticko4.github.io/prefs.js:28
 msgid "System accent color"
 msgstr "Системска боја нагласка"
 
-#: resource-bar@ticko4.github.io/prefs.js:23
+#: resource-bar@ticko4.github.io/prefs.js:29
 msgid "Per resource (like Resources)"
 msgstr "По ресурсу (као у Resources)"
 
-#: resource-bar@ticko4.github.io/prefs.js:27
+#: resource-bar@ticko4.github.io/prefs.js:33
 msgid "Left"
 msgstr "Лево"
 
-#: resource-bar@ticko4.github.io/prefs.js:28
+#: resource-bar@ticko4.github.io/prefs.js:34
 msgid "Center"
 msgstr "У средини"
 
-#: resource-bar@ticko4.github.io/prefs.js:29
+#: resource-bar@ticko4.github.io/prefs.js:35
 msgid "Right"
 msgstr "Десно"
 
-#: resource-bar@ticko4.github.io/prefs.js:33
+#: resource-bar@ticko4.github.io/prefs.js:39
 msgid "Automatic"
 msgstr "Аутоматски"
 
-#: resource-bar@ticko4.github.io/prefs.js:146
+#: resource-bar@ticko4.github.io/prefs.js:152
 msgid "Top Bar"
 msgstr "Горња трака"
 
-#: resource-bar@ticko4.github.io/prefs.js:149
+#: resource-bar@ticko4.github.io/prefs.js:155
 msgid "Metrics in the top bar"
 msgstr "Метрике на горњој траци"
 
-#: resource-bar@ticko4.github.io/prefs.js:150
+#: resource-bar@ticko4.github.io/prefs.js:156
 msgid ""
 "Each metric becomes an item with an icon, a gauge or graph and its value, "
 "like Noctalia’s sysmon widget."
@@ -83,50 +95,50 @@ msgstr ""
 "Свака метрика постаје ставка са иконицом, показивачем или графиком и "
 "вредношћу, као виџет sysmon у Noctalia."
 
-#: resource-bar@ticko4.github.io/prefs.js:173
+#: resource-bar@ticko4.github.io/prefs.js:179
 #, javascript-format
 msgid "default (%s)"
 msgstr "подразумевано (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:190
+#: resource-bar@ticko4.github.io/prefs.js:196
 msgid "Move up"
 msgstr "Помери горе"
 
-#: resource-bar@ticko4.github.io/prefs.js:195
+#: resource-bar@ticko4.github.io/prefs.js:201
 msgid "Move down"
 msgstr "Помери доле"
 
-#: resource-bar@ticko4.github.io/prefs.js:200
+#: resource-bar@ticko4.github.io/prefs.js:206
 msgid "Remove"
 msgstr "Уклони"
 
-#: resource-bar@ticko4.github.io/prefs.js:207
+#: resource-bar@ticko4.github.io/prefs.js:213
 msgid "Add metric"
 msgstr "Додај метрику"
 
-#: resource-bar@ticko4.github.io/prefs.js:210
+#: resource-bar@ticko4.github.io/prefs.js:216
 #, javascript-format
 msgid "Default (%s)"
 msgstr "Подразумевано (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:212
+#: resource-bar@ticko4.github.io/prefs.js:218
 msgid "Disk"
 msgstr "Диск"
 
-#: resource-bar@ticko4.github.io/prefs.js:220
+#: resource-bar@ticko4.github.io/prefs.js:226
 msgid "Add"
 msgstr "Додај"
 
-#: resource-bar@ticko4.github.io/prefs.js:241
+#: resource-bar@ticko4.github.io/prefs.js:247
 msgid "All disks"
 msgstr "Сви дискови"
 
 #. TRANSLATORS: %s is a list of disk names.
-#: resource-bar@ticko4.github.io/prefs.js:244
+#: resource-bar@ticko4.github.io/prefs.js:250
 msgid "Adds “Disk used (%)” for: %s"
 msgstr "Додаје „Заузето на диску (%)“ за: %s"
 
-#: resource-bar@ticko4.github.io/prefs.js:245
+#: resource-bar@ticko4.github.io/prefs.js:251
 #, javascript-format
 msgid "The %d detected disk is already in the top bar"
 msgid_plural "All %d detected disks are already in the top bar"
@@ -135,181 +147,181 @@ msgstr[1] "Сва %d откривена диска су већ на горњој
 msgstr[2] "Свих %d откривених дискова је већ на горњој траци"
 msgstr[3] "%d откривени диск је већ на горњој траци"
 
-#: resource-bar@ticko4.github.io/prefs.js:249
+#: resource-bar@ticko4.github.io/prefs.js:255
 msgid "Add all"
 msgstr "Додај све"
 
-#: resource-bar@ticko4.github.io/prefs.js:267
+#: resource-bar@ticko4.github.io/prefs.js:273
 msgid "Appearance"
 msgstr "Изглед"
 
-#: resource-bar@ticko4.github.io/prefs.js:268
+#: resource-bar@ticko4.github.io/prefs.js:274
 msgid "Visualization"
 msgstr "Приказ"
 
-#: resource-bar@ticko4.github.io/prefs.js:269
-msgid "Vertical pill gauge or a graph of recent readings"
-msgstr "Усправни показивач у облику пилуле или график скорашњих мерења"
-
-#: resource-bar@ticko4.github.io/prefs.js:270
+#: resource-bar@ticko4.github.io/prefs.js:275
 msgid "Show icon"
 msgstr "Прикажи иконицу"
 
-#: resource-bar@ticko4.github.io/prefs.js:271
+#: resource-bar@ticko4.github.io/prefs.js:276
 msgid "Show value"
 msgstr "Прикажи вредност"
 
-#: resource-bar@ticko4.github.io/prefs.js:272
+#: resource-bar@ticko4.github.io/prefs.js:279
+msgid "Value style"
+msgstr "Стил вредности"
+
+#: resource-bar@ticko4.github.io/prefs.js:289
 msgid "Show units"
 msgstr "Прикажи јединице"
 
-#: resource-bar@ticko4.github.io/prefs.js:272
+#: resource-bar@ticko4.github.io/prefs.js:289
 msgid "Off: “45” instead of “45°C”"
 msgstr "Искључено: „45“ уместо „45°C“"
 
-#: resource-bar@ticko4.github.io/prefs.js:273
+#: resource-bar@ticko4.github.io/prefs.js:290
 msgid "Per-core gauge"
 msgstr "Показивач по језгру"
 
-#: resource-bar@ticko4.github.io/prefs.js:274
+#: resource-bar@ticko4.github.io/prefs.js:291
 msgid "For CPU usage in gauge mode, one bar per core"
 msgstr ""
 "За искоришћеност CPU-а у режиму показивача, по један стубић за свако језгро"
 
-#: resource-bar@ticko4.github.io/prefs.js:275
+#: resource-bar@ticko4.github.io/prefs.js:292
 msgid "Minimum value width"
 msgstr "Најмања ширина вредности"
 
-#: resource-bar@ticko4.github.io/prefs.js:276
+#: resource-bar@ticko4.github.io/prefs.js:293
 msgid "In pixels; reserves room so the top bar does not shift"
 msgstr "У пикселима; резервише простор да се горња трака не би померала"
 
-#: resource-bar@ticko4.github.io/prefs.js:277
+#: resource-bar@ticko4.github.io/prefs.js:294
 msgid "Spacing between metrics"
 msgstr "Размак између метрика"
 
-#: resource-bar@ticko4.github.io/prefs.js:279
+#: resource-bar@ticko4.github.io/prefs.js:296
 msgid "Smooth animation"
 msgstr "Глатка анимација"
 
-#: resource-bar@ticko4.github.io/prefs.js:280
+#: resource-bar@ticko4.github.io/prefs.js:297
 msgid ""
 "Gauges and graphs glide between readings instead of jumping on every update"
 msgstr ""
 "Показивачи и графици глатко прелазе између мерења уместо да скачу при сваком "
 "освежавању"
 
-#: resource-bar@ticko4.github.io/prefs.js:281
+#: resource-bar@ticko4.github.io/prefs.js:298
 msgid "Graph colors"
 msgstr "Боје графика"
 
-#: resource-bar@ticko4.github.io/prefs.js:282
+#: resource-bar@ticko4.github.io/prefs.js:299
 msgid "Only graphs change; gauges, icons and values stay as they are"
 msgstr "Мењају се само графици; показивачи, иконице и вредности остају исти"
 
-#: resource-bar@ticko4.github.io/prefs.js:283
+#: resource-bar@ticko4.github.io/prefs.js:300
 msgid "Time shown in graphs"
 msgstr "Период приказан на графицима"
 
-#: resource-bar@ticko4.github.io/prefs.js:284
-#: resource-bar@ticko4.github.io/prefs.js:327
+#: resource-bar@ticko4.github.io/prefs.js:301
+#: resource-bar@ticko4.github.io/prefs.js:344
 msgid "30 seconds"
 msgstr "30 секунди"
 
-#: resource-bar@ticko4.github.io/prefs.js:284
-#: resource-bar@ticko4.github.io/prefs.js:327
+#: resource-bar@ticko4.github.io/prefs.js:301
+#: resource-bar@ticko4.github.io/prefs.js:344
 msgid "1 minute"
 msgstr "1 минут"
 
-#: resource-bar@ticko4.github.io/prefs.js:284
+#: resource-bar@ticko4.github.io/prefs.js:301
 msgid "2 minutes"
 msgstr "2 минута"
 
-#: resource-bar@ticko4.github.io/prefs.js:284
-#: resource-bar@ticko4.github.io/prefs.js:327
+#: resource-bar@ticko4.github.io/prefs.js:301
+#: resource-bar@ticko4.github.io/prefs.js:344
 msgid "5 minutes"
 msgstr "5 минута"
 
-#: resource-bar@ticko4.github.io/prefs.js:287
+#: resource-bar@ticko4.github.io/prefs.js:304
 msgid "Alert color"
 msgstr "Боја упозорења"
 
-#: resource-bar@ticko4.github.io/prefs.js:288
+#: resource-bar@ticko4.github.io/prefs.js:305
 msgid "Used when a value goes past its activity and critical thresholds"
 msgstr "Користи се када вредност пређе праг активности и критични праг"
 
-#: resource-bar@ticko4.github.io/prefs.js:309
+#: resource-bar@ticko4.github.io/prefs.js:326
 msgid "Reset to default"
 msgstr "Врати на подразумевано"
 
-#: resource-bar@ticko4.github.io/prefs.js:322
+#: resource-bar@ticko4.github.io/prefs.js:339
 msgid "Menu"
 msgstr "Мени"
 
-#: resource-bar@ticko4.github.io/prefs.js:323
+#: resource-bar@ticko4.github.io/prefs.js:340
 msgid "Top processes"
 msgstr "Најзахтевнији процеси"
 
-#: resource-bar@ticko4.github.io/prefs.js:325
+#: resource-bar@ticko4.github.io/prefs.js:342
 msgid "Processes using the most CPU or memory, listed in the menu"
 msgstr "Процеси који највише користе CPU или меморију, приказани у менију"
 
-#: resource-bar@ticko4.github.io/prefs.js:326
+#: resource-bar@ticko4.github.io/prefs.js:343
 msgid "CPU average"
 msgstr "Просек CPU-а"
 
-#: resource-bar@ticko4.github.io/prefs.js:328
+#: resource-bar@ticko4.github.io/prefs.js:345
 msgid "Time span of the processes’ CPU usage; memory is the current value"
 msgstr ""
 "Период коришћења CPU-а од стране процеса; меморија је тренутна вредност"
 
-#: resource-bar@ticko4.github.io/prefs.js:332
+#: resource-bar@ticko4.github.io/prefs.js:349
 msgid "Position"
 msgstr "Положај"
 
-#: resource-bar@ticko4.github.io/prefs.js:333
+#: resource-bar@ticko4.github.io/prefs.js:350
 msgid "Top bar area"
 msgstr "Област горње траке"
 
-#: resource-bar@ticko4.github.io/prefs.js:334
+#: resource-bar@ticko4.github.io/prefs.js:351
 msgid "Position in the area"
 msgstr "Положај у области"
 
-#: resource-bar@ticko4.github.io/prefs.js:335
+#: resource-bar@ticko4.github.io/prefs.js:352
 msgid "0 = first item; -1 = last"
 msgstr "0 = прва ставка; -1 = последња"
 
-#: resource-bar@ticko4.github.io/prefs.js:344
+#: resource-bar@ticko4.github.io/prefs.js:361
 msgid "Monitoring"
 msgstr "Надгледање"
 
-#: resource-bar@ticko4.github.io/prefs.js:346
+#: resource-bar@ticko4.github.io/prefs.js:363
 msgid "General"
 msgstr "Опште"
 
-#: resource-bar@ticko4.github.io/prefs.js:347
+#: resource-bar@ticko4.github.io/prefs.js:364
 msgid "Update interval"
 msgstr "Период освежавања"
 
-#: resource-bar@ticko4.github.io/prefs.js:348
+#: resource-bar@ticko4.github.io/prefs.js:365
 msgid "Seconds between readings"
 msgstr "Секунде између мерења"
 
-#: resource-bar@ticko4.github.io/prefs.js:349
+#: resource-bar@ticko4.github.io/prefs.js:366
 msgid "Pause in fullscreen"
 msgstr "Паузирај преко целог екрана"
 
-#: resource-bar@ticko4.github.io/prefs.js:350
+#: resource-bar@ticko4.github.io/prefs.js:367
 msgid "Stop reading data while a fullscreen app or game hides the top bar"
 msgstr ""
 "Заустави читање података док програм или игра преко целог екрана скрива "
 "горњу траку"
 
-#: resource-bar@ticko4.github.io/prefs.js:354
+#: resource-bar@ticko4.github.io/prefs.js:371
 msgid "Default disk"
 msgstr "Подразумевани диск"
 
-#: resource-bar@ticko4.github.io/prefs.js:355
+#: resource-bar@ticko4.github.io/prefs.js:372
 msgid ""
 "Used by disk metrics that do not name a specific disk. The menu always lists "
 "every disk."
@@ -317,48 +329,48 @@ msgstr ""
 "Користе га метрике диска које не наводе одређени диск. Мени увек приказује "
 "све дискове."
 
-#: resource-bar@ticko4.github.io/prefs.js:358
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "Mount point"
 msgstr "Тачка качења"
 
-#: resource-bar@ticko4.github.io/prefs.js:369
-#: resource-bar@ticko4.github.io/lib/popup.js:298
+#: resource-bar@ticko4.github.io/prefs.js:386
+#: resource-bar@ticko4.github.io/lib/popup.js:299
 msgid "Network"
 msgstr "Мрежа"
 
-#: resource-bar@ticko4.github.io/prefs.js:374
+#: resource-bar@ticko4.github.io/prefs.js:391
 msgid "Interface"
 msgstr "Сучеље"
 
-#: resource-bar@ticko4.github.io/prefs.js:375
+#: resource-bar@ticko4.github.io/prefs.js:392
 msgid "Automatic (physical interfaces)"
 msgstr "Аутоматски (физичка сучеља)"
 
-#: resource-bar@ticko4.github.io/prefs.js:376
+#: resource-bar@ticko4.github.io/prefs.js:393
 msgid "Unit"
 msgstr "Јединица"
 
-#: resource-bar@ticko4.github.io/prefs.js:377
+#: resource-bar@ticko4.github.io/prefs.js:394
 msgid "Compact format"
 msgstr "Сажети формат"
 
-#: resource-bar@ticko4.github.io/prefs.js:377
+#: resource-bar@ticko4.github.io/prefs.js:394
 msgid "E.g. “1.2M” instead of “1.2 MB/s”"
 msgstr "Нпр. „1.2M“ уместо „1.2 MB/s“"
 
-#: resource-bar@ticko4.github.io/prefs.js:378
+#: resource-bar@ticko4.github.io/prefs.js:395
 msgid "Decimal places (compact)"
 msgstr "Децимална места (сажети формат)"
 
-#: resource-bar@ticko4.github.io/prefs.js:387
+#: resource-bar@ticko4.github.io/prefs.js:404
 msgid "Thresholds"
 msgstr "Прагови"
 
-#: resource-bar@ticko4.github.io/prefs.js:389
+#: resource-bar@ticko4.github.io/prefs.js:406
 msgid "Color thresholds"
 msgstr "Прагови боја"
 
-#: resource-bar@ticko4.github.io/prefs.js:390
+#: resource-bar@ticko4.github.io/prefs.js:407
 msgid ""
 "Below the activity threshold a metric uses the normal top bar color. Between "
 "activity and critical it moves toward the alert color, and at critical it is "
@@ -368,49 +380,49 @@ msgstr ""
 "активности и критичног прага постепено прелази у боју упозорења, а на "
 "критичном прагу у потпуности поприма ту боју."
 
-#: resource-bar@ticko4.github.io/prefs.js:418
+#: resource-bar@ticko4.github.io/prefs.js:435
 msgid "Activity"
 msgstr "Активност"
 
-#: resource-bar@ticko4.github.io/prefs.js:419
+#: resource-bar@ticko4.github.io/prefs.js:436
 msgid "Critical"
 msgstr "Критично"
 
-#: resource-bar@ticko4.github.io/prefs.js:443
+#: resource-bar@ticko4.github.io/prefs.js:460
 msgid "Reset thresholds"
 msgstr "Врати подразумеване прагове"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:297
-#: resource-bar@ticko4.github.io/lib/popup.js:320
+#: resource-bar@ticko4.github.io/lib/popup.js:298
+#: resource-bar@ticko4.github.io/lib/popup.js:321
 #: resource-bar@ticko4.github.io/lib/stats.js:36
 msgid "Memory"
 msgstr "Меморија"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:299
+#: resource-bar@ticko4.github.io/lib/popup.js:300
 msgid "Disks"
 msgstr "Дискови"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:309
+#: resource-bar@ticko4.github.io/lib/popup.js:310
 msgctxt "disks card"
 msgid "Space"
 msgstr "Простор"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:310
+#: resource-bar@ticko4.github.io/lib/popup.js:311
 msgctxt "disks card"
 msgid "Activity"
 msgstr "Активност"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:318
+#: resource-bar@ticko4.github.io/lib/popup.js:319
 msgid "Processes"
 msgstr "Процеси"
 
 #. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
-#: resource-bar@ticko4.github.io/lib/popup.js:384
+#: resource-bar@ticko4.github.io/lib/popup.js:387
 #, javascript-format
 msgid "Load %s   ·   Up %s"
 msgstr "Оптерећење %s   ·   Ради %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:399
+#: resource-bar@ticko4.github.io/lib/popup.js:402
 #, javascript-format
 msgid "%d core"
 msgid_plural "%d cores"
@@ -419,20 +431,20 @@ msgstr[1] "%d језгра"
 msgstr[2] "%d језгара"
 msgstr[3] "%d језгро"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:415
+#: resource-bar@ticko4.github.io/lib/popup.js:418
 msgid "No swap"
 msgstr "Нема размене"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:430
+#: resource-bar@ticko4.github.io/lib/popup.js:433
 #, javascript-format
 msgid "Interface %s"
 msgstr "Сучеље %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:430
+#: resource-bar@ticko4.github.io/lib/popup.js:433
 msgid "Physical interfaces"
 msgstr "Физичка сучеља"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:474
+#: resource-bar@ticko4.github.io/lib/popup.js:477
 #, javascript-format
 msgid "%d disk"
 msgid_plural "%d disks"
@@ -441,53 +453,53 @@ msgstr[1] "%d диска"
 msgstr[2] "%d дискова"
 msgstr[3] "%d диск"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:476
-#: resource-bar@ticko4.github.io/lib/popup.js:535
+#: resource-bar@ticko4.github.io/lib/popup.js:479
+#: resource-bar@ticko4.github.io/lib/popup.js:538
 msgid "Calculating…"
 msgstr "Израчунавам…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:491
+#: resource-bar@ticko4.github.io/lib/popup.js:494
 msgid "Suspended (power saving)"
 msgstr "У мировању (уштеда енергије)"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:501
+#: resource-bar@ticko4.github.io/lib/popup.js:504
 msgid "Waiting for data…"
 msgstr "Чекам податке…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:526
+#: resource-bar@ticko4.github.io/lib/popup.js:529
 msgid "CPU: average over the last 30 seconds"
 msgstr "CPU: просек за последњих 30 секунди"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:527
+#: resource-bar@ticko4.github.io/lib/popup.js:530
 msgid "CPU: average over the last minute"
 msgstr "CPU: просек за последњи минут"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:528
+#: resource-bar@ticko4.github.io/lib/popup.js:531
 msgid "CPU: average over the last 5 minutes"
 msgstr "CPU: просек за последњих 5 минута"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:30
-#: resource-bar@ticko4.github.io/lib/stats.js:133
+#: resource-bar@ticko4.github.io/lib/stats.js:178
 msgid "CPU usage"
 msgstr "Искоришћеност CPU-а"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:31
-#: resource-bar@ticko4.github.io/lib/stats.js:139
+#: resource-bar@ticko4.github.io/lib/stats.js:185
 msgid "CPU temperature"
 msgstr "Температура CPU-а"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:32
-#: resource-bar@ticko4.github.io/lib/stats.js:145
+#: resource-bar@ticko4.github.io/lib/stats.js:192
 msgid "CPU frequency"
 msgstr "Учесталост CPU-а"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:33
-#: resource-bar@ticko4.github.io/lib/stats.js:152
+#: resource-bar@ticko4.github.io/lib/stats.js:200
 msgid "GPU usage"
 msgstr "Искоришћеност GPU-а"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:34
-#: resource-bar@ticko4.github.io/lib/stats.js:158
+#: resource-bar@ticko4.github.io/lib/stats.js:207
 msgid "GPU temperature"
 msgstr "Температура GPU-а"
 
@@ -508,51 +520,51 @@ msgid "Disk (activity)"
 msgstr "Диск (активност)"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:40
-#: resource-bar@ticko4.github.io/lib/stats.js:226
+#: resource-bar@ticko4.github.io/lib/stats.js:286
 msgid "Download"
 msgstr "Примање"
 
 #: resource-bar@ticko4.github.io/lib/stats.js:41
-#: resource-bar@ticko4.github.io/lib/stats.js:233
+#: resource-bar@ticko4.github.io/lib/stats.js:294
 msgid "Upload"
 msgstr "Слање"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:164
+#: resource-bar@ticko4.github.io/lib/stats.js:214
 msgid "VRAM (%)"
 msgstr "VRAM (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:170
+#: resource-bar@ticko4.github.io/lib/stats.js:221
 msgid "VRAM used"
 msgstr "Заузета VRAM"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:176
+#: resource-bar@ticko4.github.io/lib/stats.js:228
 msgid "Memory (%)"
 msgstr "Меморија (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:182
+#: resource-bar@ticko4.github.io/lib/stats.js:235
 msgid "Memory used"
 msgstr "Заузета меморија"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:188
+#: resource-bar@ticko4.github.io/lib/stats.js:242
 msgid "Swap (%)"
 msgstr "Размена (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:194
+#: resource-bar@ticko4.github.io/lib/stats.js:249
 msgid "Disk used (%)"
 msgstr "Заузето на диску (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:200
+#: resource-bar@ticko4.github.io/lib/stats.js:256
 msgid "Disk used"
 msgstr "Заузето на диску"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:206
+#: resource-bar@ticko4.github.io/lib/stats.js:263
 msgid "Disk free (%)"
 msgstr "Слободно на диску (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:213
+#: resource-bar@ticko4.github.io/lib/stats.js:271
 msgid "Disk free"
 msgstr "Слободно на диску"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:220
+#: resource-bar@ticko4.github.io/lib/stats.js:279
 msgid "Disk activity"
 msgstr "Активност диска"

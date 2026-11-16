@@ -14,7 +14,13 @@ import {mountName, parseMounts} from './lib/mounts.js';
 const VISUALIZATIONS = [
     ['gauge', N_('Gauge')],
     ['graph', N_('Graph')],
+    ['pill', N_('Pill with value')],
     ['none', N_('None')],
+];
+
+const VALUE_STYLES = [
+    ['plain', N_('Plain')],
+    ['pill', N_('Pill')],
 ];
 
 const GRAPH_COLORS = [
@@ -265,10 +271,21 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
 
         // Appearance
         const look = new Adw.PreferencesGroup({title: _('Appearance')});
-        look.add(choiceRow(settings, 'visualization', _('Visualization'), VISUALIZATIONS,
-            _('Vertical pill gauge or a graph of recent readings')));
+        look.add(choiceRow(settings, 'visualization', _('Visualization'), VISUALIZATIONS));
         look.add(switchRow(settings, 'show-icon', _('Show icon')));
         look.add(switchRow(settings, 'show-value', _('Show value')));
+        // Only for a value shown next to a gauge or graph: the "Pill with
+        // value" visualization already holds it.
+        const valueStyle = choiceRow(settings, 'value-style', _('Value style'), VALUE_STYLES);
+        const syncValueStyle = () => {
+            valueStyle.sensitive = settings.get_boolean('show-value') &&
+                settings.get_string('visualization') !== 'pill';
+        };
+        syncValueStyle();
+        const valueStyleIds = ['show-value', 'visualization']
+            .map(k => settings.connect(`changed::${k}`, syncValueStyle));
+        valueStyle.connect('destroy', () => valueStyleIds.forEach(id => settings.disconnect(id)));
+        look.add(valueStyle);
         look.add(switchRow(settings, 'show-units', _('Show units'), _('Off: “45” instead of “45°C”')));
         look.add(switchRow(settings, 'show-cpu-cores', _('Per-core gauge'),
             _('For CPU usage in gauge mode, one bar per core')));

@@ -32,7 +32,7 @@ const MONITOR_APPS = [
 ];
 
 const REBUILD_KEYS = new Set([
-    'stats', 'visualization', 'show-icon', 'show-value', 'show-units',
+    'stats', 'visualization', 'value-style', 'show-icon', 'show-value', 'show-units',
     'show-cpu-cores', 'label-min-width', 'spacing',
 ]);
 
@@ -150,6 +150,7 @@ class ResourceBarIndicator extends PanelMenu.Button {
             item.update({
                 result,
                 color: mixColors(base, highlight, result.factor),
+                base,
                 graphColor: mixColors(graphBase, highlight, result.factor),
                 colorFor: v => mixColors(base, highlight, gradientFactor(v, activity, critical)),
                 history: () => model.normalizedHistory(key, snapshot),
@@ -205,6 +206,7 @@ export default class ResourceBarExtension extends Extension {
         const config = {
             stats: s.get_strv('stats').filter(isValidKey),
             visualization: s.get_string('visualization'),
+            valueStyle: s.get_string('value-style'),
             showIcon: s.get_boolean('show-icon'),
             showValue: s.get_boolean('show-value'),
             showCpuCores: s.get_boolean('show-cpu-cores'),

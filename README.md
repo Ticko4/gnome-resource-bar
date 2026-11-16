@@ -2,8 +2,9 @@
 
 A system resource monitor for the GNOME Shell top bar, inspired by the **sysmon** widget of
 [Noctalia Shell](https://github.com/noctalia-dev/noctalia-shell). Each metric is a compact item, an
-**icon + a pill gauge (or a history graph)**, optionally followed by its value, that tints toward an alert
-color as the value crosses its *activity* and *critical* thresholds.
+**icon + a pill gauge (or a history graph)**, optionally followed by its value, or an icon and a pill that
+fills up with the value written on top. Items tint toward an alert color as the value crosses its *activity*
+and *critical* thresholds.
 
 ![Resource Bar in the top bar](docs/screenshot-panel.png)
 
@@ -83,8 +84,9 @@ is uploaded on the extension’s page by clicking the puzzle icon next to its na
 `gnome-extensions prefs resource-bar@ticko4.github.io`, or **Settings** in the extension’s menu:
 
 - **Top Bar**: number of top processes in the menu; which metrics and in what order (CPU usage, CPU temperature, memory and GPU usage by
-  default; GPU items hide themselves on machines without a supported GPU); visualization (gauge, graph or
-  none); icon, value (off by default), units,
+  default; GPU items hide themselves on machines without a supported GPU); visualization (gauge, graph,
+  pill with value or none); icon, value (off by default) and value style (plain, or inside a fixed-size
+  pill), units,
   per-core gauge, minimum value width, spacing, smooth animation, graph colors (default, the system accent
   color, or one color per resource like the Resources app: CPU blue, memory purple, GPU red, disks orange,
   network teal; only graphs change), time shown in graphs (30 seconds by default, or 1, 2 or 5 minutes, for

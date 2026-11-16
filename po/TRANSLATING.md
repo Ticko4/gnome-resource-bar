@@ -47,7 +47,10 @@ Metric names (preferences list, accessibility names, thresholds page):
 
 Preferences window (pages “Top Bar”, “Monitoring”, “Thresholds”):
 - `Gauge` — a small vertical pill-shaped meter; `Graph` — a small line chart of recent values;
+  `Pill with value` — a small horizontal pill that fills up with the value, the number written on top;
   `None` — no visualization.
+- `Value style`, with `Plain` / `Pill` — whether the value next to a gauge or graph is plain text or sits
+  inside a small rounded box (a pill) of fixed size.
 - `Default (text color)`, `System accent color`, `Per resource (like Resources)` — choices for the graph
   colors (“Resources” is an app name).
 - `Time shown in graphs` — how much time each graph covers, from its left edge to its right edge; the

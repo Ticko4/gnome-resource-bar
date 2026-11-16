@@ -31,6 +31,29 @@
   text-align: right;
 }
 
+/* Value style "pill": the value centered in a fixed-size rounded box; the
+   background is set at runtime from the text and alert colors. */
+.resource-bar-value.resource-bar-value-pill {
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+
+.resource-bar-value.resource-bar-value-pill:ltr,
+.resource-bar-value.resource-bar-value-pill:rtl {
+  text-align: center;
+}
+
+/* "Pill with value" visualization: the pill fills with the value (drawn in
+   ValuePill) and the value is centered on top. */
+.resource-bar-fill-pill .resource-bar-value {
+  padding: 1px 8px;
+}
+
+.resource-bar-fill-pill .resource-bar-value:ltr,
+.resource-bar-fill-pill .resource-bar-value:rtl {
+  text-align: center;
+}
+
 /* Vertical pill gauge (Noctalia: ~30% thick, ~85% tall of the glyph).
    Drawn with cairo; CSS only sets the size. */
 .resource-bar-gauge {

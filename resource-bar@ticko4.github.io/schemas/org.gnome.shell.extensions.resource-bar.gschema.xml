@@ -12,10 +12,20 @@
       <choices>
         <choice value="gauge"/>
         <choice value="graph"/>
+        <choice value="pill"/>
         <choice value="none"/>
       </choices>
       <default>'gauge'</default>
-      <summary>Visualization next to the value (gauge, graph or none)</summary>
+      <summary>Visualization next to the value (gauge, graph, a pill that fills with the value, or none)</summary>
+    </key>
+
+    <key name="value-style" type="s">
+      <choices>
+        <choice value="plain"/>
+        <choice value="pill"/>
+      </choices>
+      <default>'plain'</default>
+      <summary>How the value next to a gauge or graph is shown: plain text or inside a fixed-size pill</summary>
     </key>
 
     <key name="show-icon" type="b">

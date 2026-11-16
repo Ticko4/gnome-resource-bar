@@ -380,7 +380,75 @@ class ResourceBarGraph extends St.DrawingArea {
     }
 });
 
-// Icon + optional disk name + (gauge | per-core gauges | graph) + value label.
+// "Pill with value": a horizontal pill that fills with the value, with the
+// item's value label centered on top. The label keeps its reserved width,
+// so the pill has a fixed size whatever the number.
+export const ValuePill = GObject.registerClass(
+class ResourceBarValuePill extends St.Widget {
+    _init(label) {
+        super._init({
+            style_class: 'resource-bar-fill-pill',
+            layout_manager: new Clutter.BinLayout(),
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+        this._bar = new St.DrawingArea({x_expand: true, y_expand: true});
+        this._bar.connect('repaint', area => this._draw(area));
+        this.add_child(this._bar);
+        this.add_child(label);
+        this._from = 0;
+        this._to = 0;
+        this._shown = 0;
+        this._track = {r: 1, g: 1, b: 1, a: 0.13};
+        this._fill = {r: 1, g: 1, b: 1, a: 0.32};
+        this._anim = new Animator(this._bar, t => {
+            this._shown = this._from + (this._to - this._from) * t;
+            this._bar.queue_repaint();
+        });
+    }
+
+    // Glides from the value on screen to `progress` over durationMs (0 = jump).
+    setProgress(progress, durationMs = 0) {
+        const p = clamp01(progress);
+        if (Math.abs(p - this._to) < 0.0005 && (this._anim.running || p === this._shown))
+            return;
+        const width = this._bar.get_allocation_box().get_width();
+        this._from = this._shown;
+        this._to = p;
+        this._anim.start(Math.abs(p - this._shown) * width < MIN_ANIMATED_PX ? 0 : durationMs);
+    }
+
+    setColors(track, fill) {
+        const css = `${toCss(track)} ${toCss(fill)}`;
+        if (this._colorsCss === css)
+            return;
+        this._colorsCss = css;
+        this._track = track;
+        this._fill = fill;
+        this._bar.queue_repaint();
+    }
+
+    _draw(area) {
+        const cr = area.get_context();
+        try {
+            const [w, h] = area.get_surface_size();
+            if (w <= 0 || h <= 0)
+                return;
+            roundedRect(cr, w, h, h / 2);
+            cr.clip();
+            const t = this._track, f = this._fill;
+            cr.setSourceRGBA(t.r, t.g, t.b, t.a);
+            cr.paint();
+            cr.rectangle(0, 0, w * this._shown, h);
+            cr.setSourceRGBA(f.r, f.g, f.b, f.a);
+            cr.fill();
+        } finally {
+            cr.$dispose();
+        }
+    }
+});
+
+// Icon + optional disk name + (gauge | per-core gauges | graph) + value label,
+// or icon + name + value pill.
 export const StatItem = GObject.registerClass(
 class ResourceBarStatItem extends St.BoxLayout {
     _init(statKey, config, extensionPath) {
@@ -414,6 +482,12 @@ class ResourceBarStatItem extends St.BoxLayout {
             this.add_child(this._tag);
         }
 
+        if (config.visualization === 'pill') {
+            // The value lives inside the pill, whatever "show-value" says.
+            this._vis = new ValuePill(this._makeLabel(config));
+            this.add_child(this._vis);
+            return;
+        }
         if (config.visualization === 'gauge') {
             this._vis = id === 'cpu_usage' && config.showCpuCores ? new CoreGauges() : new Gauge();
             this.add_child(this._vis);
@@ -423,19 +497,27 @@ class ResourceBarStatItem extends St.BoxLayout {
         }
 
         if (config.showValue) {
-            this._label = new St.Label({
-                style_class: 'resource-bar-value',
-                y_align: Clutter.ActorAlign.CENTER,
-                text: '--',
-            });
-            // A font or theme change invalidates the measured widths.
-            this._label.connect('style-changed', () => {
-                this._reservedSig = null;
-            });
-            if (config.labelMinWidth > 0)
-                this._label.set_style(`min-width: ${config.labelMinWidth}px;`);
-            this.add_child(this._label);
+            this.add_child(this._makeLabel(config));
+            // Value style "pill": the value in a fixed-size rounded box.
+            this._valuePill = config.valueStyle === 'pill';
+            if (this._valuePill)
+                this._label.add_style_class_name('resource-bar-value-pill');
         }
+    }
+
+    _makeLabel(config) {
+        this._label = new St.Label({
+            style_class: 'resource-bar-value',
+            y_align: Clutter.ActorAlign.CENTER,
+            text: '--',
+        });
+        // A font or theme change invalidates the measured widths.
+        this._label.connect('style-changed', () => {
+            this._reservedSig = null;
+        });
+        if (config.labelMinWidth > 0)
+            this._label.set_style(`min-width: ${config.labelMinWidth}px;`);
+        return this._label;
     }
 
     // Width of the widest text the value can show (texts from
@@ -478,8 +560,10 @@ class ResourceBarStatItem extends St.BoxLayout {
         return Math.max(this._config.labelMinWidth, reserved, this._widthMax);
     }
 
-    // ctx: {result, color, graphColor, colorFor(value), history(): number[],
+    // ctx: {result, color, base, graphColor, colorFor(value), history(): number[],
     //       historyCount, historySize, cores, animMs, widest: string[]}
+    // base is the panel text color (color is base tinted toward the alert
+    // color by result.factor).
     // color tints icon/name/value and gauges; graphColor tints the graph;
     // animMs is how long gauges and graphs glide to the new sample.
     update(ctx) {
@@ -494,10 +578,21 @@ class ResourceBarStatItem extends St.BoxLayout {
             if (this._label.text !== result.text)
                 this._label.text = result.text;
             const width = this._stableWidth(this._reservedWidth(ctx.widest));
-            setStyleCached(this._label, '_rbStyle', `min-width: ${width}px; color: ${css};`);
+            let style = `min-width: ${width}px; color: ${css};`;
+            if (this._vis instanceof ValuePill) {
+                // The fill carries the alert color; the text stays readable.
+                style = `min-width: ${width}px; color: ${toCss(ctx.base ?? color)};`;
+            } else if (this._valuePill) {
+                style += ` background-color: ${toCss(withAlpha(color, 0.14 + 0.1 * result.factor))};`;
+            }
+            setStyleCached(this._label, '_rbStyle', style);
         }
 
-        if (this._vis instanceof CoreGauges) {
+        if (this._vis instanceof ValuePill) {
+            const base = ctx.base ?? color;
+            this._vis.setColors(withAlpha(base, 0.13), withAlpha(color, 0.32 + 0.48 * result.factor));
+            this._vis.setProgress(result.norm, ctx.animMs);
+        } else if (this._vis instanceof CoreGauges) {
             this._vis.update(ctx.cores, ctx.colorFor, ctx.animMs);
         } else if (this._vis instanceof Gauge) {
             this._vis.setColor(color);
