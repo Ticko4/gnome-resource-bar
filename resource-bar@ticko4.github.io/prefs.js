@@ -266,7 +266,7 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         // Appearance
         const look = new Adw.PreferencesGroup({title: _('Appearance')});
         look.add(choiceRow(settings, 'visualization', _('Visualization'), VISUALIZATIONS,
-            _('Vertical pill gauge or a graph of the last 30 readings')));
+            _('Vertical pill gauge or a graph of recent readings')));
         look.add(switchRow(settings, 'show-icon', _('Show icon')));
         look.add(switchRow(settings, 'show-value', _('Show value')));
         look.add(switchRow(settings, 'show-units', _('Show units'), _('Off: “45” instead of “45°C”')));
@@ -280,6 +280,8 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
             _('Gauges and graphs glide between readings instead of jumping on every update')));
         look.add(choiceRow(settings, 'graph-colors', _('Graph colors'), GRAPH_COLORS,
             _('Only graphs change; gauges, icons and values stay as they are')));
+        look.add(intChoiceRow(settings, 'graph-span', _('Time shown in graphs'),
+            [[30, _('30 seconds')], [60, _('1 minute')], [120, _('2 minutes')], [300, _('5 minutes')]]));
 
         const colorRow = new Adw.ActionRow({
             title: _('Alert color'),

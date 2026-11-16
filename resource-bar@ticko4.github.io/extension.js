@@ -154,6 +154,7 @@ class ResourceBarIndicator extends PanelMenu.Button {
                 colorFor: v => mixColors(base, highlight, gradientFactor(v, activity, critical)),
                 history: () => model.normalizedHistory(key, snapshot),
                 historyCount: model.count(key),
+                historySize: model.size,
                 animMs: ctx.animMs,
                 cores: snapshot.cpu.cores,
             });
@@ -231,6 +232,8 @@ export default class ResourceBarExtension extends Extension {
         };
         this._highlight = parseColor(s.get_string('highlight-color'), parseColor(DEFAULT_HIGHLIGHT));
         this._thresholds = loadThresholds(s);
+        // Graphs span the chosen time: one point per update.
+        this._model.setSize(s.get_int('graph-span') * 1000 / this._intervalMs());
         this._sampler.setOptions({
             diskPath: s.get_string('disk-path'),
             networkInterface: s.get_string('network-interface'),

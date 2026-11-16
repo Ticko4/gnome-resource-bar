@@ -51,7 +51,7 @@ for every disk not yet in the top bar. Disk items show the disk name next to the
 is unmounted.
 
 The **Disks** card has a **Space | Activity** switch (Activity by default). *Space* shows the used space; *Activity* shows, per
-disk, a graph of the last 30 seconds of busy time (like `iostat`’s `%util`, read from `/proc/diskstats`
+disk, a graph of recent busy time (like `iostat`’s `%util`, read from `/proc/diskstats`
 without waking sleeping disks) with read (↓) and write (↑) speeds.
 
 ## Install
@@ -87,7 +87,8 @@ is uploaded on the extension’s page by clicking the puzzle icon next to its na
   none); icon, value (off by default), units,
   per-core gauge, minimum value width, spacing, smooth animation, graph colors (default, the system accent
   color, or one color per resource like the Resources app: CPU blue, memory purple, GPU red, disks orange,
-  network teal; only graphs change), alert color (default `#FD4663`, Noctalia’s “error”); area and
+  network teal; only graphs change), time shown in graphs (30 seconds by default, or 1, 2 or 5 minutes, for
+  the top bar and menu graphs alike), alert color (default `#FD4663`, Noctalia’s “error”); area and
   position in the top bar.
 - **Monitoring**: update interval (1 s by default), pause in fullscreen (on by default), default disk,
   network interface, speed unit and compact format.
@@ -109,6 +110,9 @@ is uploaded on the extension’s page by clicking the puzzle icon next to its na
   reading continuing from what is on screen, at up to ~30 fps; changes under a quarter pixel do not animate
   and GNOME’s *Reduce animation* setting turns it off. Value labels only shrink after 10 s so items do not
   shift. Graph mode keeps the top bar redrawing, which costs a little more; it can be turned off.
+- Graphs hold one point per update across the chosen time span (300 points for 5 minutes at 1 s). Longer
+  spans draw fewer frames (about 15 fps for 1 minute, 7.5 for 2) and graphs that move under half a pixel
+  per update are simply redrawn once per update, so drawing costs about the same whatever span is chosen.
 - Color: below the activity threshold an item uses the top bar text color; past it, it starts at 25 % of the
   alert color and reaches 100 % at the critical threshold (Noctalia’s curve).
 

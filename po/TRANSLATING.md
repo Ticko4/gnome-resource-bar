@@ -50,6 +50,9 @@ Preferences window (pages “Top Bar”, “Monitoring”, “Thresholds”):
   `None` — no visualization.
 - `Default (text color)`, `System accent color`, `Per resource (like Resources)` — choices for the graph
   colors (“Resources” is an app name).
+- `Time shown in graphs` — how much time each graph covers, from its left edge to its right edge; the
+  choices are `30 seconds`, `1 minute`, `2 minutes`, `5 minutes` (the same strings also list the time span
+  of the processes’ CPU average).
 - `Left`, `Center`, `Right` — area of the top bar where the item goes.
 - `Automatic`, `Automatic (physical interfaces)` — automatic choice of unit / network interfaces.
 - `default (%s)` (lowercase, in a subtitle) and `Default (%s)` (a dropdown item): `%s` is a mount point

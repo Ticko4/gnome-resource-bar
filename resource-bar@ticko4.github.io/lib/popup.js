@@ -183,7 +183,7 @@ class DiskRow {
         this._set(disk.path, disk.pct, color, animMs);
     }
 
-    // history: {values (0..1), count}; graphColor/background tint the graph.
+    // history: {values (0..1), count, size}; graphColor/background tint the graph.
     updateActivity(path, io, color, {history, graphColor, background}, animMs = 0) {
         this._showRates(true);
         this.bar.hide();
@@ -191,7 +191,7 @@ class DiskRow {
         const rate = v => formatRate(v, {unit: 'auto'});
         this.read.text = io ? `↓ ${rate(io.read)}` : '↓ --';
         this.write.text = io ? `↑ ${rate(io.write)}` : '↑ --';
-        this.graph.setSeries([{values: history.values, color: graphColor, count: history.count}],
+        this.graph.setSeries([{values: history.values, color: graphColor, count: history.count, size: history.size}],
             background, animMs);
         this._set(path, io ? io.util : null, color, animMs);
     }
@@ -375,7 +375,7 @@ export class ResourcePopup {
         };
         const animMs = ctx.animMs ?? 0;
         const series = (id, color, fill = true) =>
-            ({values: model.normalizedHistory(id, s), color, fill, count: model.count(id)});
+            ({values: model.normalizedHistory(id, s), color, fill, count: model.count(id), size: model.size});
 
         // Header
         if (s.system) {
@@ -460,7 +460,7 @@ export class ResourcePopup {
                     const key = diskUtilKey(m.path);
                     const graphBase = graphBaseColor(ctx.graphColors, 'disk', base, ctx.accent);
                     this._diskRows[i].updateActivity(m.path, io, mixColors(base, highlight, factor), {
-                        history: {values: model.normalizedHistory(key, s), count: model.count(key)},
+                        history: {values: model.normalizedHistory(key, s), count: model.count(key), size: model.size},
                         graphColor: mixColors(graphBase, highlight, factor),
                         background: withAlpha(base, 0.05),
                     }, animMs);

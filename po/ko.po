@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-12 14:15+0000\n"
+"POT-Creation-Date: 2026-11-15 02:31+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Korean\n"
@@ -34,7 +34,7 @@ msgid "Graph"
 msgstr "그래프"
 
 #: resource-bar@ticko4.github.io/prefs.js:17
-#: resource-bar@ticko4.github.io/prefs.js:322
+#: resource-bar@ticko4.github.io/prefs.js:324
 msgid "None"
 msgstr "없음"
 
@@ -144,8 +144,8 @@ msgid "Visualization"
 msgstr "시각화"
 
 #: resource-bar@ticko4.github.io/prefs.js:269
-msgid "Vertical pill gauge or a graph of the last 30 readings"
-msgstr "세로 알약 모양 게이지 또는 최근 30회 측정값 그래프"
+msgid "Vertical pill gauge or a graph of recent readings"
+msgstr "세로 알약 모양 게이지 또는 최근 측정값 그래프"
 
 #: resource-bar@ticko4.github.io/prefs.js:270
 msgid "Show icon"
@@ -202,95 +202,107 @@ msgstr "그래프 색"
 msgid "Only graphs change; gauges, icons and values stay as they are"
 msgstr "그래프만 바뀌고 게이지, 아이콘, 값은 그대로 유지됩니다"
 
-#: resource-bar@ticko4.github.io/prefs.js:285
-msgid "Alert color"
-msgstr "경고 색"
+#: resource-bar@ticko4.github.io/prefs.js:283
+msgid "Time shown in graphs"
+msgstr "그래프에 표시할 시간"
 
-#: resource-bar@ticko4.github.io/prefs.js:286
-msgid "Used when a value goes past its activity and critical thresholds"
-msgstr "값이 활동 및 위험 임계값을 넘을 때 사용합니다"
-
-#: resource-bar@ticko4.github.io/prefs.js:307
-msgid "Reset to default"
-msgstr "기본값으로 재설정"
-
-#: resource-bar@ticko4.github.io/prefs.js:320
-msgid "Menu"
-msgstr "메뉴"
-
-#: resource-bar@ticko4.github.io/prefs.js:321
-msgid "Top processes"
-msgstr "상위 프로세스"
-
-#: resource-bar@ticko4.github.io/prefs.js:323
-msgid "Processes using the most CPU or memory, listed in the menu"
-msgstr "CPU 또는 메모리를 가장 많이 사용하는 프로세스를 메뉴에 표시"
-
-#: resource-bar@ticko4.github.io/prefs.js:324
-msgid "CPU average"
-msgstr "CPU 평균"
-
-#: resource-bar@ticko4.github.io/prefs.js:325
+#: resource-bar@ticko4.github.io/prefs.js:284
+#: resource-bar@ticko4.github.io/prefs.js:327
 msgid "30 seconds"
 msgstr "30초"
 
-#: resource-bar@ticko4.github.io/prefs.js:325
+#: resource-bar@ticko4.github.io/prefs.js:284
+#: resource-bar@ticko4.github.io/prefs.js:327
 msgid "1 minute"
 msgstr "1분"
 
-#: resource-bar@ticko4.github.io/prefs.js:325
+#: resource-bar@ticko4.github.io/prefs.js:284
+msgid "2 minutes"
+msgstr "2분"
+
+#: resource-bar@ticko4.github.io/prefs.js:284
+#: resource-bar@ticko4.github.io/prefs.js:327
 msgid "5 minutes"
 msgstr "5분"
 
+#: resource-bar@ticko4.github.io/prefs.js:287
+msgid "Alert color"
+msgstr "경고 색"
+
+#: resource-bar@ticko4.github.io/prefs.js:288
+msgid "Used when a value goes past its activity and critical thresholds"
+msgstr "값이 활동 및 위험 임계값을 넘을 때 사용합니다"
+
+#: resource-bar@ticko4.github.io/prefs.js:309
+msgid "Reset to default"
+msgstr "기본값으로 재설정"
+
+#: resource-bar@ticko4.github.io/prefs.js:322
+msgid "Menu"
+msgstr "메뉴"
+
+#: resource-bar@ticko4.github.io/prefs.js:323
+msgid "Top processes"
+msgstr "상위 프로세스"
+
+#: resource-bar@ticko4.github.io/prefs.js:325
+msgid "Processes using the most CPU or memory, listed in the menu"
+msgstr "CPU 또는 메모리를 가장 많이 사용하는 프로세스를 메뉴에 표시"
+
 #: resource-bar@ticko4.github.io/prefs.js:326
+msgid "CPU average"
+msgstr "CPU 평균"
+
+#: resource-bar@ticko4.github.io/prefs.js:328
 msgid "Time span of the processes’ CPU usage; memory is the current value"
 msgstr "프로세스 CPU 사용량의 평균 기간이며, 메모리는 현재 값입니다"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:332
 msgid "Position"
 msgstr "위치"
 
-#: resource-bar@ticko4.github.io/prefs.js:331
+#: resource-bar@ticko4.github.io/prefs.js:333
 msgid "Top bar area"
 msgstr "상단 표시줄 영역"
 
-#: resource-bar@ticko4.github.io/prefs.js:332
+#: resource-bar@ticko4.github.io/prefs.js:334
 msgid "Position in the area"
 msgstr "영역 내 위치"
 
-#: resource-bar@ticko4.github.io/prefs.js:333
+#: resource-bar@ticko4.github.io/prefs.js:335
 msgid "0 = first item; -1 = last"
 msgstr "0 = 첫 번째 항목, -1 = 마지막 항목"
 
-#: resource-bar@ticko4.github.io/prefs.js:342
+#: resource-bar@ticko4.github.io/prefs.js:344
 msgid "Monitoring"
 msgstr "모니터링"
 
-#: resource-bar@ticko4.github.io/prefs.js:344
+#: resource-bar@ticko4.github.io/prefs.js:346
 msgid "General"
 msgstr "일반"
 
-#: resource-bar@ticko4.github.io/prefs.js:345
+#: resource-bar@ticko4.github.io/prefs.js:347
 msgid "Update interval"
 msgstr "업데이트 간격"
 
-#: resource-bar@ticko4.github.io/prefs.js:346
+#: resource-bar@ticko4.github.io/prefs.js:348
 msgid "Seconds between readings"
 msgstr "측정 사이의 시간(초)"
 
-#: resource-bar@ticko4.github.io/prefs.js:347
+#: resource-bar@ticko4.github.io/prefs.js:349
 msgid "Pause in fullscreen"
 msgstr "전체 화면에서 일시 정지"
 
-#: resource-bar@ticko4.github.io/prefs.js:348
+#: resource-bar@ticko4.github.io/prefs.js:350
 msgid "Stop reading data while a fullscreen app or game hides the top bar"
-msgstr "전체 화면 앱이나 게임이 상단 표시줄을 가리는 동안 데이터 읽기를 멈춥니다"
+msgstr ""
+"전체 화면 앱이나 게임이 상단 표시줄을 가리는 동안 데이터 읽기를 멈춥니다"
 
-#: resource-bar@ticko4.github.io/prefs.js:352
+#: resource-bar@ticko4.github.io/prefs.js:354
 msgid "Default disk"
 msgstr "기본 디스크"
 
-#: resource-bar@ticko4.github.io/prefs.js:353
+#: resource-bar@ticko4.github.io/prefs.js:355
 msgid ""
 "Used by disk metrics that do not name a specific disk. The menu always lists "
 "every disk."
@@ -298,48 +310,48 @@ msgstr ""
 "특정 디스크를 지정하지 않은 디스크 지표에 사용합니다. 메뉴에는 항상 모든 디스"
 "크가 표시됩니다."
 
-#: resource-bar@ticko4.github.io/prefs.js:356
+#: resource-bar@ticko4.github.io/prefs.js:358
 msgid "Mount point"
 msgstr "마운트 위치"
 
-#: resource-bar@ticko4.github.io/prefs.js:367
+#: resource-bar@ticko4.github.io/prefs.js:369
 #: resource-bar@ticko4.github.io/lib/popup.js:298
 msgid "Network"
 msgstr "네트워크"
 
-#: resource-bar@ticko4.github.io/prefs.js:372
+#: resource-bar@ticko4.github.io/prefs.js:374
 msgid "Interface"
 msgstr "인터페이스"
 
-#: resource-bar@ticko4.github.io/prefs.js:373
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "Automatic (physical interfaces)"
 msgstr "자동 (물리 인터페이스)"
 
-#: resource-bar@ticko4.github.io/prefs.js:374
+#: resource-bar@ticko4.github.io/prefs.js:376
 msgid "Unit"
 msgstr "단위"
 
-#: resource-bar@ticko4.github.io/prefs.js:375
+#: resource-bar@ticko4.github.io/prefs.js:377
 msgid "Compact format"
 msgstr "간략 형식"
 
-#: resource-bar@ticko4.github.io/prefs.js:375
+#: resource-bar@ticko4.github.io/prefs.js:377
 msgid "E.g. “1.2M” instead of “1.2 MB/s”"
 msgstr "예: “1.2 MB/s” 대신 “1.2M”"
 
-#: resource-bar@ticko4.github.io/prefs.js:376
+#: resource-bar@ticko4.github.io/prefs.js:378
 msgid "Decimal places (compact)"
 msgstr "소수 자릿수 (간략 형식)"
 
-#: resource-bar@ticko4.github.io/prefs.js:385
+#: resource-bar@ticko4.github.io/prefs.js:387
 msgid "Thresholds"
 msgstr "임계값"
 
-#: resource-bar@ticko4.github.io/prefs.js:387
+#: resource-bar@ticko4.github.io/prefs.js:389
 msgid "Color thresholds"
 msgstr "색 임계값"
 
-#: resource-bar@ticko4.github.io/prefs.js:388
+#: resource-bar@ticko4.github.io/prefs.js:390
 msgid ""
 "Below the activity threshold a metric uses the normal top bar color. Between "
 "activity and critical it moves toward the alert color, and at critical it is "
@@ -348,21 +360,21 @@ msgstr ""
 "활동 임계값 미만에서는 지표에 상단 표시줄의 일반 색이 사용됩니다. 활동과 위"
 "험 사이에서는 점점 경고 색으로 바뀌고, 위험에 이르면 완전히 경고 색이 됩니다."
 
-#: resource-bar@ticko4.github.io/prefs.js:416
+#: resource-bar@ticko4.github.io/prefs.js:418
 msgid "Activity"
 msgstr "활동"
 
-#: resource-bar@ticko4.github.io/prefs.js:417
+#: resource-bar@ticko4.github.io/prefs.js:419
 msgid "Critical"
 msgstr "위험"
 
-#: resource-bar@ticko4.github.io/prefs.js:441
+#: resource-bar@ticko4.github.io/prefs.js:443
 msgid "Reset thresholds"
 msgstr "임계값 재설정"
 
 #: resource-bar@ticko4.github.io/lib/popup.js:297
 #: resource-bar@ticko4.github.io/lib/popup.js:320
-#: resource-bar@ticko4.github.io/lib/stats.js:35
+#: resource-bar@ticko4.github.io/lib/stats.js:36
 msgid "Memory"
 msgstr "메모리"
 
@@ -440,93 +452,93 @@ msgstr "CPU: 최근 1분 평균"
 msgid "CPU: average over the last 5 minutes"
 msgstr "CPU: 최근 5분 평균"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:29
-#: resource-bar@ticko4.github.io/lib/stats.js:132
+#: resource-bar@ticko4.github.io/lib/stats.js:30
+#: resource-bar@ticko4.github.io/lib/stats.js:133
 msgid "CPU usage"
 msgstr "CPU 사용률"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:30
-#: resource-bar@ticko4.github.io/lib/stats.js:138
+#: resource-bar@ticko4.github.io/lib/stats.js:31
+#: resource-bar@ticko4.github.io/lib/stats.js:139
 msgid "CPU temperature"
 msgstr "CPU 온도"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:31
-#: resource-bar@ticko4.github.io/lib/stats.js:144
+#: resource-bar@ticko4.github.io/lib/stats.js:32
+#: resource-bar@ticko4.github.io/lib/stats.js:145
 msgid "CPU frequency"
 msgstr "CPU 주파수"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:32
-#: resource-bar@ticko4.github.io/lib/stats.js:151
+#: resource-bar@ticko4.github.io/lib/stats.js:33
+#: resource-bar@ticko4.github.io/lib/stats.js:152
 msgid "GPU usage"
 msgstr "GPU 사용률"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:33
-#: resource-bar@ticko4.github.io/lib/stats.js:157
+#: resource-bar@ticko4.github.io/lib/stats.js:34
+#: resource-bar@ticko4.github.io/lib/stats.js:158
 msgid "GPU temperature"
 msgstr "GPU 온도"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:34
+#: resource-bar@ticko4.github.io/lib/stats.js:35
 msgid "VRAM"
 msgstr "VRAM"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:36
+#: resource-bar@ticko4.github.io/lib/stats.js:37
 msgid "Swap"
 msgstr "스왑"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:37
+#: resource-bar@ticko4.github.io/lib/stats.js:38
 msgid "Disk (space used)"
 msgstr "디스크 (사용 공간)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:38
+#: resource-bar@ticko4.github.io/lib/stats.js:39
 msgid "Disk (activity)"
 msgstr "디스크 (활동)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:39
-#: resource-bar@ticko4.github.io/lib/stats.js:225
+#: resource-bar@ticko4.github.io/lib/stats.js:40
+#: resource-bar@ticko4.github.io/lib/stats.js:226
 msgid "Download"
 msgstr "다운로드"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:40
-#: resource-bar@ticko4.github.io/lib/stats.js:232
+#: resource-bar@ticko4.github.io/lib/stats.js:41
+#: resource-bar@ticko4.github.io/lib/stats.js:233
 msgid "Upload"
 msgstr "업로드"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:163
+#: resource-bar@ticko4.github.io/lib/stats.js:164
 msgid "VRAM (%)"
 msgstr "VRAM (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:169
+#: resource-bar@ticko4.github.io/lib/stats.js:170
 msgid "VRAM used"
 msgstr "VRAM 사용량"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:175
+#: resource-bar@ticko4.github.io/lib/stats.js:176
 msgid "Memory (%)"
 msgstr "메모리 (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:181
+#: resource-bar@ticko4.github.io/lib/stats.js:182
 msgid "Memory used"
 msgstr "메모리 사용량"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:187
+#: resource-bar@ticko4.github.io/lib/stats.js:188
 msgid "Swap (%)"
 msgstr "스왑 (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:193
+#: resource-bar@ticko4.github.io/lib/stats.js:194
 msgid "Disk used (%)"
 msgstr "디스크 사용률 (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:199
+#: resource-bar@ticko4.github.io/lib/stats.js:200
 msgid "Disk used"
 msgstr "디스크 사용량"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:205
+#: resource-bar@ticko4.github.io/lib/stats.js:206
 msgid "Disk free (%)"
 msgstr "디스크 여유 공간 (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:212
+#: resource-bar@ticko4.github.io/lib/stats.js:213
 msgid "Disk free"
 msgstr "디스크 여유 공간"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:219
+#: resource-bar@ticko4.github.io/lib/stats.js:220
 msgid "Disk activity"
 msgstr "디스크 활동"

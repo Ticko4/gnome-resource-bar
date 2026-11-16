@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-12 14:15+0000\n"
+"POT-Creation-Date: 2026-11-15 02:31+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Vietnamese\n"
@@ -34,7 +34,7 @@ msgid "Graph"
 msgstr "Đồ thị"
 
 #: resource-bar@ticko4.github.io/prefs.js:17
-#: resource-bar@ticko4.github.io/prefs.js:322
+#: resource-bar@ticko4.github.io/prefs.js:324
 msgid "None"
 msgstr "Không"
 
@@ -144,8 +144,8 @@ msgid "Visualization"
 msgstr "Kiểu hiển thị"
 
 #: resource-bar@ticko4.github.io/prefs.js:269
-msgid "Vertical pill gauge or a graph of the last 30 readings"
-msgstr "Đồng hồ đo dạng viên thuốc dọc hoặc đồ thị của 30 lần đo gần nhất"
+msgid "Vertical pill gauge or a graph of recent readings"
+msgstr "Đồng hồ đo dạng viên thuốc dọc hoặc đồ thị các lần đo gần đây"
 
 #: resource-bar@ticko4.github.io/prefs.js:270
 msgid "Show icon"
@@ -202,97 +202,109 @@ msgstr "Màu đồ thị"
 msgid "Only graphs change; gauges, icons and values stay as they are"
 msgstr "Chỉ đồ thị thay đổi; đồng hồ đo, biểu tượng và giá trị giữ nguyên"
 
-#: resource-bar@ticko4.github.io/prefs.js:285
+#: resource-bar@ticko4.github.io/prefs.js:283
+msgid "Time shown in graphs"
+msgstr "Khoảng thời gian hiển thị trên đồ thị"
+
+#: resource-bar@ticko4.github.io/prefs.js:284
+#: resource-bar@ticko4.github.io/prefs.js:327
+msgid "30 seconds"
+msgstr "30 giây"
+
+#: resource-bar@ticko4.github.io/prefs.js:284
+#: resource-bar@ticko4.github.io/prefs.js:327
+msgid "1 minute"
+msgstr "1 phút"
+
+#: resource-bar@ticko4.github.io/prefs.js:284
+msgid "2 minutes"
+msgstr "2 phút"
+
+#: resource-bar@ticko4.github.io/prefs.js:284
+#: resource-bar@ticko4.github.io/prefs.js:327
+msgid "5 minutes"
+msgstr "5 phút"
+
+#: resource-bar@ticko4.github.io/prefs.js:287
 msgid "Alert color"
 msgstr "Màu cảnh báo"
 
-#: resource-bar@ticko4.github.io/prefs.js:286
+#: resource-bar@ticko4.github.io/prefs.js:288
 msgid "Used when a value goes past its activity and critical thresholds"
 msgstr "Dùng khi giá trị vượt ngưỡng hoạt động và ngưỡng nguy hiểm"
 
-#: resource-bar@ticko4.github.io/prefs.js:307
+#: resource-bar@ticko4.github.io/prefs.js:309
 msgid "Reset to default"
 msgstr "Đặt lại mặc định"
 
-#: resource-bar@ticko4.github.io/prefs.js:320
+#: resource-bar@ticko4.github.io/prefs.js:322
 msgid "Menu"
 msgstr "Trình đơn"
 
-#: resource-bar@ticko4.github.io/prefs.js:321
+#: resource-bar@ticko4.github.io/prefs.js:323
 msgid "Top processes"
 msgstr "Tiến trình hàng đầu"
 
-#: resource-bar@ticko4.github.io/prefs.js:323
+#: resource-bar@ticko4.github.io/prefs.js:325
 msgid "Processes using the most CPU or memory, listed in the menu"
 msgstr ""
 "Các tiến trình dùng nhiều CPU hoặc bộ nhớ nhất, liệt kê trong trình đơn"
 
-#: resource-bar@ticko4.github.io/prefs.js:324
+#: resource-bar@ticko4.github.io/prefs.js:326
 msgid "CPU average"
 msgstr "CPU trung bình"
 
-#: resource-bar@ticko4.github.io/prefs.js:325
-msgid "30 seconds"
-msgstr "30 giây"
-
-#: resource-bar@ticko4.github.io/prefs.js:325
-msgid "1 minute"
-msgstr "1 phút"
-
-#: resource-bar@ticko4.github.io/prefs.js:325
-msgid "5 minutes"
-msgstr "5 phút"
-
-#: resource-bar@ticko4.github.io/prefs.js:326
+#: resource-bar@ticko4.github.io/prefs.js:328
 msgid "Time span of the processes’ CPU usage; memory is the current value"
 msgstr ""
 "Khoảng thời gian tính mức dùng CPU của tiến trình; bộ nhớ là giá trị hiện tại"
 
-#: resource-bar@ticko4.github.io/prefs.js:330
+#: resource-bar@ticko4.github.io/prefs.js:332
 msgid "Position"
 msgstr "Vị trí"
 
-#: resource-bar@ticko4.github.io/prefs.js:331
+#: resource-bar@ticko4.github.io/prefs.js:333
 msgid "Top bar area"
 msgstr "Vùng trên thanh đỉnh"
 
-#: resource-bar@ticko4.github.io/prefs.js:332
+#: resource-bar@ticko4.github.io/prefs.js:334
 msgid "Position in the area"
 msgstr "Vị trí trong vùng"
 
-#: resource-bar@ticko4.github.io/prefs.js:333
+#: resource-bar@ticko4.github.io/prefs.js:335
 msgid "0 = first item; -1 = last"
 msgstr "0 = mục đầu tiên; -1 = mục cuối cùng"
 
-#: resource-bar@ticko4.github.io/prefs.js:342
+#: resource-bar@ticko4.github.io/prefs.js:344
 msgid "Monitoring"
 msgstr "Giám sát"
 
-#: resource-bar@ticko4.github.io/prefs.js:344
+#: resource-bar@ticko4.github.io/prefs.js:346
 msgid "General"
 msgstr "Chung"
 
-#: resource-bar@ticko4.github.io/prefs.js:345
+#: resource-bar@ticko4.github.io/prefs.js:347
 msgid "Update interval"
 msgstr "Chu kỳ cập nhật"
 
-#: resource-bar@ticko4.github.io/prefs.js:346
+#: resource-bar@ticko4.github.io/prefs.js:348
 msgid "Seconds between readings"
 msgstr "Số giây giữa các lần đo"
 
-#: resource-bar@ticko4.github.io/prefs.js:347
+#: resource-bar@ticko4.github.io/prefs.js:349
 msgid "Pause in fullscreen"
 msgstr "Tạm dừng khi toàn màn hình"
 
-#: resource-bar@ticko4.github.io/prefs.js:348
+#: resource-bar@ticko4.github.io/prefs.js:350
 msgid "Stop reading data while a fullscreen app or game hides the top bar"
-msgstr "Ngừng đọc dữ liệu khi ứng dụng hoặc trò chơi toàn màn hình che thanh đỉnh"
+msgstr ""
+"Ngừng đọc dữ liệu khi ứng dụng hoặc trò chơi toàn màn hình che thanh đỉnh"
 
-#: resource-bar@ticko4.github.io/prefs.js:352
+#: resource-bar@ticko4.github.io/prefs.js:354
 msgid "Default disk"
 msgstr "Đĩa mặc định"
 
-#: resource-bar@ticko4.github.io/prefs.js:353
+#: resource-bar@ticko4.github.io/prefs.js:355
 msgid ""
 "Used by disk metrics that do not name a specific disk. The menu always lists "
 "every disk."
@@ -300,48 +312,48 @@ msgstr ""
 "Dùng cho các chỉ số đĩa không chỉ định đĩa cụ thể. Trình đơn luôn liệt kê "
 "mọi đĩa."
 
-#: resource-bar@ticko4.github.io/prefs.js:356
+#: resource-bar@ticko4.github.io/prefs.js:358
 msgid "Mount point"
 msgstr "Điểm gắn"
 
-#: resource-bar@ticko4.github.io/prefs.js:367
+#: resource-bar@ticko4.github.io/prefs.js:369
 #: resource-bar@ticko4.github.io/lib/popup.js:298
 msgid "Network"
 msgstr "Mạng"
 
-#: resource-bar@ticko4.github.io/prefs.js:372
+#: resource-bar@ticko4.github.io/prefs.js:374
 msgid "Interface"
 msgstr "Giao diện"
 
-#: resource-bar@ticko4.github.io/prefs.js:373
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "Automatic (physical interfaces)"
 msgstr "Tự động (giao diện vật lý)"
 
-#: resource-bar@ticko4.github.io/prefs.js:374
+#: resource-bar@ticko4.github.io/prefs.js:376
 msgid "Unit"
 msgstr "Đơn vị"
 
-#: resource-bar@ticko4.github.io/prefs.js:375
+#: resource-bar@ticko4.github.io/prefs.js:377
 msgid "Compact format"
 msgstr "Định dạng gọn"
 
-#: resource-bar@ticko4.github.io/prefs.js:375
+#: resource-bar@ticko4.github.io/prefs.js:377
 msgid "E.g. “1.2M” instead of “1.2 MB/s”"
 msgstr "Ví dụ: “1.2M” thay vì “1.2 MB/s”"
 
-#: resource-bar@ticko4.github.io/prefs.js:376
+#: resource-bar@ticko4.github.io/prefs.js:378
 msgid "Decimal places (compact)"
 msgstr "Số chữ số thập phân (gọn)"
 
-#: resource-bar@ticko4.github.io/prefs.js:385
+#: resource-bar@ticko4.github.io/prefs.js:387
 msgid "Thresholds"
 msgstr "Ngưỡng"
 
-#: resource-bar@ticko4.github.io/prefs.js:387
+#: resource-bar@ticko4.github.io/prefs.js:389
 msgid "Color thresholds"
 msgstr "Ngưỡng màu"
 
-#: resource-bar@ticko4.github.io/prefs.js:388
+#: resource-bar@ticko4.github.io/prefs.js:390
 msgid ""
 "Below the activity threshold a metric uses the normal top bar color. Between "
 "activity and critical it moves toward the alert color, and at critical it is "
@@ -351,21 +363,21 @@ msgstr ""
 "động và nguy hiểm, màu chuyển dần sang màu cảnh báo, và ở mức nguy hiểm thì "
 "hoàn toàn là màu đó."
 
-#: resource-bar@ticko4.github.io/prefs.js:416
+#: resource-bar@ticko4.github.io/prefs.js:418
 msgid "Activity"
 msgstr "Hoạt động"
 
-#: resource-bar@ticko4.github.io/prefs.js:417
+#: resource-bar@ticko4.github.io/prefs.js:419
 msgid "Critical"
 msgstr "Nguy hiểm"
 
-#: resource-bar@ticko4.github.io/prefs.js:441
+#: resource-bar@ticko4.github.io/prefs.js:443
 msgid "Reset thresholds"
 msgstr "Đặt lại ngưỡng"
 
 #: resource-bar@ticko4.github.io/lib/popup.js:297
 #: resource-bar@ticko4.github.io/lib/popup.js:320
-#: resource-bar@ticko4.github.io/lib/stats.js:35
+#: resource-bar@ticko4.github.io/lib/stats.js:36
 msgid "Memory"
 msgstr "Bộ nhớ"
 
@@ -443,93 +455,93 @@ msgstr "CPU: trung bình 1 phút gần nhất"
 msgid "CPU: average over the last 5 minutes"
 msgstr "CPU: trung bình 5 phút gần nhất"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:29
-#: resource-bar@ticko4.github.io/lib/stats.js:132
+#: resource-bar@ticko4.github.io/lib/stats.js:30
+#: resource-bar@ticko4.github.io/lib/stats.js:133
 msgid "CPU usage"
 msgstr "Mức dùng CPU"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:30
-#: resource-bar@ticko4.github.io/lib/stats.js:138
+#: resource-bar@ticko4.github.io/lib/stats.js:31
+#: resource-bar@ticko4.github.io/lib/stats.js:139
 msgid "CPU temperature"
 msgstr "Nhiệt độ CPU"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:31
-#: resource-bar@ticko4.github.io/lib/stats.js:144
+#: resource-bar@ticko4.github.io/lib/stats.js:32
+#: resource-bar@ticko4.github.io/lib/stats.js:145
 msgid "CPU frequency"
 msgstr "Tần số CPU"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:32
-#: resource-bar@ticko4.github.io/lib/stats.js:151
+#: resource-bar@ticko4.github.io/lib/stats.js:33
+#: resource-bar@ticko4.github.io/lib/stats.js:152
 msgid "GPU usage"
 msgstr "Mức dùng GPU"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:33
-#: resource-bar@ticko4.github.io/lib/stats.js:157
+#: resource-bar@ticko4.github.io/lib/stats.js:34
+#: resource-bar@ticko4.github.io/lib/stats.js:158
 msgid "GPU temperature"
 msgstr "Nhiệt độ GPU"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:34
+#: resource-bar@ticko4.github.io/lib/stats.js:35
 msgid "VRAM"
 msgstr "VRAM"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:36
+#: resource-bar@ticko4.github.io/lib/stats.js:37
 msgid "Swap"
 msgstr "Swap"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:37
+#: resource-bar@ticko4.github.io/lib/stats.js:38
 msgid "Disk (space used)"
 msgstr "Đĩa (dung lượng đã dùng)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:38
+#: resource-bar@ticko4.github.io/lib/stats.js:39
 msgid "Disk (activity)"
 msgstr "Đĩa (hoạt động)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:39
-#: resource-bar@ticko4.github.io/lib/stats.js:225
+#: resource-bar@ticko4.github.io/lib/stats.js:40
+#: resource-bar@ticko4.github.io/lib/stats.js:226
 msgid "Download"
 msgstr "Tải xuống"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:40
-#: resource-bar@ticko4.github.io/lib/stats.js:232
+#: resource-bar@ticko4.github.io/lib/stats.js:41
+#: resource-bar@ticko4.github.io/lib/stats.js:233
 msgid "Upload"
 msgstr "Tải lên"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:163
+#: resource-bar@ticko4.github.io/lib/stats.js:164
 msgid "VRAM (%)"
 msgstr "VRAM (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:169
+#: resource-bar@ticko4.github.io/lib/stats.js:170
 msgid "VRAM used"
 msgstr "VRAM đã dùng"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:175
+#: resource-bar@ticko4.github.io/lib/stats.js:176
 msgid "Memory (%)"
 msgstr "Bộ nhớ (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:181
+#: resource-bar@ticko4.github.io/lib/stats.js:182
 msgid "Memory used"
 msgstr "Bộ nhớ đã dùng"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:187
+#: resource-bar@ticko4.github.io/lib/stats.js:188
 msgid "Swap (%)"
 msgstr "Swap (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:193
+#: resource-bar@ticko4.github.io/lib/stats.js:194
 msgid "Disk used (%)"
 msgstr "Đĩa đã dùng (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:199
+#: resource-bar@ticko4.github.io/lib/stats.js:200
 msgid "Disk used"
 msgstr "Đĩa đã dùng"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:205
+#: resource-bar@ticko4.github.io/lib/stats.js:206
 msgid "Disk free (%)"
 msgstr "Đĩa còn trống (%)"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:212
+#: resource-bar@ticko4.github.io/lib/stats.js:213
 msgid "Disk free"
 msgstr "Đĩa còn trống"
 
-#: resource-bar@ticko4.github.io/lib/stats.js:219
+#: resource-bar@ticko4.github.io/lib/stats.js:220
 msgid "Disk activity"
 msgstr "Hoạt động đĩa"

@@ -12,11 +12,12 @@ export function fmt(str, ...args) {
     return str.replace(/%[sd]/g, () => String(args[i++]));
 }
 
-// Points visible across a graph's width.
+// Points visible across a graph's width by default: 30 s at the default 1 s
+// interval. The "graph-span" setting changes it (span / interval).
 export const HISTORY_SIZE = 30;
-// Samples kept: two more than visible, so while a graph scrolls (shifted up to
+// Samples kept beyond the visible ones, so while a graph scrolls (shifted up to
 // two steps right) its left edge is still covered by older points.
-export const HISTORY_KEEP = HISTORY_SIZE + 2;
+export const HISTORY_EXTRA = 2;
 
 const MIB = 1024 * 1024;
 const GIB = 1024 * MIB;
@@ -307,9 +308,23 @@ export function stripUnits(text) {
 const isNum = v => typeof v === 'number' && Number.isFinite(v);
 
 export class StatModel {
-    constructor() {
+    constructor(size = HISTORY_SIZE) {
         this._history = new Map();
         this._counts = new Map();
+        this.size = size;
+    }
+
+    // Points visible across a graph; older samples beyond the extra ones go.
+    setSize(size) {
+        size = Math.max(2, Math.round(size));
+        if (size === this.size)
+            return;
+        this.size = size;
+        const keep = size + HISTORY_EXTRA;
+        for (const h of this._history.values()) {
+            if (h.length > keep)
+                h.splice(0, h.length - keep);
+        }
     }
 
     // Records every parameterless stat plus the given keys (panel items that
@@ -335,7 +350,7 @@ export class StatModel {
                 this._history.set(key, h);
             }
             h.push(raw);
-            if (h.length > HISTORY_KEEP)
+            if (h.length > this.size + HISTORY_EXTRA)
                 h.shift();
             this._counts.set(key, (this._counts.get(key) ?? 0) + 1);
         }

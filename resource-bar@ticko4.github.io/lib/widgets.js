@@ -13,7 +13,7 @@ import St from 'gi://St';
 
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-import {HISTORY_KEEP, HISTORY_SIZE, STATS, parseKey} from './stats.js';
+import {HISTORY_EXTRA, HISTORY_SIZE, STATS, parseKey} from './stats.js';
 import {mountName} from './mounts.js';
 import {toCss, withAlpha} from './color.js';
 
@@ -24,6 +24,14 @@ const clamp01 = v => Math.min(1, Math.max(0, v || 0));
 // Changes smaller than this many pixels jump instead of animating, so stable
 // metrics do not keep the compositor redrawing the panel.
 const MIN_ANIMATED_PX = 0.25;
+
+// A graph scrolls smoothly only when each new sample moves it by at least half
+// a pixel; below that it is redrawn once per sample, as the motion would not
+// show. Drawing cost grows with the points, so longer graphs (more points,
+// smaller steps) also draw fewer frames: 30 points at ~30 fps, 60 at ~15,
+// 120 at ~7.5. Each frame still moves under a quarter of a pixel and the cost
+// stays about the same whatever time span the graphs cover.
+const MIN_SCROLL_STEP_PX = 0.5;
 
 export function iconFor(extensionPath, name) {
     return Gio.icon_new_for_string(`${extensionPath}/icons/${name}-symbolic.svg`);
@@ -75,6 +83,8 @@ class Animator {
         this._onFrame = onFrame;
         this._timeline = null;
         this._lastFrame = 0;
+        // Minimum time between two frames.
+        this.frameIntervalUs = FRAME_INTERVAL_US;
         actor.connect('destroy', () => this.stop());
     }
 
@@ -91,7 +101,7 @@ class Animator {
         const timeline = new Clutter.Timeline({actor: this._actor, duration: durationMs});
         timeline.connect('new-frame', () => {
             const now = GLib.get_monotonic_time();
-            if (now - this._lastFrame < FRAME_INTERVAL_US)
+            if (now - this._lastFrame < this.frameIntervalUs)
                 return;
             this._lastFrame = now;
             this._onFrame(timeline.get_progress());
@@ -240,6 +250,7 @@ class ResourceBarGraph extends St.DrawingArea {
         this._fromOffset = 0;   // in steps; the scroll glides from here to 0
         this._t = 1;
         this._count = null;
+        this._size = HISTORY_SIZE;
         this._background = null;
         this._anim = new Animator(this, t => {
             this._t = t;
@@ -254,13 +265,18 @@ class ResourceBarGraph extends St.DrawingArea {
         return values.map((v, i) => (from?.[i] !== undefined ? from[i] + (v - from[i]) * t : v));
     }
 
-    // series: [{values: number[0..1], color: {r,g,b,a}, fill: bool, count}]
+    // series: [{values: number[0..1], color: {r,g,b,a}, fill: bool, count, size}]
     // count is the total number of samples pushed so far for that history; it
-    // tells a new sample (count + 1) from a plain refresh (same count).
+    // tells a new sample (count + 1) from a plain refresh (same count). size is
+    // the number of points across the width.
     setSeries(series, background = null, durationMs = 0) {
         this._background = background;
         const count = series[0]?.count ?? null;
-        const delta = count !== null && this._count !== null && series.length === this._series.length
+        const size = Math.max(2, series[0]?.size ?? HISTORY_SIZE);
+        const resized = size !== this._size;
+        this._size = size;
+        this._anim.frameIntervalUs = FRAME_INTERVAL_US * Math.max(1, size / HISTORY_SIZE);
+        const delta = count !== null && this._count !== null && series.length === this._series.length && !resized
             ? count - this._count : -1;
 
         if (delta === 0) {
@@ -269,7 +285,7 @@ class ResourceBarGraph extends St.DrawingArea {
             this.queue_repaint();
             return;
         }
-        if (delta === 1 && durationMs > 0) {
+        if (delta === 1 && durationMs > 0 && this._scrollsSmoothly()) {
             // Continue from exactly what is on screen (even mid-animation):
             // each point starts at its drawn height and the scroll offset
             // grows by one step for the new sample, so motion never restarts.
@@ -283,7 +299,7 @@ class ResourceBarGraph extends St.DrawingArea {
                 return s.values.map((_v, i) => old[i + m - n + 1]);
             });
             // Capped at the two extra samples kept beyond the visible width.
-            this._fromOffset = Math.min(offsetNow + 1, HISTORY_KEEP - HISTORY_SIZE);
+            this._fromOffset = Math.min(offsetNow + 1, HISTORY_EXTRA);
         } else {
             this._fromY = null;
             this._fromOffset = 0;
@@ -291,6 +307,13 @@ class ResourceBarGraph extends St.DrawingArea {
         this._series = series;
         this._count = count;
         this._anim.start(this._fromY ? durationMs : 0);
+    }
+
+    _scrollsSmoothly() {
+        // Allocated width in device pixels (the surface size is only valid
+        // while repainting).
+        const step = this.get_width() / (this._size - 1);
+        return step >= MIN_SCROLL_STEP_PX;
     }
 
     vfunc_repaint() {
@@ -318,7 +341,7 @@ class ResourceBarGraph extends St.DrawingArea {
 
         const lineWidth = Math.max(1, scale);
         const pad = lineWidth;
-        const step = w / (HISTORY_SIZE - 1);
+        const step = w / (this._size - 1);
         const t = this._t;
         // While animating, the newest point sits past the right edge and the
         // whole line slides left until the offset reaches zero.
@@ -329,24 +352,24 @@ class ResourceBarGraph extends St.DrawingArea {
             if (values.length === 0)
                 return;
             const n = values.length;
-            const pts = values.map((y, i) =>
-                [w - (n - 1 - i) * step + offset, h - pad - y * (h - 2 * pad)]);
-            if (pts.length === 1)
-                pts.unshift([pts[0][0] - step, pts[0][1]]);
+            const yOf = v => h - pad - v * (h - 2 * pad);
+            // A single sample still draws a short flat segment.
+            const x0 = w - Math.max(1, n - 1) * step + offset;
+            cr.moveTo(x0, yOf(values[0]));
+            for (let i = n === 1 ? 0 : 1; i < n; i++)
+                cr.lineTo(w - (n - 1 - i) * step + offset, yOf(values[i]));
+            // The line path is built once and reused for the fill and the stroke.
+            const line = cr.copyPath();
 
             if (fill) {
-                cr.moveTo(pts[0][0], h);
-                for (const [x, y] of pts)
-                    cr.lineTo(x, y);
-                cr.lineTo(pts[pts.length - 1][0], h);
+                cr.lineTo(w + offset, h);
+                cr.lineTo(x0, h);
                 cr.closePath();
                 cr.setSourceRGBA(color.r, color.g, color.b, color.a * 0.28);
                 cr.fill();
+                cr.appendPath(line);
             }
 
-            cr.moveTo(pts[0][0], pts[0][1]);
-            for (const [x, y] of pts.slice(1))
-                cr.lineTo(x, y);
             cr.setSourceRGBA(color.r, color.g, color.b, color.a);
             cr.setLineWidth(lineWidth);
             cr.setLineJoin(1); // ROUND
@@ -450,7 +473,9 @@ class ResourceBarStatItem extends St.BoxLayout {
             this._vis.setColor(color);
             this._vis.setProgress(result.norm, ctx.animMs);
         } else if (this._vis instanceof Graph) {
-            this._vis.setSeries([{values: ctx.history(), color: graphColor, count: ctx.historyCount}],
+            this._vis.setSeries([{
+                values: ctx.history(), color: graphColor, count: ctx.historyCount, size: ctx.historySize,
+            }],
                 withAlpha(graphColor, 0.12), ctx.animMs);
         }
     }
