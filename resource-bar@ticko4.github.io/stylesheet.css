@@ -1,7 +1,11 @@
 /* ---------- Top bar ---------- */
 
+/* 4 px at each end, like the margin GNOME gives its status icons
+   (.system-status-icon): the first and last icons sit 16 px from the button's
+   edges, as in Quick Settings. */
 .resource-bar-box {
   spacing: 10px;
+  padding: 0 4px;
 }
 
 .resource-bar-item {
