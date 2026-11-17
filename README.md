@@ -55,6 +55,14 @@ The **Disks** card has a **Space | Activity** switch (Activity by default). *Spa
 disk, a graph of recent busy time (like `iostat`’s `%util`, read from `/proc/diskstats`
 without waking sleeping disks) with read (↓) and write (↑) speeds.
 
+### Pinned panel
+
+The pin button at the top right of the menu turns the menu into a floating panel: the same cards, without the
+menu actions, kept on screen above windows. Drag it anywhere, on any monitor, by any part that is not a
+button; its position is remembered across logins (and pulled back on screen if a monitor goes away). While it
+is pinned, everything keeps updating even when a fullscreen app or game hides the top bar, and the panel stays
+visible over it. The pin button on the panel unpins it.
+
 ## Install
 
 From [extensions.gnome.org](https://extensions.gnome.org) (once published), or with one command that
@@ -104,8 +112,9 @@ is uploaded on the extension’s page by clicking the puzzle icon next to its na
   discovery), so the shell never waits on the kernel.
 - Pause in fullscreen (on by default): while a fullscreen app or game on the primary monitor hides the top
   bar, nothing is read at all (no timer, no `nvidia-smi`, no process list); when the bar comes back the
-  extension reads again at once and graphs start fresh.
-- Only what is needed is read: GPU and CPU frequency only while they are in the top bar or the menu is open.
+  extension reads again at once and graphs start fresh. A pinned panel keeps everything running.
+- Only what is needed is read: GPU and CPU frequency only while they are in the top bar or the menu or the
+  pinned panel is shown.
 - NVIDIA: a single `nvidia-smi --loop-ms` process runs while the GPU is needed (much cheaper than
   starting it every second) and is stopped afterwards. Runtime-suspended GPUs are not woken up.
 - Smooth animation (on by default): gauges glide to each new value and graphs scroll continuously, each
@@ -133,6 +142,7 @@ resource-bar@ticko4.github.io/
 ├── lib/stats.js      metric catalogue, formatting, thresholds, history
 ├── lib/widgets.js    gauge, per-core gauges, graph, top bar item
 ├── lib/popup.js      menu cards
+├── lib/pinned.js     floating pinned panel
 ├── lib/mounts.js     disk discovery
 ├── lib/color.js      color helpers
 ├── icons/            symbolic icons

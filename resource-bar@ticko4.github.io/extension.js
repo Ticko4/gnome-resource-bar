@@ -21,6 +21,7 @@ import {
 import {WHITE, fromCogl, graphBaseColor, mixColors, parseColor} from './lib/color.js';
 import {StatItem, iconFor} from './lib/widgets.js';
 import {ResourcePopup} from './lib/popup.js';
+import {PinnedPanel} from './lib/pinned.js';
 
 const DEFAULT_HIGHLIGHT = '#FD4663';
 
@@ -178,6 +179,7 @@ export default class ResourceBarExtension extends Extension {
 
         this._loadConfig();
         this._createIndicator();
+        this._syncPinned();
         this._settingsChangedId = this._settings.connect('changed', (_s, key) => this._onSettingChanged(key));
         this._restartTimer();
         this._tick();
@@ -189,6 +191,8 @@ export default class ResourceBarExtension extends Extension {
             this._settings.disconnect(this._settingsChangedId);
             this._settingsChangedId = 0;
         }
+        this._pinned?.destroy();
+        this._pinned = null;
         // Destroying the indicator unmaps it, which would count as hidden.
         const indicator = this._indicator;
         this._indicator = null;
@@ -255,7 +259,9 @@ export default class ResourceBarExtension extends Extension {
         // Cheap sources are always sampled so the dropdown has history.
         for (const src of ['cpu', 'mem', 'net', 'cpuTemp', 'disk', 'diskio'])
             sources.add(src);
-        if (this._menuOpen) {
+        // The menu and the pinned panel show every card.
+        const shown = this._menuOpen || Boolean(this._pinned);
+        if (shown) {
             for (const src of ['cpuFreq', 'gpu', 'system'])
                 sources.add(src);
         }
@@ -265,7 +271,7 @@ export default class ResourceBarExtension extends Extension {
         if (this._config.topProcesses > 0)
             sources.add('processes');
         this._sampler.setOptions({
-            processesEvery: this._menuOpen ? 0 : 5000,
+            processesEvery: shown ? 0 : 5000,
             processesWindow: this._config.processesWindow,
         });
         this._sampler.setSources(sources);
@@ -289,10 +295,12 @@ export default class ResourceBarExtension extends Extension {
 
     // Pauses all reading while the top bar is hidden (a fullscreen app or
     // game on the primary monitor), if enabled, and resumes when it is back.
+    // A pinned panel stays on screen over fullscreen apps, so it keeps
+    // everything running.
     onVisibilityChanged() {
         if (!this._indicator)
             return;
-        const hidden = !this._indicator.mapped;
+        const hidden = !this._indicator.mapped && !this._pinned;
         const pause = Boolean(hidden && this._settings.get_boolean('pause-when-hidden'));
         if (pause === Boolean(this._paused))
             return;
@@ -337,6 +345,11 @@ export default class ResourceBarExtension extends Extension {
         case 'pause-when-hidden':
             this.onVisibilityChanged();
             break;
+        case 'pinned':
+            this._syncPinned();
+            return;
+        case 'pinned-position':
+            return;
         case 'disk-path':
             this._model.clear(['disk_used_pct', 'disk_used', 'disk_free_pct', 'disk_free']);
             break;
@@ -404,6 +417,48 @@ export default class ResourceBarExtension extends Extension {
         this._indicator.refresh(ctx);
         if (this._menuOpen)
             this._indicator.popup?.refresh(ctx);
+        this._pinned?.popup.refresh(ctx);
+    }
+
+    // Pin button: on the menu it pins the cards where the menu is; on the
+    // pinned panel it unpins. The "pinned" setting drives _syncPinned().
+    setPinned(pinned) {
+        if (pinned) {
+            const box = this._indicator?.menu.box;
+            if (box?.mapped) {
+                const [x, y] = box.get_transformed_position();
+                this.savePinnedPosition(x, y);
+            }
+            this._indicator?.menu.close();
+        }
+        this._settings.set_boolean('pinned', pinned);
+    }
+
+    savePinnedPosition(x, y) {
+        this._settings.set_value('pinned-position', new GLib.Variant('(ii)', [Math.round(x), Math.round(y)]));
+    }
+
+    _syncPinned() {
+        const want = this._settings.get_boolean('pinned');
+        if (want === Boolean(this._pinned))
+            return;
+        if (want) {
+            const [x, y] = this._settings.get_value('pinned-position').deepUnpack();
+            try {
+                this._pinned = new PinnedPanel(this, x, y);
+            } catch (e) {
+                console.error(`[resource-bar] cannot pin the panel: ${e}`);
+                return;
+            }
+        } else {
+            this._pinned.destroy();
+            this._pinned = null;
+        }
+        this._syncSources();
+        this.onVisibilityChanged();
+        this._refreshUi();
+        if (want)
+            this._tick();
     }
 
     // Called by the switches on the Disks and Processes cards; the settings

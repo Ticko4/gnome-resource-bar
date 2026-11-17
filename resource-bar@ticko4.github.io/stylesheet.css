@@ -86,6 +86,34 @@
   min-width: 500px;
 }
 
+.resource-bar-popup-header-row {
+  spacing: 6px;
+}
+
+/* Pin button on the menu's top line; checked on the pinned panel. */
+.resource-bar-pin {
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.resource-bar-pin:hover,
+.resource-bar-pin:focus {
+  background-color: rgba(127, 127, 127, 0.2);
+}
+
+.resource-bar-pin:checked {
+  background-color: rgba(127, 127, 127, 0.3);
+}
+
+.resource-bar-pin-icon {
+  icon-size: 14px;
+}
+
+/* Pinned panel: the menu's look, floating above windows. */
+.resource-bar-pinned .popup-menu-content {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
 .resource-bar-popup-header {
   font-size: 0.85em;
   padding: 0 6px;

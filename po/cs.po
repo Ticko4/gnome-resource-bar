@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-16 23:50+0000\n"
+"POT-Creation-Date: 2026-11-17 00:08+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Czech\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. TRANSLATORS: %s is the system monitor app, e.g. "Resources".
-#: resource-bar@ticko4.github.io/extension.js:91
+#: resource-bar@ticko4.github.io/extension.js:92
 #, javascript-format
 msgid "Open %s"
 msgstr "Otevřít %s"
 
-#: resource-bar@ticko4.github.io/extension.js:94
+#: resource-bar@ticko4.github.io/extension.js:95
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -330,7 +330,7 @@ msgid "Mount point"
 msgstr "Přípojný bod"
 
 #: resource-bar@ticko4.github.io/prefs.js:386
-#: resource-bar@ticko4.github.io/lib/popup.js:299
+#: resource-bar@ticko4.github.io/lib/popup.js:320
 msgid "Network"
 msgstr "Síť"
 
@@ -388,37 +388,45 @@ msgstr "Kritický"
 msgid "Reset thresholds"
 msgstr "Obnovit výchozí prahové hodnoty"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:298
-#: resource-bar@ticko4.github.io/lib/popup.js:321
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+msgid "Unpin"
+msgstr "Odepnout"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+msgid "Pin"
+msgstr "Připnout"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:342
 #: resource-bar@ticko4.github.io/lib/stats.js:36
 msgid "Memory"
 msgstr "Paměť"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:300
+#: resource-bar@ticko4.github.io/lib/popup.js:321
 msgid "Disks"
 msgstr "Disky"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:310
+#: resource-bar@ticko4.github.io/lib/popup.js:331
 msgctxt "disks card"
 msgid "Space"
 msgstr "Místo"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:311
+#: resource-bar@ticko4.github.io/lib/popup.js:332
 msgctxt "disks card"
 msgid "Activity"
 msgstr "Aktivita"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:340
 msgid "Processes"
 msgstr "Procesy"
 
 #. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
-#: resource-bar@ticko4.github.io/lib/popup.js:387
+#: resource-bar@ticko4.github.io/lib/popup.js:408
 #, javascript-format
 msgid "Load %s   ·   Up %s"
 msgstr "Zátěž %s   ·   Běží %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:402
+#: resource-bar@ticko4.github.io/lib/popup.js:423
 #, javascript-format
 msgid "%d core"
 msgid_plural "%d cores"
@@ -426,20 +434,20 @@ msgstr[0] "%d jádro"
 msgstr[1] "%d jádra"
 msgstr[2] "%d jader"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:418
+#: resource-bar@ticko4.github.io/lib/popup.js:439
 msgid "No swap"
 msgstr "Bez odkládacího prostoru"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:433
+#: resource-bar@ticko4.github.io/lib/popup.js:454
 #, javascript-format
 msgid "Interface %s"
 msgstr "Rozhraní %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:433
+#: resource-bar@ticko4.github.io/lib/popup.js:454
 msgid "Physical interfaces"
 msgstr "Fyzická rozhraní"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:477
+#: resource-bar@ticko4.github.io/lib/popup.js:498
 #, javascript-format
 msgid "%d disk"
 msgid_plural "%d disks"
@@ -447,28 +455,28 @@ msgstr[0] "%d disk"
 msgstr[1] "%d disky"
 msgstr[2] "%d disků"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:479
-#: resource-bar@ticko4.github.io/lib/popup.js:538
+#: resource-bar@ticko4.github.io/lib/popup.js:500
+#: resource-bar@ticko4.github.io/lib/popup.js:559
 msgid "Calculating…"
 msgstr "Počítá se…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:494
+#: resource-bar@ticko4.github.io/lib/popup.js:515
 msgid "Suspended (power saving)"
 msgstr "Uspáno (úspora energie)"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:504
+#: resource-bar@ticko4.github.io/lib/popup.js:525
 msgid "Waiting for data…"
 msgstr "Čeká se na data…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:529
+#: resource-bar@ticko4.github.io/lib/popup.js:550
 msgid "CPU: average over the last 30 seconds"
 msgstr "CPU: průměr za posledních 30 sekund"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:530
+#: resource-bar@ticko4.github.io/lib/popup.js:551
 msgid "CPU: average over the last minute"
 msgstr "CPU: průměr za poslední minutu"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:531
+#: resource-bar@ticko4.github.io/lib/popup.js:552
 msgid "CPU: average over the last 5 minutes"
 msgstr "CPU: průměr za posledních 5 minut"
 

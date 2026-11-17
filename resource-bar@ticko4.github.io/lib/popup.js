@@ -275,7 +275,9 @@ class ProcessRow {
 }
 
 export class ResourcePopup {
-    constructor(extension) {
+    // pinned: this copy lives in the floating pinned panel, so its pin button
+    // unpins instead of pinning.
+    constructor(extension, {pinned = false} = {}) {
         this._ext = extension;
         const path = extension.path;
 
@@ -286,8 +288,27 @@ export class ResourcePopup {
         const root = new St.BoxLayout({orientation: VERTICAL, style_class: 'resource-bar-popup', x_expand: true});
         this.item.add_child(root);
 
-        this._header = new St.Label({style_class: 'resource-bar-popup-header', opacity: 200});
-        root.add_child(this._header);
+        // Header: load and uptime, and the pin button on the right.
+        const headerRow = new St.BoxLayout({style_class: 'resource-bar-popup-header-row', x_expand: true});
+        this._header = new St.Label({
+            style_class: 'resource-bar-popup-header',
+            opacity: 200,
+            x_expand: true,
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+        headerRow.add_child(this._header);
+        this._pin = new St.Button({
+            style_class: 'resource-bar-pin',
+            can_focus: true,
+            y_align: Clutter.ActorAlign.CENTER,
+            accessible_name: pinned ? _('Unpin') : _('Pin'),
+            child: new St.Icon({icon_name: 'view-pin-symbolic', style_class: 'resource-bar-pin-icon'}),
+        });
+        if (pinned)
+            this._pin.add_style_pseudo_class('checked');
+        this._pin.connect('clicked', () => extension.setPinned(!pinned));
+        headerRow.add_child(this._pin);
+        root.add_child(headerRow);
 
         const grid = new Clutter.GridLayout({column_homogeneous: true});
         this._grid = new St.Widget({layout_manager: grid, style_class: 'resource-bar-grid', x_expand: true});

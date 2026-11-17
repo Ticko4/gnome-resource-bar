@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-16 23:50+0000\n"
+"POT-Creation-Date: 2026-11-17 00:08+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Simplified Chinese\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. TRANSLATORS: %s is the system monitor app, e.g. "Resources".
-#: resource-bar@ticko4.github.io/extension.js:91
+#: resource-bar@ticko4.github.io/extension.js:92
 #, javascript-format
 msgid "Open %s"
 msgstr "打开 %s"
 
-#: resource-bar@ticko4.github.io/extension.js:94
+#: resource-bar@ticko4.github.io/extension.js:95
 msgid "Settings"
 msgstr "设置"
 
@@ -322,7 +322,7 @@ msgid "Mount point"
 msgstr "挂载点"
 
 #: resource-bar@ticko4.github.io/prefs.js:386
-#: resource-bar@ticko4.github.io/lib/popup.js:299
+#: resource-bar@ticko4.github.io/lib/popup.js:320
 msgid "Network"
 msgstr "网络"
 
@@ -379,83 +379,91 @@ msgstr "临界"
 msgid "Reset thresholds"
 msgstr "重置阈值"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:298
-#: resource-bar@ticko4.github.io/lib/popup.js:321
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+msgid "Unpin"
+msgstr "取消固定"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+msgid "Pin"
+msgstr "固定"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:342
 #: resource-bar@ticko4.github.io/lib/stats.js:36
 msgid "Memory"
 msgstr "内存"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:300
+#: resource-bar@ticko4.github.io/lib/popup.js:321
 msgid "Disks"
 msgstr "磁盘"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:310
+#: resource-bar@ticko4.github.io/lib/popup.js:331
 msgctxt "disks card"
 msgid "Space"
 msgstr "空间"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:311
+#: resource-bar@ticko4.github.io/lib/popup.js:332
 msgctxt "disks card"
 msgid "Activity"
 msgstr "活动"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:340
 msgid "Processes"
 msgstr "进程"
 
 #. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
-#: resource-bar@ticko4.github.io/lib/popup.js:387
+#: resource-bar@ticko4.github.io/lib/popup.js:408
 #, javascript-format
 msgid "Load %s   ·   Up %s"
 msgstr "负载 %s   ·   已运行 %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:402
+#: resource-bar@ticko4.github.io/lib/popup.js:423
 #, javascript-format
 msgid "%d core"
 msgid_plural "%d cores"
 msgstr[0] "%d 个核心"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:418
+#: resource-bar@ticko4.github.io/lib/popup.js:439
 msgid "No swap"
 msgstr "无交换空间"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:433
+#: resource-bar@ticko4.github.io/lib/popup.js:454
 #, javascript-format
 msgid "Interface %s"
 msgstr "接口 %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:433
+#: resource-bar@ticko4.github.io/lib/popup.js:454
 msgid "Physical interfaces"
 msgstr "物理接口"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:477
+#: resource-bar@ticko4.github.io/lib/popup.js:498
 #, javascript-format
 msgid "%d disk"
 msgid_plural "%d disks"
 msgstr[0] "%d 个磁盘"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:479
-#: resource-bar@ticko4.github.io/lib/popup.js:538
+#: resource-bar@ticko4.github.io/lib/popup.js:500
+#: resource-bar@ticko4.github.io/lib/popup.js:559
 msgid "Calculating…"
 msgstr "正在计算…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:494
+#: resource-bar@ticko4.github.io/lib/popup.js:515
 msgid "Suspended (power saving)"
 msgstr "已挂起（节能）"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:504
+#: resource-bar@ticko4.github.io/lib/popup.js:525
 msgid "Waiting for data…"
 msgstr "正在等待数据…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:529
+#: resource-bar@ticko4.github.io/lib/popup.js:550
 msgid "CPU: average over the last 30 seconds"
 msgstr "CPU：最近 30 秒的平均值"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:530
+#: resource-bar@ticko4.github.io/lib/popup.js:551
 msgid "CPU: average over the last minute"
 msgstr "CPU：最近 1 分钟的平均值"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:531
+#: resource-bar@ticko4.github.io/lib/popup.js:552
 msgid "CPU: average over the last 5 minutes"
 msgstr "CPU：最近 5 分钟的平均值"
 

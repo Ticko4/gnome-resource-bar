@@ -122,6 +122,16 @@
       <summary>Seconds of history shown across each graph</summary>
     </key>
 
+    <key name="pinned" type="b">
+      <default>false</default>
+      <summary>Show the menu's cards in a floating panel that stays on screen</summary>
+    </key>
+
+    <key name="pinned-position" type="(ii)">
+      <default>(-1, -1)</default>
+      <summary>Position of the pinned panel on screen (negative: top right of the primary monitor)</summary>
+    </key>
+
     <key name="processes-window" type="i">
       <range min="30" max="300"/>
       <default>60</default>

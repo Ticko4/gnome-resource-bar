@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-16 23:50+0000\n"
+"POT-Creation-Date: 2026-11-17 00:08+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Slovenian\n"
@@ -17,12 +17,12 @@ msgstr ""
 "n%100==4 ? 3 : 0);\n"
 
 #. TRANSLATORS: %s is the system monitor app, e.g. "Resources".
-#: resource-bar@ticko4.github.io/extension.js:91
+#: resource-bar@ticko4.github.io/extension.js:92
 #, javascript-format
 msgid "Open %s"
 msgstr "Odpri %s"
 
-#: resource-bar@ticko4.github.io/extension.js:94
+#: resource-bar@ticko4.github.io/extension.js:95
 msgid "Settings"
 msgstr "Nastavitve"
 
@@ -334,7 +334,7 @@ msgid "Mount point"
 msgstr "Priklopna točka"
 
 #: resource-bar@ticko4.github.io/prefs.js:386
-#: resource-bar@ticko4.github.io/lib/popup.js:299
+#: resource-bar@ticko4.github.io/lib/popup.js:320
 msgid "Network"
 msgstr "Omrežje"
 
@@ -392,37 +392,45 @@ msgstr "Kritično"
 msgid "Reset thresholds"
 msgstr "Ponastavi pragove"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:298
-#: resource-bar@ticko4.github.io/lib/popup.js:321
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+msgid "Unpin"
+msgstr "Odpni"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+msgid "Pin"
+msgstr "Pripni"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:342
 #: resource-bar@ticko4.github.io/lib/stats.js:36
 msgid "Memory"
 msgstr "Pomnilnik"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:300
+#: resource-bar@ticko4.github.io/lib/popup.js:321
 msgid "Disks"
 msgstr "Diski"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:310
+#: resource-bar@ticko4.github.io/lib/popup.js:331
 msgctxt "disks card"
 msgid "Space"
 msgstr "Prostor"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:311
+#: resource-bar@ticko4.github.io/lib/popup.js:332
 msgctxt "disks card"
 msgid "Activity"
 msgstr "Aktivnost"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:340
 msgid "Processes"
 msgstr "Procesi"
 
 #. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
-#: resource-bar@ticko4.github.io/lib/popup.js:387
+#: resource-bar@ticko4.github.io/lib/popup.js:408
 #, javascript-format
 msgid "Load %s   ·   Up %s"
 msgstr "Obremenitev %s   ·   Čas delovanja %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:402
+#: resource-bar@ticko4.github.io/lib/popup.js:423
 #, javascript-format
 msgid "%d core"
 msgid_plural "%d cores"
@@ -431,20 +439,20 @@ msgstr[1] "%d jedro"
 msgstr[2] "%d jedri"
 msgstr[3] "%d jedra"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:418
+#: resource-bar@ticko4.github.io/lib/popup.js:439
 msgid "No swap"
 msgstr "Brez izmenjevalnega prostora"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:433
+#: resource-bar@ticko4.github.io/lib/popup.js:454
 #, javascript-format
 msgid "Interface %s"
 msgstr "Vmesnik %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:433
+#: resource-bar@ticko4.github.io/lib/popup.js:454
 msgid "Physical interfaces"
 msgstr "Fizični vmesniki"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:477
+#: resource-bar@ticko4.github.io/lib/popup.js:498
 #, javascript-format
 msgid "%d disk"
 msgid_plural "%d disks"
@@ -453,28 +461,28 @@ msgstr[1] "%d disk"
 msgstr[2] "%d diska"
 msgstr[3] "%d diski"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:479
-#: resource-bar@ticko4.github.io/lib/popup.js:538
+#: resource-bar@ticko4.github.io/lib/popup.js:500
+#: resource-bar@ticko4.github.io/lib/popup.js:559
 msgid "Calculating…"
 msgstr "Preračunavanje …"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:494
+#: resource-bar@ticko4.github.io/lib/popup.js:515
 msgid "Suspended (power saving)"
 msgstr "V pripravljenosti (varčevanje z energijo)"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:504
+#: resource-bar@ticko4.github.io/lib/popup.js:525
 msgid "Waiting for data…"
 msgstr "Čakanje na podatke …"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:529
+#: resource-bar@ticko4.github.io/lib/popup.js:550
 msgid "CPU: average over the last 30 seconds"
 msgstr "CPU: povprečje zadnjih 30 sekund"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:530
+#: resource-bar@ticko4.github.io/lib/popup.js:551
 msgid "CPU: average over the last minute"
 msgstr "CPU: povprečje zadnje minute"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:531
+#: resource-bar@ticko4.github.io/lib/popup.js:552
 msgid "CPU: average over the last 5 minutes"
 msgstr "CPU: povprečje zadnjih 5 minut"
 

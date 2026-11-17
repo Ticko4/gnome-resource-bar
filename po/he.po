@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-16 23:50+0000\n"
+"POT-Creation-Date: 2026-11-17 00:08+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Hebrew\n"
@@ -17,12 +17,12 @@ msgstr ""
 "2 : 3);\n"
 
 #. TRANSLATORS: %s is the system monitor app, e.g. "Resources".
-#: resource-bar@ticko4.github.io/extension.js:91
+#: resource-bar@ticko4.github.io/extension.js:92
 #, javascript-format
 msgid "Open %s"
 msgstr "פתיחת %s"
 
-#: resource-bar@ticko4.github.io/extension.js:94
+#: resource-bar@ticko4.github.io/extension.js:95
 msgid "Settings"
 msgstr "הגדרות"
 
@@ -327,7 +327,7 @@ msgid "Mount point"
 msgstr "נקודת עגינה"
 
 #: resource-bar@ticko4.github.io/prefs.js:386
-#: resource-bar@ticko4.github.io/lib/popup.js:299
+#: resource-bar@ticko4.github.io/lib/popup.js:320
 msgid "Network"
 msgstr "רשת"
 
@@ -384,37 +384,45 @@ msgstr "קריטי"
 msgid "Reset thresholds"
 msgstr "איפוס הספים"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:298
-#: resource-bar@ticko4.github.io/lib/popup.js:321
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+msgid "Unpin"
+msgstr "ביטול הצמדה"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:304
+msgid "Pin"
+msgstr "הצמדה"
+
+#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:342
 #: resource-bar@ticko4.github.io/lib/stats.js:36
 msgid "Memory"
 msgstr "זיכרון"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:300
+#: resource-bar@ticko4.github.io/lib/popup.js:321
 msgid "Disks"
 msgstr "כוננים"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:310
+#: resource-bar@ticko4.github.io/lib/popup.js:331
 msgctxt "disks card"
 msgid "Space"
 msgstr "נפח"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:311
+#: resource-bar@ticko4.github.io/lib/popup.js:332
 msgctxt "disks card"
 msgid "Activity"
 msgstr "פעילות"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:319
+#: resource-bar@ticko4.github.io/lib/popup.js:340
 msgid "Processes"
 msgstr "תהליכים"
 
 #. TRANSLATORS: first %s is the load average, second is the uptime ("3h 12min").
-#: resource-bar@ticko4.github.io/lib/popup.js:387
+#: resource-bar@ticko4.github.io/lib/popup.js:408
 #, javascript-format
 msgid "Load %s   ·   Up %s"
 msgstr "עומס %s   ·   זמן פעולה %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:402
+#: resource-bar@ticko4.github.io/lib/popup.js:423
 #, javascript-format
 msgid "%d core"
 msgid_plural "%d cores"
@@ -423,20 +431,20 @@ msgstr[1] "שתי ליבות"
 msgstr[2] "%d ליבות"
 msgstr[3] "%d ליבות"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:418
+#: resource-bar@ticko4.github.io/lib/popup.js:439
 msgid "No swap"
 msgstr "אין זיכרון תחלופה"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:433
+#: resource-bar@ticko4.github.io/lib/popup.js:454
 #, javascript-format
 msgid "Interface %s"
 msgstr "מנשק %s"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:433
+#: resource-bar@ticko4.github.io/lib/popup.js:454
 msgid "Physical interfaces"
 msgstr "מנשקים פיזיים"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:477
+#: resource-bar@ticko4.github.io/lib/popup.js:498
 #, javascript-format
 msgid "%d disk"
 msgid_plural "%d disks"
@@ -445,28 +453,28 @@ msgstr[1] "שני כוננים"
 msgstr[2] "%d כוננים"
 msgstr[3] "%d כוננים"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:479
-#: resource-bar@ticko4.github.io/lib/popup.js:538
+#: resource-bar@ticko4.github.io/lib/popup.js:500
+#: resource-bar@ticko4.github.io/lib/popup.js:559
 msgid "Calculating…"
 msgstr "מתבצע חישוב…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:494
+#: resource-bar@ticko4.github.io/lib/popup.js:515
 msgid "Suspended (power saving)"
 msgstr "מושהה (חיסכון בחשמל)"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:504
+#: resource-bar@ticko4.github.io/lib/popup.js:525
 msgid "Waiting for data…"
 msgstr "בהמתנה לנתונים…"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:529
+#: resource-bar@ticko4.github.io/lib/popup.js:550
 msgid "CPU: average over the last 30 seconds"
 msgstr "CPU: ממוצע ב־30 השניות האחרונות"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:530
+#: resource-bar@ticko4.github.io/lib/popup.js:551
 msgid "CPU: average over the last minute"
 msgstr "CPU: ממוצע בדקה האחרונה"
 
-#: resource-bar@ticko4.github.io/lib/popup.js:531
+#: resource-bar@ticko4.github.io/lib/popup.js:552
 msgid "CPU: average over the last 5 minutes"
 msgstr "CPU: ממוצע ב־5 הדקות האחרונות"
 
