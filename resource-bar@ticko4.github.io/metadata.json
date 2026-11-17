@@ -8,6 +8,6 @@
   "settings-schema": "org.gnome.shell.extensions.resource-bar",
   "gettext-domain": "resource-bar",
   "url": "https://github.com/Ticko4/gnome-resource-bar",
-  "version": 5,
-  "version-name": "1.4"
+  "version": 6,
+  "version-name": "1.5"
 }
