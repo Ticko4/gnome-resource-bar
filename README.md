@@ -97,7 +97,7 @@ is uploaded on the extension’s page by clicking the puzzle icon next to its na
   pill), units,
   per-core gauge, minimum value width, spacing, smooth animation, graph colors (default, the system accent
   color, or one color per resource like the Resources app: CPU blue, memory purple, GPU red, disks orange,
-  network teal; only graphs change), time shown in graphs (30 seconds by default, or 1, 2 or 5 minutes, for
+  network teal; graphs and pills change, gauges and text keep the text color), time shown in graphs (30 seconds by default, or 1, 2 or 5 minutes, for
   the top bar and menu graphs alike), alert color (default `#FD4663`, Noctalia’s “error”); area and
   position in the top bar.
 - **Monitoring**: update interval (1 s by default), pause in fullscreen (on by default), default disk,

@@ -77,8 +77,11 @@
 
 /* ---------- Dropdown ---------- */
 
+/* Cards sit 19 px from the menu's edge (with the menu's 6 px padding and
+   1 px border, and the cards' 4 px margin), like GNOME's Quick Settings
+   tiles and the icons of the menu items below. */
 .resource-bar-popup-item {
-  padding: 4px 6px;
+  padding: 4px 8px;
 }
 
 .resource-bar-popup {
@@ -116,7 +119,7 @@
 
 .resource-bar-popup-header {
   font-size: 0.85em;
-  padding: 0 6px;
+  padding: 0 4px;
   font-feature-settings: "tnum";
 }
 

@@ -116,6 +116,17 @@ function intChoiceRow(settings, key, title, choices, subtitle = '') {
     return row;
 }
 
+// Keeps `row` sensitive only while test(settings) holds, re-checked when any
+// of `keys` changes.
+function sensitiveWhen(settings, row, keys, test) {
+    const sync = () => {
+        row.sensitive = test(settings);
+    };
+    sync();
+    const ids = keys.map(k => settings.connect(`changed::${k}`, sync));
+    row.connect('destroy', () => ids.forEach(id => settings.disconnect(id)));
+}
+
 function switchRow(settings, key, title, subtitle = '') {
     const row = new Adw.SwitchRow({title, subtitle});
     settings.bind(key, row, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -273,22 +284,20 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         const look = new Adw.PreferencesGroup({title: _('Appearance')});
         look.add(choiceRow(settings, 'visualization', _('Visualization'), VISUALIZATIONS));
         look.add(switchRow(settings, 'show-icon', _('Show icon')));
-        look.add(switchRow(settings, 'show-value', _('Show value')));
-        // Only for a value shown next to a gauge or graph: the "Pill with
-        // value" visualization already holds it.
+        // "Pill with value" always shows the value inside the pill, so the
+        // value switch and its style only apply to gauges, graphs and none.
+        const showValue = switchRow(settings, 'show-value', _('Show value'));
+        sensitiveWhen(settings, showValue, ['visualization'], s => s.get_string('visualization') !== 'pill');
+        look.add(showValue);
         const valueStyle = choiceRow(settings, 'value-style', _('Value style'), VALUE_STYLES);
-        const syncValueStyle = () => {
-            valueStyle.sensitive = settings.get_boolean('show-value') &&
-                settings.get_string('visualization') !== 'pill';
-        };
-        syncValueStyle();
-        const valueStyleIds = ['show-value', 'visualization']
-            .map(k => settings.connect(`changed::${k}`, syncValueStyle));
-        valueStyle.connect('destroy', () => valueStyleIds.forEach(id => settings.disconnect(id)));
+        sensitiveWhen(settings, valueStyle, ['show-value', 'visualization'],
+            s => s.get_boolean('show-value') && s.get_string('visualization') !== 'pill');
         look.add(valueStyle);
         look.add(switchRow(settings, 'show-units', _('Show units'), _('Off: “45” instead of “45°C”')));
-        look.add(switchRow(settings, 'show-cpu-cores', _('Per-core gauge'),
-            _('For CPU usage in gauge mode, one bar per core')));
+        const cores = switchRow(settings, 'show-cpu-cores', _('Per-core gauge'),
+            _('For CPU usage in gauge mode, one bar per core'));
+        sensitiveWhen(settings, cores, ['visualization'], s => s.get_string('visualization') === 'gauge');
+        look.add(cores);
         look.add(spinRow(settings, 'label-min-width', _('Minimum value width'),
             {min: 0, max: 200, step: 1, subtitle: _('In pixels; reserves room so the top bar does not shift')}));
         look.add(spinRow(settings, 'spacing', _('Spacing between metrics'), {min: 0, max: 40, step: 1}));
@@ -296,7 +305,7 @@ export default class ResourceBarPreferences extends ExtensionPreferences {
         look.add(switchRow(settings, 'smooth-animation', _('Smooth animation'),
             _('Gauges and graphs glide between readings instead of jumping on every update')));
         look.add(choiceRow(settings, 'graph-colors', _('Graph colors'), GRAPH_COLORS,
-            _('Only graphs change; gauges, icons and values stay as they are')));
+            _('Applies to graphs and pills only')));
         look.add(intChoiceRow(settings, 'graph-span', _('Time shown in graphs'),
             [[30, _('30 seconds')], [60, _('1 minute')], [120, _('2 minutes')], [300, _('5 minutes')]]));
 

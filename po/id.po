@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-17 00:08+0000\n"
+"POT-Creation-Date: 2026-11-17 00:26+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Indonesian\n"
@@ -38,7 +38,7 @@ msgid "Pill with value"
 msgstr "Pil dengan nilai"
 
 #: resource-bar@ticko4.github.io/prefs.js:18
-#: resource-bar@ticko4.github.io/prefs.js:341
+#: resource-bar@ticko4.github.io/prefs.js:350
 msgid "None"
 msgstr "Nihil"
 
@@ -78,15 +78,15 @@ msgstr "Kanan"
 msgid "Automatic"
 msgstr "Otomatis"
 
-#: resource-bar@ticko4.github.io/prefs.js:152
+#: resource-bar@ticko4.github.io/prefs.js:163
 msgid "Top Bar"
 msgstr "Bilah Atas"
 
-#: resource-bar@ticko4.github.io/prefs.js:155
+#: resource-bar@ticko4.github.io/prefs.js:166
 msgid "Metrics in the top bar"
 msgstr "Metrik di bilah atas"
 
-#: resource-bar@ticko4.github.io/prefs.js:156
+#: resource-bar@ticko4.github.io/prefs.js:167
 msgid ""
 "Each metric becomes an item with an icon, a gauge or graph and its value, "
 "like Noctalia’s sysmon widget."
@@ -94,229 +94,228 @@ msgstr ""
 "Setiap metrik menjadi butir dengan ikon, pengukur atau grafik, dan nilainya, "
 "seperti widget sysmon Noctalia."
 
-#: resource-bar@ticko4.github.io/prefs.js:179
+#: resource-bar@ticko4.github.io/prefs.js:190
 #, javascript-format
 msgid "default (%s)"
 msgstr "bawaan (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:196
+#: resource-bar@ticko4.github.io/prefs.js:207
 msgid "Move up"
 msgstr "Naikkan"
 
-#: resource-bar@ticko4.github.io/prefs.js:201
+#: resource-bar@ticko4.github.io/prefs.js:212
 msgid "Move down"
 msgstr "Turunkan"
 
-#: resource-bar@ticko4.github.io/prefs.js:206
+#: resource-bar@ticko4.github.io/prefs.js:217
 msgid "Remove"
 msgstr "Hapus"
 
-#: resource-bar@ticko4.github.io/prefs.js:213
+#: resource-bar@ticko4.github.io/prefs.js:224
 msgid "Add metric"
 msgstr "Tambah metrik"
 
-#: resource-bar@ticko4.github.io/prefs.js:216
+#: resource-bar@ticko4.github.io/prefs.js:227
 #, javascript-format
 msgid "Default (%s)"
 msgstr "Bawaan (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:218
+#: resource-bar@ticko4.github.io/prefs.js:229
 msgid "Disk"
 msgstr "Disk"
 
-#: resource-bar@ticko4.github.io/prefs.js:226
+#: resource-bar@ticko4.github.io/prefs.js:237
 msgid "Add"
 msgstr "Tambah"
 
-#: resource-bar@ticko4.github.io/prefs.js:247
+#: resource-bar@ticko4.github.io/prefs.js:258
 msgid "All disks"
 msgstr "Semua disk"
 
 #. TRANSLATORS: %s is a list of disk names.
-#: resource-bar@ticko4.github.io/prefs.js:250
+#: resource-bar@ticko4.github.io/prefs.js:261
 msgid "Adds “Disk used (%)” for: %s"
 msgstr "Menambahkan “Disk terpakai (%)” untuk: %s"
 
-#: resource-bar@ticko4.github.io/prefs.js:251
+#: resource-bar@ticko4.github.io/prefs.js:262
 #, javascript-format
 msgid "The %d detected disk is already in the top bar"
 msgid_plural "All %d detected disks are already in the top bar"
 msgstr[0] "Semua %d disk yang terdeteksi sudah ada di bilah atas"
 
-#: resource-bar@ticko4.github.io/prefs.js:255
+#: resource-bar@ticko4.github.io/prefs.js:266
 msgid "Add all"
 msgstr "Tambah semua"
 
-#: resource-bar@ticko4.github.io/prefs.js:273
+#: resource-bar@ticko4.github.io/prefs.js:284
 msgid "Appearance"
 msgstr "Penampilan"
 
-#: resource-bar@ticko4.github.io/prefs.js:274
+#: resource-bar@ticko4.github.io/prefs.js:285
 msgid "Visualization"
 msgstr "Visualisasi"
 
-#: resource-bar@ticko4.github.io/prefs.js:275
+#: resource-bar@ticko4.github.io/prefs.js:286
 msgid "Show icon"
 msgstr "Tampilkan ikon"
 
-#: resource-bar@ticko4.github.io/prefs.js:276
+#: resource-bar@ticko4.github.io/prefs.js:289
 msgid "Show value"
 msgstr "Tampilkan nilai"
 
-#: resource-bar@ticko4.github.io/prefs.js:279
+#: resource-bar@ticko4.github.io/prefs.js:292
 msgid "Value style"
 msgstr "Gaya nilai"
 
-#: resource-bar@ticko4.github.io/prefs.js:289
+#: resource-bar@ticko4.github.io/prefs.js:296
 msgid "Show units"
 msgstr "Tampilkan satuan"
 
-#: resource-bar@ticko4.github.io/prefs.js:289
+#: resource-bar@ticko4.github.io/prefs.js:296
 msgid "Off: “45” instead of “45°C”"
 msgstr "Mati: “45” alih-alih “45°C”"
 
-#: resource-bar@ticko4.github.io/prefs.js:290
+#: resource-bar@ticko4.github.io/prefs.js:297
 msgid "Per-core gauge"
 msgstr "Pengukur per inti"
 
-#: resource-bar@ticko4.github.io/prefs.js:291
+#: resource-bar@ticko4.github.io/prefs.js:298
 msgid "For CPU usage in gauge mode, one bar per core"
 msgstr "Untuk penggunaan CPU dalam mode pengukur, satu batang per inti"
 
-#: resource-bar@ticko4.github.io/prefs.js:292
+#: resource-bar@ticko4.github.io/prefs.js:301
 msgid "Minimum value width"
 msgstr "Lebar minimum nilai"
 
-#: resource-bar@ticko4.github.io/prefs.js:293
+#: resource-bar@ticko4.github.io/prefs.js:302
 msgid "In pixels; reserves room so the top bar does not shift"
 msgstr "Dalam piksel; menyediakan ruang agar bilah atas tidak bergeser"
 
-#: resource-bar@ticko4.github.io/prefs.js:294
+#: resource-bar@ticko4.github.io/prefs.js:303
 msgid "Spacing between metrics"
 msgstr "Jarak antar metrik"
 
-#: resource-bar@ticko4.github.io/prefs.js:296
+#: resource-bar@ticko4.github.io/prefs.js:305
 msgid "Smooth animation"
 msgstr "Animasi halus"
 
-#: resource-bar@ticko4.github.io/prefs.js:297
+#: resource-bar@ticko4.github.io/prefs.js:306
 msgid ""
 "Gauges and graphs glide between readings instead of jumping on every update"
 msgstr ""
 "Pengukur dan grafik bergerak mulus antar pembacaan alih-alih melompat setiap "
 "kali diperbarui"
 
-#: resource-bar@ticko4.github.io/prefs.js:298
+#: resource-bar@ticko4.github.io/prefs.js:307
 msgid "Graph colors"
 msgstr "Warna grafik"
 
-#: resource-bar@ticko4.github.io/prefs.js:299
-msgid "Only graphs change; gauges, icons and values stay as they are"
-msgstr ""
-"Hanya grafik yang berubah; pengukur, ikon, dan nilai tetap seperti semula"
+#: resource-bar@ticko4.github.io/prefs.js:308
+msgid "Applies to graphs and pills only"
+msgstr "Hanya berlaku untuk grafik dan pil"
 
-#: resource-bar@ticko4.github.io/prefs.js:300
+#: resource-bar@ticko4.github.io/prefs.js:309
 msgid "Time shown in graphs"
 msgstr "Rentang waktu pada grafik"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
-#: resource-bar@ticko4.github.io/prefs.js:344
+#: resource-bar@ticko4.github.io/prefs.js:310
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid "30 seconds"
 msgstr "30 detik"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
-#: resource-bar@ticko4.github.io/prefs.js:344
+#: resource-bar@ticko4.github.io/prefs.js:310
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid "1 minute"
 msgstr "1 menit"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
+#: resource-bar@ticko4.github.io/prefs.js:310
 msgid "2 minutes"
 msgstr "2 menit"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
-#: resource-bar@ticko4.github.io/prefs.js:344
+#: resource-bar@ticko4.github.io/prefs.js:310
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid "5 minutes"
 msgstr "5 menit"
 
-#: resource-bar@ticko4.github.io/prefs.js:304
+#: resource-bar@ticko4.github.io/prefs.js:313
 msgid "Alert color"
 msgstr "Warna peringatan"
 
-#: resource-bar@ticko4.github.io/prefs.js:305
+#: resource-bar@ticko4.github.io/prefs.js:314
 msgid "Used when a value goes past its activity and critical thresholds"
 msgstr "Dipakai saat nilai melewati ambang aktivitas dan ambang kritis"
 
-#: resource-bar@ticko4.github.io/prefs.js:326
+#: resource-bar@ticko4.github.io/prefs.js:335
 msgid "Reset to default"
 msgstr "Kembalikan ke bawaan"
 
-#: resource-bar@ticko4.github.io/prefs.js:339
+#: resource-bar@ticko4.github.io/prefs.js:348
 msgid "Menu"
 msgstr "Menu"
 
-#: resource-bar@ticko4.github.io/prefs.js:340
+#: resource-bar@ticko4.github.io/prefs.js:349
 msgid "Top processes"
 msgstr "Proses teratas"
 
-#: resource-bar@ticko4.github.io/prefs.js:342
+#: resource-bar@ticko4.github.io/prefs.js:351
 msgid "Processes using the most CPU or memory, listed in the menu"
 msgstr "Proses yang paling banyak memakai CPU atau memori, ditampilkan di menu"
 
-#: resource-bar@ticko4.github.io/prefs.js:343
+#: resource-bar@ticko4.github.io/prefs.js:352
 msgid "CPU average"
 msgstr "Rata-rata CPU"
 
-#: resource-bar@ticko4.github.io/prefs.js:345
+#: resource-bar@ticko4.github.io/prefs.js:354
 msgid "Time span of the processes’ CPU usage; memory is the current value"
 msgstr "Rentang waktu penggunaan CPU proses; memori adalah nilai saat ini"
 
-#: resource-bar@ticko4.github.io/prefs.js:349
+#: resource-bar@ticko4.github.io/prefs.js:358
 msgid "Position"
 msgstr "Posisi"
 
-#: resource-bar@ticko4.github.io/prefs.js:350
+#: resource-bar@ticko4.github.io/prefs.js:359
 msgid "Top bar area"
 msgstr "Area bilah atas"
 
-#: resource-bar@ticko4.github.io/prefs.js:351
+#: resource-bar@ticko4.github.io/prefs.js:360
 msgid "Position in the area"
 msgstr "Posisi dalam area"
 
-#: resource-bar@ticko4.github.io/prefs.js:352
+#: resource-bar@ticko4.github.io/prefs.js:361
 msgid "0 = first item; -1 = last"
 msgstr "0 = butir pertama; -1 = terakhir"
 
-#: resource-bar@ticko4.github.io/prefs.js:361
+#: resource-bar@ticko4.github.io/prefs.js:370
 msgid "Monitoring"
 msgstr "Pemantauan"
 
-#: resource-bar@ticko4.github.io/prefs.js:363
+#: resource-bar@ticko4.github.io/prefs.js:372
 msgid "General"
 msgstr "Umum"
 
-#: resource-bar@ticko4.github.io/prefs.js:364
+#: resource-bar@ticko4.github.io/prefs.js:373
 msgid "Update interval"
 msgstr "Interval pembaruan"
 
-#: resource-bar@ticko4.github.io/prefs.js:365
+#: resource-bar@ticko4.github.io/prefs.js:374
 msgid "Seconds between readings"
 msgstr "Detik antar pembacaan"
 
-#: resource-bar@ticko4.github.io/prefs.js:366
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "Pause in fullscreen"
 msgstr "Jeda saat layar penuh"
 
-#: resource-bar@ticko4.github.io/prefs.js:367
+#: resource-bar@ticko4.github.io/prefs.js:376
 msgid "Stop reading data while a fullscreen app or game hides the top bar"
 msgstr ""
 "Berhenti membaca data saat aplikasi atau game layar penuh menyembunyikan "
 "bilah atas"
 
-#: resource-bar@ticko4.github.io/prefs.js:371
+#: resource-bar@ticko4.github.io/prefs.js:380
 msgid "Default disk"
 msgstr "Disk bawaan"
 
-#: resource-bar@ticko4.github.io/prefs.js:372
+#: resource-bar@ticko4.github.io/prefs.js:381
 msgid ""
 "Used by disk metrics that do not name a specific disk. The menu always lists "
 "every disk."
@@ -324,48 +323,48 @@ msgstr ""
 "Dipakai oleh metrik disk yang tidak menyebut disk tertentu. Menu selalu "
 "menampilkan semua disk."
 
-#: resource-bar@ticko4.github.io/prefs.js:375
+#: resource-bar@ticko4.github.io/prefs.js:384
 msgid "Mount point"
 msgstr "Titik kait"
 
-#: resource-bar@ticko4.github.io/prefs.js:386
+#: resource-bar@ticko4.github.io/prefs.js:395
 #: resource-bar@ticko4.github.io/lib/popup.js:320
 msgid "Network"
 msgstr "Jaringan"
 
-#: resource-bar@ticko4.github.io/prefs.js:391
+#: resource-bar@ticko4.github.io/prefs.js:400
 msgid "Interface"
 msgstr "Antarmuka"
 
-#: resource-bar@ticko4.github.io/prefs.js:392
+#: resource-bar@ticko4.github.io/prefs.js:401
 msgid "Automatic (physical interfaces)"
 msgstr "Otomatis (antarmuka fisik)"
 
-#: resource-bar@ticko4.github.io/prefs.js:393
+#: resource-bar@ticko4.github.io/prefs.js:402
 msgid "Unit"
 msgstr "Satuan"
 
-#: resource-bar@ticko4.github.io/prefs.js:394
+#: resource-bar@ticko4.github.io/prefs.js:403
 msgid "Compact format"
 msgstr "Format ringkas"
 
-#: resource-bar@ticko4.github.io/prefs.js:394
+#: resource-bar@ticko4.github.io/prefs.js:403
 msgid "E.g. “1.2M” instead of “1.2 MB/s”"
 msgstr "Mis. “1.2M” alih-alih “1.2 MB/s”"
 
-#: resource-bar@ticko4.github.io/prefs.js:395
+#: resource-bar@ticko4.github.io/prefs.js:404
 msgid "Decimal places (compact)"
 msgstr "Tempat desimal (ringkas)"
 
-#: resource-bar@ticko4.github.io/prefs.js:404
+#: resource-bar@ticko4.github.io/prefs.js:413
 msgid "Thresholds"
 msgstr "Ambang"
 
-#: resource-bar@ticko4.github.io/prefs.js:406
+#: resource-bar@ticko4.github.io/prefs.js:415
 msgid "Color thresholds"
 msgstr "Ambang warna"
 
-#: resource-bar@ticko4.github.io/prefs.js:407
+#: resource-bar@ticko4.github.io/prefs.js:416
 msgid ""
 "Below the activity threshold a metric uses the normal top bar color. Between "
 "activity and critical it moves toward the alert color, and at critical it is "
@@ -375,15 +374,15 @@ msgstr ""
 "aktivitas dan kritis, warnanya bergeser ke warna peringatan, dan pada kritis "
 "sepenuhnya memakai warna itu."
 
-#: resource-bar@ticko4.github.io/prefs.js:435
+#: resource-bar@ticko4.github.io/prefs.js:444
 msgid "Activity"
 msgstr "Aktivitas"
 
-#: resource-bar@ticko4.github.io/prefs.js:436
+#: resource-bar@ticko4.github.io/prefs.js:445
 msgid "Critical"
 msgstr "Kritis"
 
-#: resource-bar@ticko4.github.io/prefs.js:460
+#: resource-bar@ticko4.github.io/prefs.js:469
 msgid "Reset thresholds"
 msgstr "Atur ulang ambang"
 

@@ -583,14 +583,16 @@ class ResourceBarStatItem extends St.BoxLayout {
                 // The fill carries the alert color; the text stays readable.
                 style = `min-width: ${width}px; color: ${toCss(ctx.base ?? color)};`;
             } else if (this._valuePill) {
-                style += ` background-color: ${toCss(withAlpha(color, 0.14 + 0.1 * result.factor))};`;
+                // Same base color as the graphs ("graph-colors").
+                style += ` background-color: ${toCss(withAlpha(graphColor, 0.14 + 0.1 * result.factor))};`;
             }
             setStyleCached(this._label, '_rbStyle', style);
         }
 
         if (this._vis instanceof ValuePill) {
-            const base = ctx.base ?? color;
-            this._vis.setColors(withAlpha(base, 0.13), withAlpha(color, 0.32 + 0.48 * result.factor));
+            // Like the graphs: text color, accent or the resource's color
+            // ("graph-colors"), tinted toward the alert color.
+            this._vis.setColors(withAlpha(graphColor, 0.13), withAlpha(graphColor, 0.32 + 0.48 * result.factor));
             this._vis.setProgress(result.norm, ctx.animMs);
         } else if (this._vis instanceof CoreGauges) {
             this._vis.update(ctx.cores, ctx.colorFor, ctx.animMs);

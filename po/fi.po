@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Resource Bar\n"
 "Report-Msgid-Bugs-To: https://github.com/Ticko4/gnome-resource-bar/issues\n"
-"POT-Creation-Date: 2026-11-17 00:08+0000\n"
+"POT-Creation-Date: 2026-11-17 00:26+0000\n"
 "PO-Revision-Date: 2026-11-11 22:00+0000\n"
 "Last-Translator: Resource Bar contributors\n"
 "Language-Team: Finnish\n"
@@ -38,7 +38,7 @@ msgid "Pill with value"
 msgstr "Pilleri ja arvo"
 
 #: resource-bar@ticko4.github.io/prefs.js:18
-#: resource-bar@ticko4.github.io/prefs.js:341
+#: resource-bar@ticko4.github.io/prefs.js:350
 msgid "None"
 msgstr "Ei mitään"
 
@@ -78,15 +78,15 @@ msgstr "Oikea"
 msgid "Automatic"
 msgstr "Automaattinen"
 
-#: resource-bar@ticko4.github.io/prefs.js:152
+#: resource-bar@ticko4.github.io/prefs.js:163
 msgid "Top Bar"
 msgstr "Yläpalkki"
 
-#: resource-bar@ticko4.github.io/prefs.js:155
+#: resource-bar@ticko4.github.io/prefs.js:166
 msgid "Metrics in the top bar"
 msgstr "Mittarit yläpalkissa"
 
-#: resource-bar@ticko4.github.io/prefs.js:156
+#: resource-bar@ticko4.github.io/prefs.js:167
 msgid ""
 "Each metric becomes an item with an icon, a gauge or graph and its value, "
 "like Noctalia’s sysmon widget."
@@ -94,229 +94,229 @@ msgstr ""
 "Jokaisesta mittarista tulee kohde, jossa on kuvake, palkki tai kuvaaja sekä "
 "arvo, kuten Noctalian sysmon-pienoisohjelmassa."
 
-#: resource-bar@ticko4.github.io/prefs.js:179
+#: resource-bar@ticko4.github.io/prefs.js:190
 #, javascript-format
 msgid "default (%s)"
 msgstr "oletus (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:196
+#: resource-bar@ticko4.github.io/prefs.js:207
 msgid "Move up"
 msgstr "Siirrä ylös"
 
-#: resource-bar@ticko4.github.io/prefs.js:201
+#: resource-bar@ticko4.github.io/prefs.js:212
 msgid "Move down"
 msgstr "Siirrä alas"
 
-#: resource-bar@ticko4.github.io/prefs.js:206
+#: resource-bar@ticko4.github.io/prefs.js:217
 msgid "Remove"
 msgstr "Poista"
 
-#: resource-bar@ticko4.github.io/prefs.js:213
+#: resource-bar@ticko4.github.io/prefs.js:224
 msgid "Add metric"
 msgstr "Lisää mittari"
 
-#: resource-bar@ticko4.github.io/prefs.js:216
+#: resource-bar@ticko4.github.io/prefs.js:227
 #, javascript-format
 msgid "Default (%s)"
 msgstr "Oletus (%s)"
 
-#: resource-bar@ticko4.github.io/prefs.js:218
+#: resource-bar@ticko4.github.io/prefs.js:229
 msgid "Disk"
 msgstr "Levy"
 
-#: resource-bar@ticko4.github.io/prefs.js:226
+#: resource-bar@ticko4.github.io/prefs.js:237
 msgid "Add"
 msgstr "Lisää"
 
-#: resource-bar@ticko4.github.io/prefs.js:247
+#: resource-bar@ticko4.github.io/prefs.js:258
 msgid "All disks"
 msgstr "Kaikki levyt"
 
 #. TRANSLATORS: %s is a list of disk names.
-#: resource-bar@ticko4.github.io/prefs.js:250
+#: resource-bar@ticko4.github.io/prefs.js:261
 msgid "Adds “Disk used (%)” for: %s"
 msgstr "Lisää mittarin ”Käytetty levytila (%)” levyille: %s"
 
-#: resource-bar@ticko4.github.io/prefs.js:251
+#: resource-bar@ticko4.github.io/prefs.js:262
 #, javascript-format
 msgid "The %d detected disk is already in the top bar"
 msgid_plural "All %d detected disks are already in the top bar"
 msgstr[0] "%d havaittu levy on jo yläpalkissa"
 msgstr[1] "Kaikki %d havaittua levyä ovat jo yläpalkissa"
 
-#: resource-bar@ticko4.github.io/prefs.js:255
+#: resource-bar@ticko4.github.io/prefs.js:266
 msgid "Add all"
 msgstr "Lisää kaikki"
 
-#: resource-bar@ticko4.github.io/prefs.js:273
+#: resource-bar@ticko4.github.io/prefs.js:284
 msgid "Appearance"
 msgstr "Ulkoasu"
 
-#: resource-bar@ticko4.github.io/prefs.js:274
+#: resource-bar@ticko4.github.io/prefs.js:285
 msgid "Visualization"
 msgstr "Visualisointi"
 
-#: resource-bar@ticko4.github.io/prefs.js:275
+#: resource-bar@ticko4.github.io/prefs.js:286
 msgid "Show icon"
 msgstr "Näytä kuvake"
 
-#: resource-bar@ticko4.github.io/prefs.js:276
+#: resource-bar@ticko4.github.io/prefs.js:289
 msgid "Show value"
 msgstr "Näytä arvo"
 
-#: resource-bar@ticko4.github.io/prefs.js:279
+#: resource-bar@ticko4.github.io/prefs.js:292
 msgid "Value style"
 msgstr "Arvon tyyli"
 
-#: resource-bar@ticko4.github.io/prefs.js:289
+#: resource-bar@ticko4.github.io/prefs.js:296
 msgid "Show units"
 msgstr "Näytä yksiköt"
 
-#: resource-bar@ticko4.github.io/prefs.js:289
+#: resource-bar@ticko4.github.io/prefs.js:296
 msgid "Off: “45” instead of “45°C”"
 msgstr "Pois päältä: ”45” eikä ”45°C”"
 
-#: resource-bar@ticko4.github.io/prefs.js:290
+#: resource-bar@ticko4.github.io/prefs.js:297
 msgid "Per-core gauge"
 msgstr "Ydinkohtainen palkki"
 
-#: resource-bar@ticko4.github.io/prefs.js:291
+#: resource-bar@ticko4.github.io/prefs.js:298
 msgid "For CPU usage in gauge mode, one bar per core"
 msgstr "CPU:n käytölle palkkitilassa yksi palkki ydintä kohden"
 
-#: resource-bar@ticko4.github.io/prefs.js:292
+#: resource-bar@ticko4.github.io/prefs.js:301
 msgid "Minimum value width"
 msgstr "Arvon vähimmäisleveys"
 
-#: resource-bar@ticko4.github.io/prefs.js:293
+#: resource-bar@ticko4.github.io/prefs.js:302
 msgid "In pixels; reserves room so the top bar does not shift"
 msgstr "Pikseleinä; varaa tilaa, jotta yläpalkki ei siirtyile"
 
-#: resource-bar@ticko4.github.io/prefs.js:294
+#: resource-bar@ticko4.github.io/prefs.js:303
 msgid "Spacing between metrics"
 msgstr "Mittarien väli"
 
-#: resource-bar@ticko4.github.io/prefs.js:296
+#: resource-bar@ticko4.github.io/prefs.js:305
 msgid "Smooth animation"
 msgstr "Pehmeä animaatio"
 
-#: resource-bar@ticko4.github.io/prefs.js:297
+#: resource-bar@ticko4.github.io/prefs.js:306
 msgid ""
 "Gauges and graphs glide between readings instead of jumping on every update"
 msgstr ""
 "Palkit ja kuvaajat liukuvat lukemasta toiseen sen sijaan, että hyppäisivät "
 "jokaisella päivityksellä"
 
-#: resource-bar@ticko4.github.io/prefs.js:298
+#: resource-bar@ticko4.github.io/prefs.js:307
 msgid "Graph colors"
 msgstr "Kuvaajien värit"
 
-#: resource-bar@ticko4.github.io/prefs.js:299
-msgid "Only graphs change; gauges, icons and values stay as they are"
-msgstr "Vain kuvaajat muuttuvat; palkit, kuvakkeet ja arvot pysyvät ennallaan"
+#: resource-bar@ticko4.github.io/prefs.js:308
+msgid "Applies to graphs and pills only"
+msgstr "Koskee vain kuvaajia ja pillereitä"
 
-#: resource-bar@ticko4.github.io/prefs.js:300
+#: resource-bar@ticko4.github.io/prefs.js:309
 msgid "Time shown in graphs"
 msgstr "Kuvaajien aikaväli"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
-#: resource-bar@ticko4.github.io/prefs.js:344
+#: resource-bar@ticko4.github.io/prefs.js:310
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid "30 seconds"
 msgstr "30 sekuntia"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
-#: resource-bar@ticko4.github.io/prefs.js:344
+#: resource-bar@ticko4.github.io/prefs.js:310
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid "1 minute"
 msgstr "1 minuutti"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
+#: resource-bar@ticko4.github.io/prefs.js:310
 msgid "2 minutes"
 msgstr "2 minuuttia"
 
-#: resource-bar@ticko4.github.io/prefs.js:301
-#: resource-bar@ticko4.github.io/prefs.js:344
+#: resource-bar@ticko4.github.io/prefs.js:310
+#: resource-bar@ticko4.github.io/prefs.js:353
 msgid "5 minutes"
 msgstr "5 minuuttia"
 
-#: resource-bar@ticko4.github.io/prefs.js:304
+#: resource-bar@ticko4.github.io/prefs.js:313
 msgid "Alert color"
 msgstr "Hälytysväri"
 
-#: resource-bar@ticko4.github.io/prefs.js:305
+#: resource-bar@ticko4.github.io/prefs.js:314
 msgid "Used when a value goes past its activity and critical thresholds"
 msgstr "Käytetään, kun arvo ylittää aktiivisuus- ja kriittisen raja-arvonsa"
 
-#: resource-bar@ticko4.github.io/prefs.js:326
+#: resource-bar@ticko4.github.io/prefs.js:335
 msgid "Reset to default"
 msgstr "Palauta oletus"
 
-#: resource-bar@ticko4.github.io/prefs.js:339
+#: resource-bar@ticko4.github.io/prefs.js:348
 msgid "Menu"
 msgstr "Valikko"
 
-#: resource-bar@ticko4.github.io/prefs.js:340
+#: resource-bar@ticko4.github.io/prefs.js:349
 msgid "Top processes"
 msgstr "Kuormittavimmat prosessit"
 
-#: resource-bar@ticko4.github.io/prefs.js:342
+#: resource-bar@ticko4.github.io/prefs.js:351
 msgid "Processes using the most CPU or memory, listed in the menu"
 msgstr "Eniten CPU:ta tai muistia käyttävät prosessit valikossa"
 
-#: resource-bar@ticko4.github.io/prefs.js:343
+#: resource-bar@ticko4.github.io/prefs.js:352
 msgid "CPU average"
 msgstr "CPU:n keskiarvo"
 
-#: resource-bar@ticko4.github.io/prefs.js:345
+#: resource-bar@ticko4.github.io/prefs.js:354
 msgid "Time span of the processes’ CPU usage; memory is the current value"
 msgstr "Prosessien CPU-käytön aikaväli; muisti on nykyinen arvo"
 
-#: resource-bar@ticko4.github.io/prefs.js:349
+#: resource-bar@ticko4.github.io/prefs.js:358
 msgid "Position"
 msgstr "Sijainti"
 
-#: resource-bar@ticko4.github.io/prefs.js:350
+#: resource-bar@ticko4.github.io/prefs.js:359
 msgid "Top bar area"
 msgstr "Yläpalkin alue"
 
-#: resource-bar@ticko4.github.io/prefs.js:351
+#: resource-bar@ticko4.github.io/prefs.js:360
 msgid "Position in the area"
 msgstr "Sijainti alueella"
 
-#: resource-bar@ticko4.github.io/prefs.js:352
+#: resource-bar@ticko4.github.io/prefs.js:361
 msgid "0 = first item; -1 = last"
 msgstr "0 = ensimmäinen kohde; -1 = viimeinen"
 
-#: resource-bar@ticko4.github.io/prefs.js:361
+#: resource-bar@ticko4.github.io/prefs.js:370
 msgid "Monitoring"
 msgstr "Seuranta"
 
-#: resource-bar@ticko4.github.io/prefs.js:363
+#: resource-bar@ticko4.github.io/prefs.js:372
 msgid "General"
 msgstr "Yleiset"
 
-#: resource-bar@ticko4.github.io/prefs.js:364
+#: resource-bar@ticko4.github.io/prefs.js:373
 msgid "Update interval"
 msgstr "Päivitysväli"
 
-#: resource-bar@ticko4.github.io/prefs.js:365
+#: resource-bar@ticko4.github.io/prefs.js:374
 msgid "Seconds between readings"
 msgstr "Sekunteja lukemien välillä"
 
-#: resource-bar@ticko4.github.io/prefs.js:366
+#: resource-bar@ticko4.github.io/prefs.js:375
 msgid "Pause in fullscreen"
 msgstr "Keskeytä koko näytön tilassa"
 
-#: resource-bar@ticko4.github.io/prefs.js:367
+#: resource-bar@ticko4.github.io/prefs.js:376
 msgid "Stop reading data while a fullscreen app or game hides the top bar"
 msgstr ""
 "Lopeta tietojen lukeminen, kun koko näytön sovellus tai peli piilottaa "
 "yläpalkin"
 
-#: resource-bar@ticko4.github.io/prefs.js:371
+#: resource-bar@ticko4.github.io/prefs.js:380
 msgid "Default disk"
 msgstr "Oletuslevy"
 
-#: resource-bar@ticko4.github.io/prefs.js:372
+#: resource-bar@ticko4.github.io/prefs.js:381
 msgid ""
 "Used by disk metrics that do not name a specific disk. The menu always lists "
 "every disk."
@@ -324,48 +324,48 @@ msgstr ""
 "Käytetään levymittareissa, joille ei ole valittu tiettyä levyä. Valikko "
 "näyttää aina kaikki levyt."
 
-#: resource-bar@ticko4.github.io/prefs.js:375
+#: resource-bar@ticko4.github.io/prefs.js:384
 msgid "Mount point"
 msgstr "Liitospiste"
 
-#: resource-bar@ticko4.github.io/prefs.js:386
+#: resource-bar@ticko4.github.io/prefs.js:395
 #: resource-bar@ticko4.github.io/lib/popup.js:320
 msgid "Network"
 msgstr "Verkko"
 
-#: resource-bar@ticko4.github.io/prefs.js:391
+#: resource-bar@ticko4.github.io/prefs.js:400
 msgid "Interface"
 msgstr "Liitäntä"
 
-#: resource-bar@ticko4.github.io/prefs.js:392
+#: resource-bar@ticko4.github.io/prefs.js:401
 msgid "Automatic (physical interfaces)"
 msgstr "Automaattinen (fyysiset liitännät)"
 
-#: resource-bar@ticko4.github.io/prefs.js:393
+#: resource-bar@ticko4.github.io/prefs.js:402
 msgid "Unit"
 msgstr "Yksikkö"
 
-#: resource-bar@ticko4.github.io/prefs.js:394
+#: resource-bar@ticko4.github.io/prefs.js:403
 msgid "Compact format"
 msgstr "Tiivis muoto"
 
-#: resource-bar@ticko4.github.io/prefs.js:394
+#: resource-bar@ticko4.github.io/prefs.js:403
 msgid "E.g. “1.2M” instead of “1.2 MB/s”"
 msgstr "Esim. ”1.2M” eikä ”1.2 MB/s”"
 
-#: resource-bar@ticko4.github.io/prefs.js:395
+#: resource-bar@ticko4.github.io/prefs.js:404
 msgid "Decimal places (compact)"
 msgstr "Desimaalit (tiivis)"
 
-#: resource-bar@ticko4.github.io/prefs.js:404
+#: resource-bar@ticko4.github.io/prefs.js:413
 msgid "Thresholds"
 msgstr "Raja-arvot"
 
-#: resource-bar@ticko4.github.io/prefs.js:406
+#: resource-bar@ticko4.github.io/prefs.js:415
 msgid "Color thresholds"
 msgstr "Värien raja-arvot"
 
-#: resource-bar@ticko4.github.io/prefs.js:407
+#: resource-bar@ticko4.github.io/prefs.js:416
 msgid ""
 "Below the activity threshold a metric uses the normal top bar color. Between "
 "activity and critical it moves toward the alert color, and at critical it is "
@@ -375,15 +375,15 @@ msgstr ""
 "Aktiivisuus- ja kriittisen rajan välillä väri siirtyy kohti hälytysväriä, ja "
 "kriittisellä rajalla mittari on kokonaan hälytysvärinen."
 
-#: resource-bar@ticko4.github.io/prefs.js:435
+#: resource-bar@ticko4.github.io/prefs.js:444
 msgid "Activity"
 msgstr "Aktiivisuus"
 
-#: resource-bar@ticko4.github.io/prefs.js:436
+#: resource-bar@ticko4.github.io/prefs.js:445
 msgid "Critical"
 msgstr "Kriittinen"
 
-#: resource-bar@ticko4.github.io/prefs.js:460
+#: resource-bar@ticko4.github.io/prefs.js:469
 msgid "Reset thresholds"
 msgstr "Palauta raja-arvot"
 
